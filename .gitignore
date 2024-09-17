@@ -1,0 +1,10 @@
+WebCalendaar.sln
+/.vscode/
+/WebCalendaar/WebCalendaar.csproj
+/WebCalendaar/bin/
+/WebCalendaar/obj/
+/WebCalendaar/Properties/
+/WebCalendaar/appsettings.json
+/WebCalendaar/appsettings.Development.json
+WebCalendaar/Properties/launchSettings.json
+
