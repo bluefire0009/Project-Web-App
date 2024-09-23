@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebCalendaar.Models;
 
 [Route("api/v1/eventAttendance")]
 public class EventAttendanceController : Controller {
@@ -9,8 +10,8 @@ public class EventAttendanceController : Controller {
     }
 
     [HttpPost()]
-    public async Task<IActionResult> CreateEventAttendance([FromBody] EventAttendance eventAttendance) {
-        return Created(eventAttendance.Id.ToString(), Storage.Create(eventAttendance));
+    public async Task<IActionResult> CreateEventAttendance([FromBody] Event_Attendance eventAttendance) {
+        return Created(eventAttendance.Event_AttendanceId.ToString(), Storage.Create(eventAttendance));
     }
 
     [HttpGet()]
@@ -19,7 +20,7 @@ public class EventAttendanceController : Controller {
     }
 
     [HttpPut()]
-    public async Task<IActionResult> UpdateEventAttendance([FromBody] EventAttendance eventAttendance) {
+    public async Task<IActionResult> UpdateEventAttendance([FromBody] Event_Attendance eventAttendance) {
         await Storage.Update(eventAttendance);
         return Ok();
     }
@@ -30,5 +31,3 @@ public class EventAttendanceController : Controller {
         return Ok();
     }
 }
-
-//CRUD
