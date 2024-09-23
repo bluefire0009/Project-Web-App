@@ -2,7 +2,7 @@ namespace WebCalendaar.Models
 {
     public class Admin
     {
-        public int AdminId { get; set; }
+        public Guid AdminId { get; set; }
 
         public required string UserName { get; set; }
         public required string Password { get; set; }
