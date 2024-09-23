@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebCalendaar.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class newInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,7 @@ namespace WebCalendaar.Migrations
                 name: "Admin",
                 columns: table => new
                 {
-                    AdminId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    AdminId = table.Column<Guid>(type: "TEXT", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", nullable: false),
                     Password = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false)
@@ -117,11 +116,11 @@ namespace WebCalendaar.Migrations
                 columns: new[] { "AdminId", "Email", "Password", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "admin1@example.com", "^�H��(qQ��o��)'s`=\rj���*�rB�", "admin1" },
-                    { 2, "admin2@example.com", "\\N@6��G��Ae=j_��a%0�QU��\\", "admin2" },
-                    { 3, "admin3@example.com", "�j\\��f������x�s+2��D�o���", "admin3" },
-                    { 4, "admin4@example.com", "�].��g��Պ��t��?��^�T��`aǳ", "admin4" },
-                    { 5, "admin5@example.com", "E�=���:�-����gd����bF��80]�", "admin5" }
+                    { new Guid("6aee94d5-18ae-4c5f-8375-a01db02eb65c"), "admin1@example.com", "^�H��(qQ��o��)'s`=\rj���*�rB�", "admin1" },
+                    { new Guid("6e6c00f1-465e-43f0-acec-2a3b7b95241c"), "admin2@example.com", "\\N@6��G��Ae=j_��a%0�QU��\\", "admin2" },
+                    { new Guid("a2c2272c-3110-4279-afcf-091cc67aa94a"), "admin3@example.com", "�j\\��f������x�s+2��D�o���", "admin3" },
+                    { new Guid("dbaef662-5ec9-4d1f-8997-f437243d22fd"), "admin5@example.com", "E�=���:�-����gd����bF��80]�", "admin5" },
+                    { new Guid("f37f2a15-d7a2-4d56-9c50-d5d007447bab"), "admin4@example.com", "�].��g��Պ��t��?��^�T��`aǳ", "admin4" }
                 });
 
             migrationBuilder.CreateIndex(

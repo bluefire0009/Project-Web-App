@@ -19,9 +19,9 @@ namespace WebCalendaar.Migrations
 
             modelBuilder.Entity("WebCalendaar.Models.Admin", b =>
                 {
-                    b.Property<int>("AdminId")
+                    b.Property<Guid>("AdminId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -45,35 +45,35 @@ namespace WebCalendaar.Migrations
                     b.HasData(
                         new
                         {
-                            AdminId = 1,
+                            AdminId = new Guid("6aee94d5-18ae-4c5f-8375-a01db02eb65c"),
                             Email = "admin1@example.com",
                             Password = "^�H��(qQ��o��)'s`=\rj���*�rB�",
                             UserName = "admin1"
                         },
                         new
                         {
-                            AdminId = 2,
+                            AdminId = new Guid("6e6c00f1-465e-43f0-acec-2a3b7b95241c"),
                             Email = "admin2@example.com",
                             Password = "\\N@6��G��Ae=j_��a%0�QU��\\",
                             UserName = "admin2"
                         },
                         new
                         {
-                            AdminId = 3,
+                            AdminId = new Guid("a2c2272c-3110-4279-afcf-091cc67aa94a"),
                             Email = "admin3@example.com",
                             Password = "�j\\��f������x�s+2��D�o���",
                             UserName = "admin3"
                         },
                         new
                         {
-                            AdminId = 4,
+                            AdminId = new Guid("f37f2a15-d7a2-4d56-9c50-d5d007447bab"),
                             Email = "admin4@example.com",
                             Password = "�].��g��Պ��t��?��^�T��`aǳ",
                             UserName = "admin4"
                         },
                         new
                         {
-                            AdminId = 5,
+                            AdminId = new Guid("dbaef662-5ec9-4d1f-8997-f437243d22fd"),
                             Email = "admin5@example.com",
                             Password = "E�=���:�-����gd����bF��80]�",
                             UserName = "admin5"
