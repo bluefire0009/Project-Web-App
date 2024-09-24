@@ -22,7 +22,7 @@ namespace WebCalendaar.Models
 
     public class Attendance
     {
-        public int AttendanceId { get; set; }
+        public Guid AttendanceId { get; set; }
 
         public DateTime AttendanceDate { get; set; }
 
