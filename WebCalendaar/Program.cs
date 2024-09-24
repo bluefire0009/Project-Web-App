@@ -12,6 +12,8 @@ namespace WebCalendaar
 
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddTransient<IAdminStorage, InMemoryAdminStorage>();
+
             builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddSession(options => 
@@ -27,7 +29,7 @@ namespace WebCalendaar
                 options => options.UseSqlite(builder.Configuration.GetConnectionString("SqlLiteDb")));
 
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
