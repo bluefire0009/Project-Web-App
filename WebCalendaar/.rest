@@ -1,3 +1,6 @@
+////////////////////
+// Admin Endpoints //
+///////////////////
 // Id not needed as it is generated on its own
 POST http://localhost:5097/api/Admin/Add HTTP/1.1
 Content-Type: application/json
@@ -15,7 +18,40 @@ GET http://localhost:5097/api/Admin/Get?Id=43464762-fbf1-42cb-b88b-895383845569
 
 // Change the id in the request to the id that is recieved back from the post request
 // Id not needed as it is generated on its own
-PUT http://localhost:5097/api/Admin/Put?idToUpdate=e8dfb065-34dc-4a01-bfcf-961bbfd6ecef HTTP/1.1
+PUT http://localhost:5097/api/Admin/Put?idToUpdate=2b835413-951a-4676-824f-f21d6b1780d3 HTTP/1.1
+Content-Type: application/json
+
+{
+    "UserName": "Adam",
+    "Password": "Smith",
+    "Email" : "2222@hr.nl"
+}
+####
+
+// Change the id in the request to the id that is recieved back from the post request
+DELETE http://localhost:5097/api/Admin/Delete?Id=43464762-fbf1-42cb-b88b-895383845569
+####
+
+//////////////////////////
+// Attendance Endpoints //
+//////////////////////////
+// Id not needed as it is generated on its own
+POST http://localhost:5097/api/Attendance/Add HTTP/1.1
+Content-Type: application/json
+
+{
+    "AttendanceDate": "24/09/2024 21:56:58",
+    "User" : {"FirstName": "John","LastName" : "Smith","Password" : "QWERTY", "RecuringDays" : "No","Attendances" : {},"Event_Attendances" : {}}
+}
+####
+
+// Change the id in the request to the id that is recieved back from the post request
+GET http://localhost:5097/api/Admin/Get?Id=43464762-fbf1-42cb-b88b-895383845569
+####
+
+// Change the id in the request to the id that is recieved back from the post request
+// Id not needed as it is generated on its own
+PUT http://localhost:5097/api/Admin/Put?idToUpdate=2b835413-951a-4676-824f-f21d6b1780d3 HTTP/1.1
 Content-Type: application/json
 
 {
