@@ -2,14 +2,11 @@ using WebCalendaar.Models;
 
 public class InMemoryAdminStorage : IAdminStorage
 {
-    List<Admin> admins;
-    public InMemoryAdminStorage()
-    {
-        admins = new List<Admin>();
-    }
+    public static List<Admin> admins = new();
 
     public async Task Create(Admin admin)
     {
+        admin.AdminId = Guid.NewGuid();
         await Task.Delay(0);
         admins.Add(admin);
     }
