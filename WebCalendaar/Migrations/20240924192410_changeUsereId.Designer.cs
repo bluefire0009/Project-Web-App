@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCalendaar.Models;
 
@@ -10,9 +11,11 @@ using WebCalendaar.Models;
 namespace WebCalendaar.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240924192410_changeUsereId")]
+    partial class changeUsereId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
@@ -45,35 +48,35 @@ namespace WebCalendaar.Migrations
                     b.HasData(
                         new
                         {
-                            AdminId = new Guid("d3746ed0-ef40-4db8-995a-1ecb3573da31"),
+                            AdminId = new Guid("d47cdede-029f-4aa0-9bd4-ae0e3842661a"),
                             Email = "admin1@example.com",
                             Password = "^�H��(qQ��o��)'s`=\rj���*�rB�",
                             UserName = "admin1"
                         },
                         new
                         {
-                            AdminId = new Guid("26a83a6f-d7c1-4efa-bd16-8762a76a4b00"),
+                            AdminId = new Guid("ef842aeb-d0c7-4de4-9f8d-4b03961e621c"),
                             Email = "admin2@example.com",
                             Password = "\\N@6��G��Ae=j_��a%0�QU��\\",
                             UserName = "admin2"
                         },
                         new
                         {
-                            AdminId = new Guid("c95cf1da-bd14-4ebe-a9d4-6d43044a9979"),
+                            AdminId = new Guid("6d580e58-ff9d-4fae-a69e-7d168e4cb213"),
                             Email = "admin3@example.com",
                             Password = "�j\\��f������x�s+2��D�o���",
                             UserName = "admin3"
                         },
                         new
                         {
-                            AdminId = new Guid("c35a95ed-e04e-44cb-97b6-ee9705ff4406"),
+                            AdminId = new Guid("1508c550-b555-4741-9f03-76671744fc01"),
                             Email = "admin4@example.com",
                             Password = "�].��g��Պ��t��?��^�T��`aǳ",
                             UserName = "admin4"
                         },
                         new
                         {
-                            AdminId = new Guid("90e75005-8700-4b14-87c0-627a2511073f"),
+                            AdminId = new Guid("7aa4e1b0-b477-4014-abc7-620940df033a"),
                             Email = "admin5@example.com",
                             Password = "E�=���:�-����gd����bF��80]�",
                             UserName = "admin5"
@@ -89,8 +92,8 @@ namespace WebCalendaar.Migrations
                     b.Property<DateTime>("AttendanceDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("AttendanceId");
 
@@ -150,8 +153,8 @@ namespace WebCalendaar.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Event_AttendanceId");
 
@@ -164,9 +167,9 @@ namespace WebCalendaar.Migrations
 
             modelBuilder.Entity("WebCalendaar.Models.User", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .IsRequired()
