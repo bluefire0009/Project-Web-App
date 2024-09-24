@@ -15,7 +15,7 @@ public class AdminController : Controller
     public async Task<IActionResult> AddAdmin([FromBody] Admin admin)
     {
         await adminStorage.Create(admin);
-        return Ok($"Created Admin: \n{JsonConvert.SerializeObject(admin,Formatting.Indented)}");
+        return Created($"Created Admin: \n",admin);
     }
 
     [HttpGet("Get")]
@@ -30,7 +30,7 @@ public class AdminController : Controller
     {
         await adminStorage.Delete(idToUpdate);
         await adminStorage.Create(admin);
-        return Ok($"Updated Admin with Id={idToUpdate} to: \n{JsonConvert.SerializeObject(admin,Formatting.Indented)}");
+        return Created($"Updated Admin with Id={idToUpdate} to: \n",admin);
     }
 
     [HttpDelete("Delete")]
