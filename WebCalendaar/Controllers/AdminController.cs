@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebCalendaar.Models;
@@ -16,7 +15,7 @@ public class AdminController : Controller
     public async Task<IActionResult> AddAdmin([FromBody] Admin admin)
     {
         await adminStorage.Create(admin);
-        return Ok($"Created Admin: {JsonConvert.SerializeObject(admin)}");
+        return Ok($"Created Admin: \n{JsonConvert.SerializeObject(admin,Formatting.Indented)}");
     }
 
     [HttpGet("Get")]
@@ -31,7 +30,7 @@ public class AdminController : Controller
     {
         await adminStorage.Delete(idToUpdate);
         await adminStorage.Create(admin);
-        return Ok($"Updated Admin with Id={idToUpdate} to: {JsonConvert.SerializeObject(admin)}");
+        return Ok($"Updated Admin with Id={idToUpdate} to: \n{JsonConvert.SerializeObject(admin,Formatting.Indented)}");
     }
 
     [HttpDelete("Delete")]
