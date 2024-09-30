@@ -1,0 +1,40 @@
+// rest file for the user controller
+
+
+Get http://localhost:5097/api/User/Read?userId=1
+####
+
+POST http://localhost:5097/api/User/Create
+Content-Type: application/json
+
+{
+  "UserId": 1,
+  "FirstName": "John",
+  "LastName": "Doe",
+  "Email": "johndoe@example.com",
+  "Password": "password123",
+  "RecuringDays": "mo,tu,we,th,fr",
+  "Attendances": [],
+  "Event_Attendances": []
+}
+
+####
+
+DELETE http://localhost:5097/api/User/Delete?userId=1
+####
+
+
+// here you need you cant cange id
+// aslo you can wonly add the things you want to update
+Put http://localhost:5097/api/User/Update?userId=1
+Content-Type: application/json
+
+{
+  "FirstName": "Ben",
+  "LastName": "Doever",
+  "Email": "Ben@example.com",
+  "Password": "aaaaaa",
+  "RecuringDays": "mo,tu,we",
+  "Attendances": [],
+  "Event_Attendances": []
+}
