@@ -17,20 +17,22 @@ namespace WebCalendaar
 
             builder.Services.AddDistributedMemoryCache();
 
-            builder.Services.AddSession(options => 
+            builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = true; 
-                options.Cookie.IsEssential = true; 
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
 
             builder.Services.AddScoped<ILoginService, LoginService>();
+            builder.Services.AddScoped<IUserStorage, UserDBStorage>();
+
 
             builder.Services.AddDbContext<DatabaseContext>(
                 options => options.UseSqlite(builder.Configuration.GetConnectionString("SqlLiteDb")));
 
             var app = builder.Build();
-            
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
