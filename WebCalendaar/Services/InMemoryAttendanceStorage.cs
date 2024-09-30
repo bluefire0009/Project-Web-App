@@ -7,6 +7,7 @@ public class InMemoryAttendanceStorage : IAttendanceStorage
     public async Task Create(Attendance attendance)
     {
         attendance.AttendanceId = Guid.NewGuid();
+        attendance.User.UserId = Guid.NewGuid();
         await Task.Delay(0);
         attendances.Add(attendance);
     }
