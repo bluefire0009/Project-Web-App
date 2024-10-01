@@ -4,17 +4,31 @@ public class InMemoryAdminStorage : IAdminStorage
 {
     public static List<Admin> admins = new();
 
-    public async Task Create(Admin admin)
+    public DatabaseContext db;
+
+    public InMemoryAdminStorage(DatabaseContext db)
+    {
+        this.db = db;
+    }
+    public async Task<bool> Create(Admin admin)
     {
         admin.AdminId = Guid.NewGuid();
         await Task.Delay(0);
+
+        // adds admin to a list of admins? : Deze code was al in de template
         admins.Add(admin);
+
+        await db.Admin.AddAsync(admin);
+        if (await db.SaveChangesAsync() > 0) return true;
+        return false;
     }
 
-    public async Task Delete(Guid adminId)
+    public async Task<bool> Delete(Guid adminId)
     {
         await Task.Delay(0);
         admins.Remove(admins.Find(a => a.AdminId == adminId));
+        if (await db.SaveChangesAsync() > 0) return true;
+        return false;
     }
 
     public async Task<Admin?> Find(Guid adminId)

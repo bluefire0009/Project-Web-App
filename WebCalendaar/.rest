@@ -10,7 +10,7 @@ Content-Type: application/json
 ####
 
 // Change the id in the request to the id that is recieved back from the post request
-GET http://localhost:5097/api/Admin/Get?Id=43464762-fbf1-42cb-b88b-895383845569
+GET http://localhost:5097/api/Admin/Get?Id=245BE5C4-E192-4EAD-8F7B-D3A158F28E6D
 ####
 
 // Change the id in the request to the id that is recieved back from the post request
