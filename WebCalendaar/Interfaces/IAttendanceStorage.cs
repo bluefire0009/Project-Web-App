@@ -2,8 +2,9 @@ using WebCalendaar.Models;
 
 public interface IAttendanceStorage
 {
-    Task Create(Attendance attendance);
-    Task Delete(Guid attendanceId);
-    Task<Attendance?> Find(Guid attendanceId);
-    Task<List<Attendance>> FindMany(Guid[] attendanceIds);
+    Task<bool> Create(Attendance attendance);
+    Task<bool> Delete(int attendanceId);
+    Task<bool> Update(Attendance attendance);
+    Task<Attendance?> Find(int attendanceId);
+    Task<List<Attendance>> FindMany(int[] attendanceIds);
 }
