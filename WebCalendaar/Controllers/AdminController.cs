@@ -22,7 +22,7 @@ public class AdminController : Controller
     }
 
     [HttpGet("Get")]
-    public async Task<IActionResult> GetAdmin([FromQuery] Guid id)
+    public async Task<IActionResult> GetAdmin([FromQuery] int id)
     {
         if (adminStorage.Find(id).Result == null){
             return NotFound($"Id : {id} not in the database");
@@ -32,20 +32,20 @@ public class AdminController : Controller
     }
 
     [HttpPut("Put")]
-    public async Task<IActionResult> UpdateAdmin([FromBody] Admin admin,[FromQuery] Guid idToUpdate)
+    public async Task<IActionResult> UpdateAdmin([FromBody] Admin admin)
     {
         if (admin == null){
             return BadRequest("Null in the request");
-        } else if (adminStorage.Find(idToUpdate).Result == null){
-            return NotFound($"Id : {idToUpdate} not in the database");
+        } else if (adminStorage.Find(admin.AdminId).Result == null){
+            return NotFound($"Id : {admin.AdminId} not in the database");
         }
-        await adminStorage.Delete(idToUpdate);
-        await adminStorage.Create(admin);
-        return Created($"Updated Admin with Id={idToUpdate} to: ",admin);
+        await adminStorage.Update(admin);
+
+        return Created($"Updated Admin with Id={admin.AdminId} to: ",admin);
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAdmin([FromQuery] Guid idToDelete)
+    public async Task<IActionResult> DeleteAdmin([FromQuery] int idToDelete)
     {
         if (adminStorage.Find(idToDelete).Result == null){
             return NotFound($"Id : {idToDelete} not in the database");

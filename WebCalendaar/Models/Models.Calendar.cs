@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace WebCalendaar.Models
 {
     public class User
     {
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
 
         public required string FirstName { get; set; }
 
@@ -15,18 +17,17 @@ namespace WebCalendaar.Models
         // A comma sepparated string that could look like this: "mo,tu,we,th,fr"
         public required string RecuringDays { get; set; }
 
-        public required List<Attendance> Attendances { get; set; }
+        public required List<int> AttendanceIds { get; set; }
 
         public required List<Event_Attendance> Event_Attendances { get; set; }
     }
 
     public class Attendance
     {
-        public Guid AttendanceId { get; set; }
-
+        [Key]
+        public int AttendanceId { get; set; }
         public DateTime AttendanceDate { get; set; }
-
-        public required User User { get; set; }
+        public required int UserId { get; set; }
     }
 
     public class Event_Attendance

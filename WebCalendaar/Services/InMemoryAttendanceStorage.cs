@@ -4,27 +4,27 @@ public class InMemoryAttendanceStorage : IAttendanceStorage
 {
     public static List<Attendance> attendances = new();
 
-    public async Task Create(Attendance attendance)
+    public async Task<bool> Create(Attendance attendance)
     {
-        attendance.AttendanceId = Guid.NewGuid();
-        attendance.User.UserId = Guid.NewGuid();
         await Task.Delay(0);
         attendances.Add(attendance);
+        return true;
     }
 
-    public async Task Delete(Guid attendanceId)
+    public async Task<bool> Delete(int attendanceId)
     {
         await Task.Delay(0);
         attendances.Remove(attendances.Find(a => a.AttendanceId == attendanceId));
+        return true;
     }
 
-    public async Task<Attendance?> Find(Guid attendanceId)
+    public async Task<Attendance?> Find(int attendanceId)
     {
         await Task.Delay(0);
         return attendances.Find(a => a.AttendanceId == attendanceId);
     }
 
-    public async Task<List<Attendance>> FindMany(Guid[] attendanceIds)
+    public async Task<List<Attendance>> FindMany(int[] attendanceIds)
     {
         List<Attendance> found = new();
         await Task.Delay(0);
@@ -38,5 +38,11 @@ public class InMemoryAttendanceStorage : IAttendanceStorage
             });
         });
         return found;
+    }
+
+    // this was added later when not needed anymore
+    public Task<bool> Update(Attendance attendance)
+    {
+        throw new NotImplementedException();
     }
 }

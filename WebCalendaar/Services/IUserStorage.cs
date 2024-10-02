@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 public interface IUserStorage
 {
     Task<bool> Create(User user);
-    Task<User?> Read(Guid user_id);
-    Task<bool> Update(Guid user_id, User user);
-    Task<bool> Delete(Guid user_id);
+    Task<User?> Read(int user_id);
+    Task<bool> Update(int user_id, User user);
+    Task<bool> Delete(int user_id);
 }
 
 public class UserDBStorage : IUserStorage
@@ -25,7 +25,7 @@ public class UserDBStorage : IUserStorage
         return false;
     }
 
-    public async Task<bool> Delete(Guid user_id)
+    public async Task<bool> Delete(int user_id)
     {
         // returns true if user was deleted
         User? user = await db.User.FirstOrDefaultAsync(x => x.UserId == user_id);
@@ -36,12 +36,12 @@ public class UserDBStorage : IUserStorage
 
     }
 
-    public async Task<User?> Read(Guid user_id)
+    public async Task<User?> Read(int user_id)
     {
         return await db.User.FirstOrDefaultAsync(x => x.UserId == user_id);
     }
 
-    public async Task<bool> Update(Guid user_id, User updatedUser)
+    public async Task<bool> Update(int user_id, User updatedUser)
     {
         // find user in db
         User? foundUser = await this.Read(user_id);

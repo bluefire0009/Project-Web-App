@@ -22,7 +22,7 @@ public class AttendanceController : Controller
     }
 
     [HttpGet("Get")]
-    public async Task<IActionResult> GetAttendance([FromQuery] Guid id)
+    public async Task<IActionResult> GetAttendance([FromQuery] int id)
     {
         if (attendanceStorage.Find(id).Result == null){
             return NotFound($"Id : {id} not in the database");
@@ -32,20 +32,21 @@ public class AttendanceController : Controller
     }
 
     [HttpPut("Put")]
-    public async Task<IActionResult> UpdateAttendance([FromBody] Attendance attendance,[FromQuery] Guid idToUpdate)
+    public async Task<IActionResult> UpdateAttendance([FromBody] Attendance attendance)
     {
         if (attendance == null){
             return BadRequest("Null in the request");
-        } else if (attendanceStorage.Find(idToUpdate).Result == null){
-            return NotFound($"Id : {idToUpdate} not in the database");
+        } else if (attendanceStorage.Find(attendance.AttendanceId).Result == null){
+            return NotFound($"Id : {attendance.AttendanceId} not in the database");
         }
-        await attendanceStorage.Delete(idToUpdate);
-        await attendanceStorage.Create(attendance);
-        return Created($"Updated Attendance with Id={idToUpdate} to: ", attendance);
+
+        await attendanceStorage.Update(attendance);
+
+        return Created($"Updated Attendance with Id={attendance.AttendanceId} to: ", attendance);
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAttendance([FromQuery] Guid idToDelete)
+    public async Task<IActionResult> DeleteAttendance([FromQuery] int idToDelete)
     {
         if (attendanceStorage.Find(idToDelete).Result == null){
             return NotFound($"Id : {idToDelete} not in the database");
