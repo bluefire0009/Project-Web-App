@@ -7,6 +7,8 @@ public class InMemoryAdminStorage : IAdminStorage
     public async Task<bool> Create(Admin admin)
     {
         await Task.Delay(0);
+
+        // adds admin to a list of admins? : Deze code was al in de template
         admins.Add(admin);
         return true;
     }
