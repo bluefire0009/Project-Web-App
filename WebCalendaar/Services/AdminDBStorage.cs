@@ -12,11 +12,10 @@ public class AdminDBStorage : IAdminStorage
 
     public async Task<bool> Create(Admin admin)
     {
-        Admin? adminInDatabase = db.Admin.FirstOrDefault(a => a.AdminId == admin.AdminId);
+        Admin? adminInDatabase = await db.Admin.FirstOrDefaultAsync(a => a.AdminId == admin.AdminId);
         if (adminInDatabase != null)
             return false;
 
-        admin.AdminId = Guid.NewGuid();
         await db.Admin.AddAsync(admin);
 
         int nrChanges = await db.SaveChangesAsync();
@@ -25,7 +24,24 @@ public class AdminDBStorage : IAdminStorage
         return false;
     }
 
-    public async Task<bool> Delete(Guid adminId)
+    public async Task<bool> Update(Admin admin)
+    {
+        Admin? adminInDatabase = await db.Admin.FirstOrDefaultAsync(a => a.AdminId == admin.AdminId);
+        if (adminInDatabase == null)
+            return false;
+        
+        adminInDatabase.AdminId = admin.AdminId;
+        adminInDatabase.Email = admin.Email;
+        adminInDatabase.UserName = admin.UserName;
+        adminInDatabase.Password = admin.Password;
+        
+        int nrChanges = await db.SaveChangesAsync();
+        if (nrChanges > 0)
+            return true;
+        return false;
+    }
+
+    public async Task<bool> Delete(int adminId)
     {
         Admin? adminInDatabase = await db.Admin.FirstOrDefaultAsync(a => a.AdminId == adminId);
         if (adminInDatabase == null)
@@ -39,7 +55,7 @@ public class AdminDBStorage : IAdminStorage
         return false;
     }
 
-    public async Task<Admin?> Find(Guid adminId)
+    public async Task<Admin?> Find(int adminId)
     {
         Admin? adminInDatabase = await db.Admin.FirstOrDefaultAsync(a => a.AdminId == adminId);
         if (adminInDatabase == null)
@@ -47,7 +63,7 @@ public class AdminDBStorage : IAdminStorage
         return adminInDatabase;
     }
 
-    public async Task<List<Admin>> FindMany(Guid[] adminIds)
+    public async Task<List<Admin>> FindMany(int[] adminIds)
     {
         List<Admin> adminsInDatabase = await db.Admin.Where(A => adminIds.Contains(A.AdminId)).ToListAsync();
         return adminsInDatabase;
