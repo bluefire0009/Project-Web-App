@@ -4,17 +4,19 @@ public class InMemoryAdminStorage : IAdminStorage
 {
     public static List<Admin> admins = new();
 
-    public async Task Create(Admin admin)
+    public async Task<bool> Create(Admin admin)
     {
         admin.AdminId = Guid.NewGuid();
         await Task.Delay(0);
         admins.Add(admin);
+        return true;
     }
 
-    public async Task Delete(Guid adminId)
+    public async Task<bool> Delete(Guid adminId)
     {
         await Task.Delay(0);
         admins.Remove(admins.Find(a => a.AdminId == adminId));
+        return true;
     }
 
     public async Task<Admin?> Find(Guid adminId)
