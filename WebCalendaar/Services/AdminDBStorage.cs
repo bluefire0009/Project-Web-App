@@ -10,27 +10,46 @@ public class AdminDBStorage : IAdminStorage
         this.db = db;
     }
 
-    public async Task Create(Admin admin)
+    public async Task<bool> Create(Admin admin)
     {
         Admin? adminInDatabase = db.Admin.FirstOrDefault(a => a.AdminId == admin.AdminId);
+        if (adminInDatabase != null)
+            return false;
 
         admin.AdminId = Guid.NewGuid();
         await db.Admin.AddAsync(admin);
-        await db.SaveChangesAsync();
+
+        int nrChanges = await db.SaveChangesAsync();
+        if (nrChanges > 0)
+            return true;
+        return false;
     }
 
-    public Task Delete(Guid adminId)
+    public async Task<bool> Delete(Guid adminId)
     {
-        throw new NotImplementedException();
+        Admin? adminInDatabase = await db.Admin.FirstOrDefaultAsync(a => a.AdminId == adminId);
+        if (adminInDatabase == null)
+            return false;
+
+        db.Admin.Remove(adminInDatabase);
+
+        int nrChanges = await db.SaveChangesAsync();
+        if (nrChanges > 0)
+            return true;
+        return false;
     }
 
-    public Task<Admin?> Find(Guid adminId)
+    public async Task<Admin?> Find(Guid adminId)
     {
-        throw new NotImplementedException();
+        Admin? adminInDatabase = await db.Admin.FirstOrDefaultAsync(a => a.AdminId == adminId);
+        if (adminInDatabase == null)
+            return null;
+        return adminInDatabase;
     }
 
-    public Task<List<Admin>> FindMany(Guid[] adminIds)
+    public async Task<List<Admin>> FindMany(Guid[] adminIds)
     {
-        throw new NotImplementedException();
+        List<Admin> adminsInDatabase = await db.Admin.Where(A => adminIds.Contains(A.AdminId)).ToListAsync();
+        return adminsInDatabase;
     }
 }
