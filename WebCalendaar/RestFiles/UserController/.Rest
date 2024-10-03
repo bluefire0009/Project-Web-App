@@ -36,6 +36,6 @@ Content-Type: application/json
   "Email": "Ben@example.com",
   "Password": "aaaaaa",
   "RecuringDays": "mo,tu,we",
-  "Attendances": [],
+  "AttendanceIds": [],
   "Event_Attendances": []
 }
