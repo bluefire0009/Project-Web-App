@@ -14,7 +14,7 @@ Content-Type: application/json
   "Email": "johndoe@example.com",
   "Password": "password123",
   "RecuringDays": "mo,tu,we,th,fr",
-  "Attendances": [],
+  "AttendanceIds": [],
   "Event_Attendances": []
 }
 
@@ -30,11 +30,12 @@ Put http://localhost:5097/api/User/Update?userId=1
 Content-Type: application/json
 
 {
+  "UserId" : 1,
   "FirstName": "Ben",
   "LastName": "Doever",
   "Email": "Ben@example.com",
   "Password": "aaaaaa",
   "RecuringDays": "mo,tu,we",
-  "Attendances": [],
+  "AttendanceIds": [],
   "Event_Attendances": []
 }
