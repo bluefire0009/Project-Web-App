@@ -12,7 +12,8 @@ namespace WebCalendaar
 
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddTransient<IAdminStorage, InMemoryAdminStorage>();
+            builder.Services.AddTransient<IAdminStorage, AdminDBStorage>();
+            builder.Services.AddTransient<IAttendanceStorage, AttendanceDBStorage>();
 
             builder.Services.AddDistributedMemoryCache();
 

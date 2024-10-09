@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace WebCalendaar.Models
 {
     public class Admin
     {
-        public Guid AdminId { get; set; }
+        [Key]
+        public int AdminId { get; set; }
 
         public required string UserName { get; set; }
         public required string Password { get; set; }
