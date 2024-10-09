@@ -25,8 +25,7 @@ namespace WebCalendaar.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Attendance>().HasKey(a => new {a.AttendanceId, a.UserId});
-
+            modelBuilder.Entity<Attendance>().HasKey(a => new { a.UserId, a.AttendanceDate });
 
             modelBuilder.Entity<Admin>()
                 .HasIndex(p => p.UserName).IsUnique();
