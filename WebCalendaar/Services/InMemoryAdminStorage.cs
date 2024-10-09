@@ -4,26 +4,29 @@ public class InMemoryAdminStorage : IAdminStorage
 {
     public static List<Admin> admins = new();
 
-    public async Task Create(Admin admin)
+    public async Task<bool> Create(Admin admin)
     {
-        admin.AdminId = Guid.NewGuid();
         await Task.Delay(0);
+
+        // adds admin to a list of admins? : Deze code was al in de template
         admins.Add(admin);
+        return true;
     }
 
-    public async Task Delete(Guid adminId)
+    public async Task<bool> Delete(int adminId)
     {
         await Task.Delay(0);
         admins.Remove(admins.Find(a => a.AdminId == adminId));
+        return true;
     }
 
-    public async Task<Admin?> Find(Guid adminId)
+    public async Task<Admin?> Find(int adminId)
     {
         await Task.Delay(0);
         return admins.Find(a => a.AdminId == adminId);
     }
 
-    public async Task<List<Admin>> FindMany(Guid[] adminIds)
+    public async Task<List<Admin>> FindMany(int[] adminIds)
     {
         List<Admin> found = new();
         await Task.Delay(0);
@@ -37,5 +40,11 @@ public class InMemoryAdminStorage : IAdminStorage
             });
         });
         return found;
+    }
+
+    // this was added later when not needed anymore
+    public Task<bool> Update(Admin admin)
+    {
+        throw new NotImplementedException();
     }
 }

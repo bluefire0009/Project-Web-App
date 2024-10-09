@@ -1,40 +1,47 @@
 using WebCalendaar.Models;
 using Microsoft.AspNetCore.Mvc;
 
-public interface IUserController
-{
-    Task Create(User user);
-    Task<User?> Read(int user_id);
-    Task Update(int user_id, User user);
-    Task Delete(int user_id);
-}
+
 
 
 [Route("api/User")]
-public class UserController : IUserController
+public class UserController : Controller
 {
-    [HttpPost("Create")]
-    public Task Create(User user)
+    public IUserStorage storage;
+
+    public UserController(IUserStorage storage)
     {
-        throw new NotImplementedException();
+        this.storage = storage;
+    }
+
+    [HttpPost("Create")]
+    public async Task<IActionResult> Create([FromBody] User user)
+    {
+        if (user == null) return BadRequest($"{user} from body is null");
+        if (await storage.Create(user)) return Ok("user created");
+        return BadRequest();
     }
 
     [HttpGet("Read")]
-    public Task<User?> Read(int user_id)
+    public async Task<IActionResult> Read([FromQuery] int userId)
     {
-        throw new NotImplementedException();
+        var user = await storage.Read(userId);
+        if (user == null) return NotFound();
+        return Ok(user);
     }
 
-    [HttpPost("Update")]
-    public Task Update(int user_id, User user)
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update([FromQuery] int userId, [FromBody] User user)
     {
-        throw new NotImplementedException();
+        if (await storage.Update(userId, user)) return Ok("User updated");
+        return NotFound();
     }
 
     [HttpDelete("Delete")]
-    public Task Delete(int user_id)
+    public async Task<IActionResult> Delete([FromQuery] int userId)
     {
-        throw new NotImplementedException();
+        if (await storage.Delete(userId)) return Ok("User deleted");
+        return NotFound("user not found");
     }
 
 }
