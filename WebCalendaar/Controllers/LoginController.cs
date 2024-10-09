@@ -27,6 +27,7 @@ public class LoginController : Controller
         var LoginState = await _loginService.CheckPasswordAsync(loginBody.Username!, loginBody.Password!);
         if (LoginState == LoginStatus.Success)
         {
+            HttpContext.Session.SetString("UserSession", "LoggedIn");
             HttpContext.Session.SetString("LoggedInUser", loginBody.Username!);
             return Ok("login success");
         }
@@ -49,12 +50,8 @@ public class LoginController : Controller
         if (IsSessionRegisterd()) return Ok($"Logged in as {HttpContext.Session.GetString("LoggedInAdmin")}");
         return Unauthorized("You are not logged in As Admin");
     }
-
-    [HttpGet("IsSessionRegisterd")]
-    public bool IsSessionRegisterd()
-    {
-        return HttpContext.Session.GetString("AdminSession") == "LoggedIn";
-    }
+    public bool IsUserLoggedIn() => HttpContext.Session.GetString("UserSession") == "LoggedIn";
+    public bool IsSessionRegisterd() => HttpContext.Session.GetString("AdminSession") == "LoggedIn";
 
     [HttpGet("Logout")]
     public IActionResult Logout()
