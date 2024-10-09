@@ -1,5 +1,6 @@
 namespace WebCalendaar.Services;
 
-public interface ILoginService {
-    public LoginStatus CheckPassword(string username, string inputPassword);
+public interface ILoginService
+{
+    public Task<LoginStatus> CheckPasswordAsync(string username, string inputPassword);
 }

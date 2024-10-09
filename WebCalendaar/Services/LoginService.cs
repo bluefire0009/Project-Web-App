@@ -1,11 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 using WebCalendaar.Models;
 using WebCalendaar.Utils;
 
 namespace WebCalendaar.Services;
 
-public enum LoginStatus { IncorrectPassword, IncorrectUsername, Success }
 
-public enum ADMIN_SESSION_KEY { adminLoggedIn }
+public enum LoginStatus { IncorrectPassword, IncorrectUsername, Success, adminLoggedIn }
+
+// public enum ADMIN_SESSION_KEY { adminLoggedIn }
 
 public class LoginService : ILoginService
 {
@@ -17,14 +19,24 @@ public class LoginService : ILoginService
         _context = context;
     }
 
-    public LoginStatus CheckPassword(string username, string inputPassword)
+    public async Task<LoginStatus> CheckPasswordAsync(string username, string inputPassword)
     {
-        // TODO: Make this method check the password with what is in the database
-        if (_context.Admin.Any(x => x.UserName == username && x.Password == inputPassword))
+        // check first if the credentials match a user
+        if (await _context.User.AnyAsync(x => x.Email == username && x.Password == inputPassword))
         {
             return LoginStatus.Success;
         }
-        else if (_context.Admin.Any(x => x.UserName == username && x.Password != inputPassword))
+        else if (await _context.User.AnyAsync(x => x.Email == username && x.Password != inputPassword))
+        {
+            return LoginStatus.IncorrectPassword;
+        }
+
+        // then check if credentials match admin
+        if (await _context.Admin.AnyAsync(x => x.UserName == username && x.Password == inputPassword))
+        {
+            return LoginStatus.adminLoggedIn;
+        }
+        else if (await _context.Admin.AnyAsync(x => x.UserName == username && x.Password != inputPassword))
         {
             return LoginStatus.IncorrectPassword;
         }
