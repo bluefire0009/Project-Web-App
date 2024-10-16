@@ -47,7 +47,7 @@ public class AttendanceController : Controller
             return NotFound($"Combination : {userIdToUpdate},{attendanceDateToUpdate} not in the database");
         }
 
-        await attendanceStorage.Update(updatedAttendance);
+        await attendanceStorage.Update(updatedAttendance, userIdToUpdate, attendanceDateToUpdate);
 
         return Created($"Updated Attendance with combination={userIdToUpdate},{attendanceDateToUpdate} to: ", updatedAttendance);
     }
