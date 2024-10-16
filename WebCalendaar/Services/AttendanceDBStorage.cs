@@ -24,7 +24,7 @@ public class AttendanceDBStorage : IAttendanceStorage
         return false;
     }
 
-    public async Task<bool> Delete(int userId, DateTime attendanceDate)
+    public async Task<bool> Delete(int userId, DateOnly attendanceDate)
     {
         Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
         if (attendanceInDatabase == null)
@@ -53,7 +53,7 @@ public class AttendanceDBStorage : IAttendanceStorage
         return false;
     }
 
-    public async Task<Attendance?> Find(int userId, DateTime attendanceDate)
+    public async Task<Attendance?> Find(int userId, DateOnly attendanceDate)
     {
         Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
         if (attendanceInDatabase == null)

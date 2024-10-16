@@ -23,7 +23,7 @@ public class AttendanceController : Controller
     }
 
     [HttpGet("Get")]
-    public async Task<IActionResult> GetAttendance([FromQuery] int userId, [FromQuery] DateTime attendanceDate)
+    public async Task<IActionResult> GetAttendance([FromQuery] int userId, [FromQuery] DateOnly attendanceDate)
     {
         if (attendanceStorage.Find(userId, attendanceDate).Result == null)
         {
@@ -34,7 +34,7 @@ public class AttendanceController : Controller
     }
 
     [HttpPut("Put")]
-    public async Task<IActionResult> UpdateAttendance([FromBody] Attendance updatedAttendance, [FromQuery] int userIdToUpdate, [FromQuery] DateTime attendanceDateToUpdate)
+    public async Task<IActionResult> UpdateAttendance([FromBody] Attendance updatedAttendance, [FromQuery] int userIdToUpdate, [FromQuery] DateOnly attendanceDateToUpdate)
     {
         // Check if the updated attandance has invalid content
         if (updatedAttendance == null || !attendanceStorage.IdExsists(updatedAttendance.UserId).Result)
@@ -53,7 +53,7 @@ public class AttendanceController : Controller
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAttendance([FromQuery] int userId, [FromQuery] DateTime attendanceDate)
+    public async Task<IActionResult> DeleteAttendance([FromQuery] int userId, [FromQuery] DateOnly attendanceDate)
     {
         if (attendanceStorage.Find(userId, attendanceDate).Result == null)
         {
