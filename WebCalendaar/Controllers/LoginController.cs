@@ -63,7 +63,12 @@ public class LoginController : Controller
         if (IsSessionRegisterd())
         {
             HttpContext.Session.SetString("AdminSession", "LoggedOut");
-            return Ok("Logged out");
+            return Ok("Admin Logged out");
+        }
+        else if (IsUserLoggedIn())
+        {
+            HttpContext.Session.SetString("UserSession", "LoggedOut");
+            return Ok("User Logged out");
         }
         return BadRequest("You are not logged in");
     }

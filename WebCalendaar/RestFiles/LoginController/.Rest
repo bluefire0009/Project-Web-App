@@ -12,10 +12,11 @@ Content-Type: application/json
 // check if admin is logged in
 GET  http://localhost:5097/api/v1/Login/IsAdminLoggedIn
 ####
-// logout admin
+// logout
 GET  http://localhost:5097/api/v1/Login/Logout
 ####
 
+// register user
 POST http://localhost:5097/api/v1/Login/Register
 Content-Type: application/json
 
@@ -35,3 +36,4 @@ Content-Type: application/json
     "Username" : "johnDoe@example.com",
     "Password" : "123456789"
 }
+####
