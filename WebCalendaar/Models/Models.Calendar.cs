@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebCalendaar.Models
 {
@@ -24,10 +25,9 @@ namespace WebCalendaar.Models
 
     public class Attendance
     {
-        [Key]
-        public int AttendanceId { get; set; }
-        public DateTime AttendanceDate { get; set; }
+        public required DateTime AttendanceDate { get; set; }
         public required int UserId { get; set; }
+        public virtual User? User { get; set; }
     }
 
     public class Event_Attendance
