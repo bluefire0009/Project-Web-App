@@ -14,3 +14,24 @@ GET  http://localhost:5097/api/v1/Login/IsAdminLoggedIn
 ####
 // logout admin
 GET  http://localhost:5097/api/v1/Login/Logout
+####
+
+POST http://localhost:5097/api/v1/Login/Register
+Content-Type: application/json
+
+{
+    "FirstName" : "john",
+    "LastName" : "Doe",
+    "Email" : "johnDoe@example.com",
+    "Password" : "123456789"
+}
+
+####
+// login as a user
+POST http://localhost:5097/api/v1/Login/Login
+Content-Type: application/json
+
+{
+    "Username" : "johnDoe@example.com",
+    "Password" : "123456789"
+}

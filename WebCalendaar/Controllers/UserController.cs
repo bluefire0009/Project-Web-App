@@ -15,6 +15,7 @@ public class UserController : Controller
     }
 
     [HttpPost("Create")]
+    [RequiresAdminLogin]
     public async Task<IActionResult> Create([FromBody] User user)
     {
         if (user == null) return BadRequest($"{user} from body is null");
