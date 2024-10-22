@@ -27,6 +27,10 @@ public class LoginController : Controller
         {
             return BadRequest("Loginbody is null");
         }
+        if (IsSessionRegisterd() || IsUserLoggedIn())
+        {
+            return BadRequest($"You are already logged in as {HttpContext.Session.GetString("LoggedInUser")}{HttpContext.Session.GetString("LoggedInAdmin")}");
+        }
 
         var LoginState = await _loginService.CheckPasswordAsync(loginBody.Username!, loginBody.Password!, HttpContext);
         if (LoginState == LoginStatus.Success)
