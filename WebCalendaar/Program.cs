@@ -26,6 +26,7 @@ namespace WebCalendaar
 
             builder.Services.AddScoped<ILoginService, LoginService>();
             builder.Services.AddScoped<IUserStorage, UserDBStorage>();
+            builder.Services.AddScoped<IEventAttendanceStorage, EventAttendanceDBStorage>();
 
 
             builder.Services.AddDbContext<DatabaseContext>(

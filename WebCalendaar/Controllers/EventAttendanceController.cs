@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebCalendaar.Models;
 
-[Route("api/v1/eventAttendance")]
+[Route("api/eventAttendance")]
 public class EventAttendanceController : Controller {
     readonly IEventAttendanceStorage Storage;
 
@@ -9,24 +9,27 @@ public class EventAttendanceController : Controller {
         Storage = storage;
     }
 
-    [HttpPost()]
+    [HttpPost("create")]
     public async Task<IActionResult> CreateEventAttendance([FromBody] Event_Attendance eventAttendance) {
-        return Created(eventAttendance.Event_AttendanceId.ToString(), Storage.Create(eventAttendance));
+        var result = Storage.Create(eventAttendance);
+        return Created(eventAttendance.Event_AttendanceId.ToString(), result);
     }
 
-    [HttpGet()]
-    public async Task<IActionResult> GetEventAttendance([FromQuery] Guid id) {
-        return Ok(Storage.Find(id));
+    [HttpGet("get")]
+    public async Task<IActionResult> GetEventAttendance([FromQuery] int id) {
+        if (await Storage.Find(id) == null) return NotFound();
+        var found = await Storage.Find(id);
+        return Ok(found);
     }
 
-    [HttpPut()]
+    [HttpPut("update")]
     public async Task<IActionResult> UpdateEventAttendance([FromBody] Event_Attendance eventAttendance) {
         await Storage.Update(eventAttendance);
         return Ok();
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteEventAttendance([FromQuery] Guid id) {
+    [HttpDelete("delete")]
+    public async Task<IActionResult> DeleteEventAttendance([FromQuery] int id) {
         await Storage.Delete(id);
         return Ok();
     }
