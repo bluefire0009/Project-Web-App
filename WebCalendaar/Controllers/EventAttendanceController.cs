@@ -17,7 +17,7 @@ public class EventAttendanceController : Controller {
 
     [HttpGet("get")]
     public async Task<IActionResult> GetEventAttendance([FromQuery] int id) {
-        if (await Storage.Find(id) == null) return NotFound();
+        if (await Storage.Find(id) == null) return NoContent();
         var found = await Storage.Find(id);
         return Ok(found);
     }
