@@ -12,7 +12,7 @@ Content-Type: application/json
 ####
 
 // Change the id in the request to the id that is recieved back from the post request
-GET http://localhost:5097/api/Attendance/Get?userId=2&attendanceDate=2024-09-28
+GET http://localhost:5097/api/Attendance/Get?userId=1&attendanceDate=2024-09-26
 ####
 
 // Change the id in the request to the id that is recieved back from the post request
@@ -20,11 +20,15 @@ PUT http://localhost:5097/api/Attendance/Put?userIdToUpdate=1&attendanceDateToUp
 Content-Type: application/json
 
 {
-    "AttendanceDate": "2025-09-28",
+    "AttendanceDate": "2026-09-28",
     "UserId": "1"
 }
 ####
 
 // Change the id in the request to the id that is recieved back from the post request
 DELETE http://localhost:5097/api/Attendance/Delete?userId=1&attendanceDate=2024-09-26
+####
+
+// Change the id in the request to the id that is recieved back from the post request
+POST http://localhost:5097/api/Attendance/Change
 ####
