@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebCalendaar.Models;
 using WebCalendaar.Services;
+using Newtonsoft.Json;
 
 namespace WebCalendaar
 {
@@ -8,12 +9,26 @@ namespace WebCalendaar
     {
         static void Main(string[] args)
         {
+            /*Event e1 = new()
+            {
+                EndTime = TimeSpan.FromSeconds(60),
+                Title = "AAA",
+                Description = "BBB",
+                Location = "SSs",
+                Event_Attendances = new()
+                {
+                    new(){Event = null,Feedback = "Feed", User = new User() { FirstName = "John",LastName = "", Email = "", Password = "", RecuringDays = "", AttendanceIds = [], Event_Attendances = []}}
+                }
+            };
+            JsonConvert.SerializeObject(e1);*/
+            
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddTransient<IAdminStorage, AdminDBStorage>();
             builder.Services.AddTransient<IAttendanceStorage, AttendanceDBStorage>();
+            builder.Services.AddTransient<IEventStorage, EventDBStorage>();
 
             builder.Services.AddDistributedMemoryCache();
 
