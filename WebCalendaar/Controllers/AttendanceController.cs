@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebCalendaar.Models;
 [Route("api/Attendance")]
+[RequiresAdminLogin]
 public class AttendanceController : Controller
 {
     readonly IAttendanceStorage attendanceStorage;
@@ -18,8 +19,12 @@ public class AttendanceController : Controller
         {
             return BadRequest("Null in the request");
         }
-        await attendanceStorage.Create(attendance);
-        return Created($"Created Attendance: ", attendance);
+        bool added = await attendanceStorage.Create(attendance);
+        
+        if (added) 
+            return Created($"Created Attendance: ", attendance);
+        
+        return BadRequest("Attendance couldn't be added");        
     }
 
     [HttpGet("Get")]
