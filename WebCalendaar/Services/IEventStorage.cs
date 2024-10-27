@@ -9,6 +9,7 @@ public interface IEventStorage
     Task<Event?> Read(int event_id); // Return int
     Task<bool> Update(int event_id, Event updatedEvent); // Returns bool
     Task<bool> Delete(int event_id); // Return int
+    List<Event> GetAll();
 }
 
 public class EventDBStorage : IEventStorage
@@ -62,4 +63,8 @@ public class EventDBStorage : IEventStorage
 
     }
 
+    public List<Event> GetAll()
+    {
+        return db.Event.ToList();
+    }
 }
