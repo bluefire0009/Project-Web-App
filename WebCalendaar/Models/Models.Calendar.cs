@@ -56,7 +56,5 @@ namespace WebCalendaar.Models
         public required string Location { get; set; }
 
         public bool AdminApproval { get; set; }
-
-        public required List<Event_Attendance> Event_Attendances { get; set; }
     }
 }
