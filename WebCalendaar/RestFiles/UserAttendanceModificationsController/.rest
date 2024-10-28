@@ -1,0 +1,7 @@
+/////////////////////////////////////////////////////
+// UserAttendanceModificationsController Endpoints //
+/////////////////////////////////////////////////////
+// dateFrom has to be a date that the User has an attendance on
+// dateTo has to be a date where there is an event
+PUT http://localhost:5097/api/Attendance/Change?dateFrom=2024-09-26&dateTo=2026-09-28
+####

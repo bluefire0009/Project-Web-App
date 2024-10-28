@@ -12,7 +12,11 @@ public class AttendanceDBStorage : IAttendanceStorage
 
     public async Task<bool> Create(Attendance attendance)
     {
-        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == attendance.UserId && a.AttendanceDate == attendance.AttendanceDate);
+        // Check if User from the attendance exsists in the database
+        User? userInDatabase = await db.User.FirstOrDefaultAsync(u => u.UserId == attendance.UserId);
+        if (userInDatabase == null) return false;
+        
+        Attendance? attendanceInDatabase = await db.Attendance.Where(a => a.UserId == attendance.UserId && a.AttendanceDate == attendance.AttendanceDate).FirstOrDefaultAsync();
         if (attendanceInDatabase != null)
             return false;
 
@@ -24,7 +28,7 @@ public class AttendanceDBStorage : IAttendanceStorage
         return false;
     }
 
-    public async Task<bool> Delete(int userId, DateTime attendanceDate)
+    public async Task<bool> Delete(int userId, DateOnly attendanceDate)
     {
         Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
         if (attendanceInDatabase == null)
@@ -38,14 +42,21 @@ public class AttendanceDBStorage : IAttendanceStorage
         return false;
     }
 
-    public async Task<bool> Update(Attendance attendance)
+    // attendance is the object that will be changed to in the database
+    public async Task<bool> Update(Attendance attendance, int userIdToUpdate, DateOnly dateToUpdate)
     {
-        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == attendance.UserId && a.AttendanceDate == attendance.AttendanceDate);
-        if (attendanceInDatabase == null)
+        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == attendance.UserId && a.AttendanceDate == dateToUpdate);
+        bool sameFields = attendance.AttendanceDate == dateToUpdate && attendance.UserId == userIdToUpdate;
+        if (attendanceInDatabase == null || sameFields)
             return false;
+
+        // This has to be done because the attandance is a composite key
+        db.Attendance.Remove(attendanceInDatabase);
+        await db.SaveChangesAsync();
 
         attendanceInDatabase.AttendanceDate = attendance.AttendanceDate;
         attendanceInDatabase.UserId = attendance.UserId;
+        db.Attendance.Add(attendanceInDatabase);
 
         int nrChanges = await db.SaveChangesAsync();
         if (nrChanges > 0)
@@ -53,7 +64,7 @@ public class AttendanceDBStorage : IAttendanceStorage
         return false;
     }
 
-    public async Task<Attendance?> Find(int userId, DateTime attendanceDate)
+    public async Task<Attendance?> Find(int userId, DateOnly attendanceDate)
     {
         Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
         if (attendanceInDatabase == null)
@@ -66,5 +77,10 @@ public class AttendanceDBStorage : IAttendanceStorage
     {
         Attendance? found = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId);
         return found != null;
+    }
+
+    public async Task<List<Attendance>> GetAll()
+    {
+        return db.Attendance.ToList();
     }
 }

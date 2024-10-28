@@ -25,7 +25,7 @@ namespace WebCalendaar.Models
 
     public class Attendance
     {
-        public required DateTime AttendanceDate { get; set; }
+        public required DateOnly AttendanceDate { get; set; }
         public required int UserId { get; set; }
         public virtual User? User { get; set; }
     }
@@ -56,7 +56,5 @@ namespace WebCalendaar.Models
         public required string Location { get; set; }
 
         public bool AdminApproval { get; set; }
-
-        public required List<Event_Attendance> Event_Attendances { get; set; }
     }
 }
