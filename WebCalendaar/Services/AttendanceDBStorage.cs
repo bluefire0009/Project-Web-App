@@ -12,7 +12,7 @@ public class AttendanceDBStorage : IAttendanceStorage
 
     public async Task<bool> Create(Attendance attendance)
     {
-        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.AttendanceId == attendance.AttendanceId);
+        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == attendance.UserId && a.AttendanceDate == attendance.AttendanceDate);
         if (attendanceInDatabase != null)
             return false;
 
@@ -24,9 +24,9 @@ public class AttendanceDBStorage : IAttendanceStorage
         return false;
     }
 
-    public async Task<bool> Delete(int attendanceId)
+    public async Task<bool> Delete(int userId, DateTime attendanceDate)
     {
-        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.AttendanceId == attendanceId);
+        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
         if (attendanceInDatabase == null)
             return false;
 
@@ -40,32 +40,31 @@ public class AttendanceDBStorage : IAttendanceStorage
 
     public async Task<bool> Update(Attendance attendance)
     {
-        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.AttendanceId == attendance.AttendanceId);
+        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == attendance.UserId && a.AttendanceDate == attendance.AttendanceDate);
         if (attendanceInDatabase == null)
             return false;
-        
+
         attendanceInDatabase.AttendanceDate = attendance.AttendanceDate;
-        attendanceInDatabase.AttendanceId = attendance.AttendanceId;
         attendanceInDatabase.UserId = attendance.UserId;
-        
+
         int nrChanges = await db.SaveChangesAsync();
         if (nrChanges > 0)
             return true;
         return false;
     }
 
-    public async Task<Attendance?> Find(int attendanceId)
+    public async Task<Attendance?> Find(int userId, DateTime attendanceDate)
     {
-        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.AttendanceId == attendanceId);
+        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
         if (attendanceInDatabase == null)
             return null;
-        
-        return attendanceInDatabase;        
+
+        return attendanceInDatabase;
     }
 
-    public async Task<List<Attendance>> FindMany(int[] attendanceIds)
+    public async Task<bool> IdExsists(int userId)
     {
-        List<Attendance> attendanceInDatabase = await db.Attendance.Where(A => attendanceIds.Contains(A.AttendanceId)).ToListAsync();
-        return attendanceInDatabase;
-    }    
+        Attendance? found = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId);
+        return found != null;
+    }
 }
