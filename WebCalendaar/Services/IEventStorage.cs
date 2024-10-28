@@ -28,17 +28,25 @@ public class EventDBStorage : IEventStorage
 
     public async Task<Event?> Read(int event_id)
     {
-        return await db.Event.FirstOrDefaultAsync(x => x.EventId == event_id);
+        Event? eventInDatabase = await db.Event.FirstOrDefaultAsync(a => a.EventId == event_id);
+        if (eventInDatabase == null)
+            return null;
+        
+        return eventInDatabase;  
     }
 
         public async Task<bool> Update(int event_id, Event UpdatedEvent)
     {
         // find event in db
-        Event? foundEvent = await this.Read(event_id);
-        // return false if event doesnt exist
-        if (foundEvent == null) return false;
+        Event? foundEvent = await db.Event.FirstOrDefaultAsync(a => a.EventId == event_id);
+        if (foundEvent == null)
+            return false;
 
         // update all the fields of the event
+        db.Event.Remove(foundEvent);
+        await db.SaveChangesAsync();
+
+        foundEvent.EventId = UpdatedEvent.EventId;
         foundEvent.Title = UpdatedEvent.Title;
         foundEvent.Description = UpdatedEvent.Description;
         foundEvent.EventDate = UpdatedEvent.EventDate;
@@ -46,6 +54,7 @@ public class EventDBStorage : IEventStorage
         foundEvent.EndTime = UpdatedEvent.EndTime;
         foundEvent.Location = UpdatedEvent.Location;
         foundEvent.AdminApproval = UpdatedEvent.AdminApproval;
+        db.Event.Add(foundEvent);
 
         if (await db.SaveChangesAsync() > 0) return true;
         return false;

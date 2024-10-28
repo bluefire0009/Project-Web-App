@@ -4,6 +4,7 @@ using WebCalendaar.Models;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Identity.Client.Extensions.Msal;
 
 [Route("api/v1/events")]
 public class EventController : Controller
@@ -73,11 +74,21 @@ public class EventController : Controller
         {
             return BadRequest("Event cannot be null");
         }
-
+        if (await _storage.Read(id) == null)
+        {
+            return NotFound($"Event with id {id} could not be found");
+        }
+        if(await _storage.Read(@event.EventId) != null)
+        {
+            if(id != @event.EventId)
+            {
+                return BadRequest($"An event with id {@event.EventId} already exists");
+            }  
+        }
         bool success = await _storage.Update(id, @event);
         if (!success)
         {
-            return NotFound($"Event with id {id} not found");
+            return BadRequest($"Event with id {id} could not be updated");
         }
 
         return Ok($"Event with id {id} updated successfully");
