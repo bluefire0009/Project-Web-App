@@ -1,0 +1,43 @@
+### GET Event by ID
+GET http://localhost:5097/api/v1/events/1
+Content-Type: application/json
+
+###
+
+### Create a new Event
+POST http://localhost:5097/api/v1/events/create
+Content-Type: application/json
+
+
+{
+  "EventId":6,
+  "Title":"AAA",
+  "Description":"BBB",
+  "EventDate":"0001-01-01",
+  "StartTime":"00:00:00",
+  "EndTime":"00:01:00",
+  "Location":"SSs",
+  "AdminApproval":false
+}
+
+###
+
+### Update an existing Event
+PUT http://localhost:5097/api/v1/events/update/1
+Content-Type: application/json
+
+{
+    "eventId": 1,
+    "title": "Another Updated Event",
+    "description": "Updated description for the event.",
+    "eventDate": "2024-12-02",
+    "startTime": "11:00:00",
+    "endTime": "13:00:00",
+    "location": "Conference Center",
+    "adminApproval": false
+}
+
+###
+
+### Delete an Event by ID
+DELETE http://localhost:5097/api/v1/events/delete/1
