@@ -36,7 +36,6 @@ public class LoginController : Controller
         if (LoginState == LoginStatus.Success)
         {
             HttpContext.Session.SetString("UserSession", "LoggedIn");
-            HttpContext.Session.SetString("LoggedInUser", loginBody.Username!);
             return Ok($"login success as {loginBody.Username}");
         }
         else if (LoginState == LoginStatus.adminLoggedIn)

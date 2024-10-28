@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebCalendaar.Models;
 [Route("api/Attendance")]
+[RequiresAdminLogin]
 public class AttendanceController : Controller
 {
     readonly IAttendanceStorage attendanceStorage;
@@ -18,12 +19,16 @@ public class AttendanceController : Controller
         {
             return BadRequest("Null in the request");
         }
-        await attendanceStorage.Create(attendance);
-        return Created($"Created Attendance: ", attendance);
+        bool added = await attendanceStorage.Create(attendance);
+        
+        if (added) 
+            return Created($"Created Attendance: ", attendance);
+        
+        return BadRequest("Attendance couldn't be added");        
     }
 
     [HttpGet("Get")]
-    public async Task<IActionResult> GetAttendance([FromQuery] int userId, [FromQuery] DateTime attendanceDate)
+    public async Task<IActionResult> GetAttendance([FromQuery] int userId, [FromQuery] DateOnly attendanceDate)
     {
         if (attendanceStorage.Find(userId, attendanceDate).Result == null)
         {
@@ -34,7 +39,7 @@ public class AttendanceController : Controller
     }
 
     [HttpPut("Put")]
-    public async Task<IActionResult> UpdateAttendance([FromBody] Attendance updatedAttendance, [FromQuery] int userIdToUpdate, [FromQuery] DateTime attendanceDateToUpdate)
+    public async Task<IActionResult> UpdateAttendance([FromBody] Attendance updatedAttendance, [FromQuery] int userIdToUpdate, [FromQuery] DateOnly attendanceDateToUpdate)
     {
         // Check if the updated attandance has invalid content
         if (updatedAttendance == null || !attendanceStorage.IdExsists(updatedAttendance.UserId).Result)
@@ -47,13 +52,13 @@ public class AttendanceController : Controller
             return NotFound($"Combination : {userIdToUpdate},{attendanceDateToUpdate} not in the database");
         }
 
-        await attendanceStorage.Update(updatedAttendance);
+        await attendanceStorage.Update(updatedAttendance, userIdToUpdate, attendanceDateToUpdate);
 
         return Created($"Updated Attendance with combination={userIdToUpdate},{attendanceDateToUpdate} to: ", updatedAttendance);
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAttendance([FromQuery] int userId, [FromQuery] DateTime attendanceDate)
+    public async Task<IActionResult> DeleteAttendance([FromQuery] int userId, [FromQuery] DateOnly attendanceDate)
     {
         if (attendanceStorage.Find(userId, attendanceDate).Result == null)
         {

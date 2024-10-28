@@ -8,20 +8,7 @@ namespace WebCalendaar
     class Program
     {
         static void Main(string[] args)
-        {
-            /*Event e1 = new()
-            {
-                EndTime = TimeSpan.FromSeconds(60),
-                Title = "AAA",
-                Description = "BBB",
-                Location = "SSs",
-                Event_Attendances = new()
-                {
-                    new(){Event = null,Feedback = "Feed", User = new User() { FirstName = "John",LastName = "", Email = "", Password = "", RecuringDays = "", AttendanceIds = [], Event_Attendances = []}}
-                }
-            };
-            JsonConvert.SerializeObject(e1);*/
-            
+        {            
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews();
