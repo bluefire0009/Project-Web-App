@@ -11,7 +11,7 @@ public class EventAttendanceController : Controller {
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateEventAttendance([FromBody] Event_Attendance eventAttendance) {
-        var result = Storage.Create(eventAttendance);
+        var result = await Storage.Create(eventAttendance);
         return Created(eventAttendance.Event_AttendanceId.ToString(), result);
     }
 
