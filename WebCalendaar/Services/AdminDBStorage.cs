@@ -29,12 +29,12 @@ public class AdminDBStorage : IAdminStorage
         Admin? adminInDatabase = await db.Admin.FirstOrDefaultAsync(a => a.AdminId == admin.AdminId);
         if (adminInDatabase == null)
             return false;
-        
+
         adminInDatabase.AdminId = admin.AdminId;
         adminInDatabase.Email = admin.Email;
         adminInDatabase.UserName = admin.UserName;
         adminInDatabase.Password = admin.Password;
-        
+
         int nrChanges = await db.SaveChangesAsync();
         if (nrChanges > 0)
             return true;

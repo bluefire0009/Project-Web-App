@@ -1,19 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 using WebCalendaar.Models;
 using WebCalendaar.Services;
+using Newtonsoft.Json;
 
 namespace WebCalendaar
 {
     class Program
     {
         static void Main(string[] args)
-        {
+        {            
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddTransient<IAdminStorage, AdminDBStorage>();
             builder.Services.AddTransient<IAttendanceStorage, AttendanceDBStorage>();
+            builder.Services.AddTransient<IEventStorage, EventDBStorage>();
 
             builder.Services.AddDistributedMemoryCache();
 

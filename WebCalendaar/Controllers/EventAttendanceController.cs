@@ -9,25 +9,43 @@ public class EventAttendanceController : Controller {
         Storage = storage;
     }
 
-    [HttpPost()]
+    [HttpPost("Post")]
     public async Task<IActionResult> CreateEventAttendance([FromBody] Event_Attendance eventAttendance) {
-        return Created(eventAttendance.Event_AttendanceId.ToString(), Storage.Create(eventAttendance));
+        if (eventAttendance == null) {
+            return BadRequest("Event attendance cannot be null");
+        }
+
+        await Storage.Create(eventAttendance);
+        return CreatedAtAction(nameof(GetEventAttendance), new { id = eventAttendance.Event_AttendanceId }, eventAttendance);
     }
 
-    [HttpGet()]
+    [HttpGet("Get")]
     public async Task<IActionResult> GetEventAttendance([FromQuery] Guid id) {
-        return Ok(Storage.Find(id));
+        var attendance = await Storage.Find(id);
+        if (attendance == null) {
+            return NotFound($"Event attendance with id {id} not found");
+        }
+        return Ok(attendance);
     }
 
-    [HttpPut()]
+    [HttpPut("Put")]
     public async Task<IActionResult> UpdateEventAttendance([FromBody] Event_Attendance eventAttendance) {
+        if (eventAttendance == null) {
+            return BadRequest("Event attendance cannot be null");
+        }
+
         await Storage.Update(eventAttendance);
-        return Ok();
+        return Ok(eventAttendance);
     }
 
-    [HttpDelete]
+    [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteEventAttendance([FromQuery] Guid id) {
+        var existing = await Storage.Find(id);
+        if (existing == null) {
+            return NotFound($"Event attendance with id {id} not found");
+        }
+
         await Storage.Delete(id);
-        return Ok();
+        return Ok($"Event attendance with id {id} deleted successfully");
     }
-}
+};
