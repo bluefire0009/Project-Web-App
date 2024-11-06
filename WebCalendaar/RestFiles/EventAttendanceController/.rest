@@ -4,30 +4,30 @@ GET http://localhost:5097/api/eventAttendance/get?id=8797978
 
 ###
 
-POST http://localhost:5097/api/eventAttendance/create
+POST http://localhost:5097/api/eventAttendance/add
 Content-Type: application/json
 
 {
-    "Event_AttendanceId": 1,
+    "Event_AttendanceId": 8,
     "Rating": 3,
     "Feedback": "Testing",
     "UserId": 1,
     "EventId": 1
 }
-//201
+//201 or 400 if already exists
 
 ###
 
-GET http://localhost:5097/api/eventAttendance/get?id=1
+GET http://localhost:5097/api/eventAttendance/get?id=8
 //200
 
 ###
 
-PUT http://localhost:5097/api/eventAttendance/update
+PUT http://localhost:5097/api/eventAttendance/put
 Content-Type: application/json
 
 {
-    "Event_AttendanceId": 1,
+    "Event_AttendanceId": 8,
     "Rating": 4,
     "Feedback": "Testing updated",
     "UserId": 1,
@@ -37,5 +37,5 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:5097/api/eventAttendance/delete?id=1
+DELETE http://localhost:5097/api/eventAttendance/delete?id=8
 //200
