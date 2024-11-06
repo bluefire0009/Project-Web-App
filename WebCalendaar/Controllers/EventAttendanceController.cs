@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebCalendaar.Models;
 
-[Route("api/eventAttendance")]
+[Route("api/v1/eventAttendance")]
 public class EventAttendanceController : Controller {
     readonly IEventAttendanceStorage Storage;
 
@@ -9,28 +9,43 @@ public class EventAttendanceController : Controller {
         Storage = storage;
     }
 
-    [HttpPost("create")]
+    [HttpPost("Post")]
     public async Task<IActionResult> CreateEventAttendance([FromBody] Event_Attendance eventAttendance) {
-        var result = await Storage.Create(eventAttendance);
-        return Created(eventAttendance.Event_AttendanceId.ToString(), result);
+        if (eventAttendance == null) {
+            return BadRequest("Event attendance cannot be null");
+        }
+
+        await Storage.Create(eventAttendance);
+        return CreatedAtAction(nameof(GetEventAttendance), new { id = eventAttendance.Event_AttendanceId }, eventAttendance);
     }
 
-    [HttpGet("get")]
-    public async Task<IActionResult> GetEventAttendance([FromQuery] int id) {
-        if (await Storage.Find(id) == null) return NoContent();
-        var found = await Storage.Find(id);
-        return Ok(found);
+    [HttpGet("Get")]
+    public async Task<IActionResult> GetEventAttendance([FromQuery] Guid id) {
+        var attendance = await Storage.Find(id);
+        if (attendance == null) {
+            return NotFound($"Event attendance with id {id} not found");
+        }
+        return Ok(attendance);
     }
 
-    [HttpPut("update")]
+    [HttpPut("Put")]
     public async Task<IActionResult> UpdateEventAttendance([FromBody] Event_Attendance eventAttendance) {
+        if (eventAttendance == null) {
+            return BadRequest("Event attendance cannot be null");
+        }
+
         await Storage.Update(eventAttendance);
-        return Ok();
+        return Ok(eventAttendance);
     }
 
-    [HttpDelete("delete")]
-    public async Task<IActionResult> DeleteEventAttendance([FromQuery] int id) {
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> DeleteEventAttendance([FromQuery] Guid id) {
+        var existing = await Storage.Find(id);
+        if (existing == null) {
+            return NotFound($"Event attendance with id {id} not found");
+        }
+
         await Storage.Delete(id);
-        return Ok();
+        return Ok($"Event attendance with id {id} deleted successfully");
     }
-}
+};

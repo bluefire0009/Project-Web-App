@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebCalendaar.Models;
 [Route("api/Attendance")]
+[RequiresAdminLogin]
 public class AttendanceController : Controller
 {
     readonly IAttendanceStorage attendanceStorage;
@@ -14,44 +15,56 @@ public class AttendanceController : Controller
     [HttpPost("Add")]
     public async Task<IActionResult> AddAttendance([FromBody] Attendance attendance)
     {
-        if (attendance == null){
+        if (attendance == null)
+        {
             return BadRequest("Null in the request");
         }
-        await attendanceStorage.Create(attendance);
-        return Created($"Created Attendance: ", attendance);
+        bool added = await attendanceStorage.Create(attendance);
+        
+        if (added) 
+            return Created($"Created Attendance: ", attendance);
+        
+        return BadRequest("Attendance couldn't be added");        
     }
 
     [HttpGet("Get")]
-    public async Task<IActionResult> GetAttendance([FromQuery] int id)
+    public async Task<IActionResult> GetAttendance([FromQuery] int userId, [FromQuery] DateOnly attendanceDate)
     {
-        if (attendanceStorage.Find(id).Result == null){
-            return NotFound($"Id : {id} not in the database");
+        if (attendanceStorage.Find(userId, attendanceDate).Result == null)
+        {
+            return NotFound($"Combination : {userId},{attendanceDate} not in the database");
         }
-        Attendance found = await attendanceStorage.Find(id);
+        Attendance found = await attendanceStorage.Find(userId, attendanceDate);
         return Ok(found);
     }
 
     [HttpPut("Put")]
-    public async Task<IActionResult> UpdateAttendance([FromBody] Attendance attendance)
+    public async Task<IActionResult> UpdateAttendance([FromBody] Attendance updatedAttendance, [FromQuery] int userIdToUpdate, [FromQuery] DateOnly attendanceDateToUpdate)
     {
-        if (attendance == null){
-            return BadRequest("Null in the request");
-        } else if (attendanceStorage.Find(attendance.AttendanceId).Result == null){
-            return NotFound($"Id : {attendance.AttendanceId} not in the database");
+        // Check if the updated attandance has invalid content
+        if (updatedAttendance == null || !attendanceStorage.IdExsists(updatedAttendance.UserId).Result)
+        {
+            return BadRequest("Invalid content in the attendance");
+        }
+        // check if the attendance is already in the database
+        else if (attendanceStorage.Find(userIdToUpdate, attendanceDateToUpdate).Result == null)
+        {
+            return NotFound($"Combination : {userIdToUpdate},{attendanceDateToUpdate} not in the database");
         }
 
-        await attendanceStorage.Update(attendance);
+        await attendanceStorage.Update(updatedAttendance, userIdToUpdate, attendanceDateToUpdate);
 
-        return Created($"Updated Attendance with Id={attendance.AttendanceId} to: ", attendance);
+        return Created($"Updated Attendance with combination={userIdToUpdate},{attendanceDateToUpdate} to: ", updatedAttendance);
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAttendance([FromQuery] int idToDelete)
+    public async Task<IActionResult> DeleteAttendance([FromQuery] int userId, [FromQuery] DateOnly attendanceDate)
     {
-        if (attendanceStorage.Find(idToDelete).Result == null){
-            return NotFound($"Id : {idToDelete} not in the database");
+        if (attendanceStorage.Find(userId, attendanceDate).Result == null)
+        {
+            return NotFound($"Combination : {userId},{attendanceDate} not in the database");
         }
-        await attendanceStorage.Delete(idToDelete);
-        return Ok($"Deleted the Attendance with Id={idToDelete}");
+        await attendanceStorage.Delete(userId, attendanceDate);
+        return Ok($"Deleted the Attendance with combination={userId},{attendanceDate}");
     }
 }
