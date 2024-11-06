@@ -1,0 +1,41 @@
+
+GET http://localhost:5097/api/eventAttendance/get?id=8797978
+// No content, 204
+
+###
+
+POST http://localhost:5097/api/eventAttendance/create
+Content-Type: application/json
+
+{
+    "Event_AttendanceId": 1,
+    "Rating": 3,
+    "Feedback": "Testing",
+    "UserId": 1,
+    "EventId": 1
+}
+//201
+
+###
+
+GET http://localhost:5097/api/eventAttendance/get?id=1
+//200
+
+###
+
+PUT http://localhost:5097/api/eventAttendance/update
+Content-Type: application/json
+
+{
+    "Event_AttendanceId": 1,
+    "Rating": 4,
+    "Feedback": "Testing updated",
+    "UserId": 1,
+    "EventId": 1
+}
+// 200
+
+###
+
+DELETE http://localhost:5097/api/eventAttendance/delete?id=1
+//200
