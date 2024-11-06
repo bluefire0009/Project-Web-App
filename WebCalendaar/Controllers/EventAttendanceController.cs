@@ -20,7 +20,7 @@ public class EventAttendanceController : Controller {
     }
 
     [HttpGet("Get")]
-    public async Task<IActionResult> GetEventAttendance([FromQuery] Guid id) {
+    public async Task<IActionResult> GetEventAttendance([FromQuery] int id) {
         var attendance = await Storage.Find(id);
         if (attendance == null) {
             return NotFound($"Event attendance with id {id} not found");
@@ -39,7 +39,7 @@ public class EventAttendanceController : Controller {
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteEventAttendance([FromQuery] Guid id) {
+    public async Task<IActionResult> DeleteEventAttendance([FromQuery] int id) {
         var existing = await Storage.Find(id);
         if (existing == null) {
             return NotFound($"Event attendance with id {id} not found");
