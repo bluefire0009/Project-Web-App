@@ -32,7 +32,7 @@ public class LoginController : Controller
             return BadRequest($"You are already logged in as {HttpContext.Session.GetString("LoggedInUser")}{HttpContext.Session.GetString("LoggedInAdmin")}");
         }
 
-        var LoginState = await _loginService.CheckPasswordAsync(loginBody.Username!, loginBody.Password!, HttpContext);
+        var LoginState = await _loginService.CheckUserAsync(loginBody.Username!, loginBody.Password!, HttpContext);
         if (LoginState == LoginStatus.Success)
         {
             HttpContext.Session.SetString("UserSession", "LoggedIn");

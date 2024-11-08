@@ -1,6 +1,7 @@
 using WebCalendaar.Models;
 using WebCalendaar.Services;
 using Microsoft.AspNetCore.Mvc;
+using WebCalendaar.Utils;
 
 [Route("api/User")]
 public class UserController : Controller
@@ -18,7 +19,7 @@ public class UserController : Controller
     public async Task<IActionResult> RegisterUser([FromBody] RegisterBody registerBody)
     {
         // registerBody == Firstname, lastName, Email, Password
-        RegisterStatus RegisterState = await _loginService.RegisterUserAsync(registerBody);
+        RegisterStatus RegisterState = await _loginService.CheckIfCanRegisterUserAsync(registerBody);
         if (RegisterState == RegisterStatus.DuplicateEmail) 
             return BadRequest("This email is already registered");
         if (RegisterState == RegisterStatus.InvalidEmailFormat) 
@@ -33,7 +34,7 @@ public class UserController : Controller
                 FirstName = registerBody.FirstName,
                 LastName = registerBody.LastName,
                 Email = registerBody.Email,
-                Password = registerBody.Password,
+                Password = EncryptionHelper.EncryptPassword(registerBody.Password),
                 RecuringDays = "",
                 AttendanceIds = new List<int>(),
                 Event_Attendances = new List<Event_Attendance>()
@@ -42,20 +43,6 @@ public class UserController : Controller
             {
                 return Ok("Registered Successfully");
             }
-            return BadRequest("Registration Failed Cant create user");
-
-        }
-        else if (RegisterState == RegisterStatus.DuplicateEmail)
-        {
-            return BadRequest("That E-mail is already registerd");
-        }
-        else if (RegisterState == RegisterStatus.InvalidEmailFormat)
-        {
-            return BadRequest("Invalid E-mail format");
-        }
-        else if (RegisterState == RegisterStatus.InvalidPassword)
-        {
-            return BadRequest("Invalid Password");
         }
         return BadRequest("Registration Failed");
     }

@@ -21,34 +21,35 @@ public class LoginService : ILoginService
         _context = context;
     }
 
-    public async Task<LoginStatus> CheckPasswordAsync(string username, string inputPassword, HttpContext context)
+    public async Task<LoginStatus> CheckUserAsync(string username, string inputPassword, HttpContext context)
     {
 
         // check first if the credentials match a user
-        if (await _context.User.AnyAsync(x => x.Email == username && x.Password == inputPassword))
+        var passwordSha = EncryptionHelper.EncryptPassword(inputPassword);
+        if (await _context.User.AnyAsync(x => x.Email == username && x.Password == passwordSha))
         {
-            User? User = await _context.User.FirstOrDefaultAsync(x => x.Email == username && x.Password == inputPassword);
+            User? User = await _context.User.FirstOrDefaultAsync(x => x.Email == username && x.Password == passwordSha);
             context.Session.SetString("LoggedInUser", $"{User!.UserId}");
             return LoginStatus.Success;
         }
-        else if (await _context.User.AnyAsync(x => x.Email == username && x.Password != inputPassword))
+        else if (await _context.User.AnyAsync(x => x.Email == username && x.Password != passwordSha))
         {
             return LoginStatus.IncorrectPassword;
         }
 
         // then check if credentials match admin
-        if (await _context.Admin.AnyAsync(x => x.UserName == username && x.Password == inputPassword))
+        if (await _context.Admin.AnyAsync(x => x.UserName == username && x.Password == passwordSha))
         {
             return LoginStatus.adminLoggedIn;
         }
-        else if (await _context.Admin.AnyAsync(x => x.UserName == username && x.Password != inputPassword))
+        else if (await _context.Admin.AnyAsync(x => x.UserName == username && x.Password != passwordSha))
         {
             return LoginStatus.IncorrectPassword;
         }
         return LoginStatus.IncorrectUsername;
     }
 
-    public async Task<RegisterStatus> RegisterUserAsync(RegisterBody registerBody)
+    public async Task<RegisterStatus> CheckIfCanRegisterUserAsync(RegisterBody registerBody)
     {
         if (await _context.User.AnyAsync(x => x.Email == registerBody.Email))
         {
