@@ -4,20 +4,16 @@
 Get http://localhost:5097/api/User/Read?userId=1
 ####
 
-POST http://localhost:5097/api/User/Create
+// register user
+POST http://localhost:5097/api/v1/Login/Register
 Content-Type: application/json
 
 {
-  "UserId": 1,
-  "FirstName": "John",
-  "LastName": "Doe",
-  "Email": "johndoe@example.com",
-  "Password": "password123",
-  "RecuringDays": "mo,tu,we,th,fr",
-  "AttendanceIds": [],
-  "Event_Attendances": []
+    "FirstName" : "john",
+    "LastName" : "Doe",
+    "Email" : "johnDoe@example.com",
+    "Password" : "123456789"
 }
-
 ####
 
 DELETE http://localhost:5097/api/User/Delete?userId=1
