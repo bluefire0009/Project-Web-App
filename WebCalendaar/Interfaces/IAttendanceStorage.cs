@@ -8,4 +8,5 @@ public interface IAttendanceStorage
     Task<Attendance?> Find(int userId, DateOnly attendanceDate);
     Task<bool> IdExsists(int userId);
     Task<List<Attendance>> GetAll();
+    Task<bool> LeaveReview(int eventId, int myUserId, int rating, string review);
 }

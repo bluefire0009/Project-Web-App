@@ -8,7 +8,7 @@ namespace WebCalendaar
     class Program
     {
         static void Main(string[] args)
-        {            
+        {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews();
@@ -30,9 +30,14 @@ namespace WebCalendaar
             builder.Services.AddScoped<IUserStorage, UserDBStorage>();
             builder.Services.AddScoped<IEventAttendanceStorage, EventAttendanceDBStorage>();
 
-
             builder.Services.AddDbContext<DatabaseContext>(
                 options => options.UseSqlite(builder.Configuration.GetConnectionString("SqlLiteDb")));
+
+            builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+            });
 
             var app = builder.Build();
 
