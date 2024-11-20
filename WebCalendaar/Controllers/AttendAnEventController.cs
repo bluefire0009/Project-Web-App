@@ -5,11 +5,13 @@ using WebCalendaar.Models;
 public class AttendAnEventController : Controller {
     public IUserStorage userStorage;
     public IEventStorage eventStorage;
+    public IEventAttendanceStorage eventAttendanceStorage;
 
-    public AttendAnEventController(IUserStorage userStorage, IEventStorage eventStorage)
+    public AttendAnEventController(IUserStorage userStorage, IEventStorage eventStorage, IEventAttendanceStorage eventAttendanceStorage)
     {
         this.userStorage = userStorage;
         this.eventStorage = eventStorage;
+        this.eventAttendanceStorage = eventAttendanceStorage;
     }
 
     [HttpPost()]
@@ -22,6 +24,7 @@ public class AttendAnEventController : Controller {
         else if (pickedEvent == null) return NotFound("Event not found");
 
         Event_Attendance eventAttendance = new() {Feedback = feedback, User = currentUser, Event = pickedEvent};
+        await eventAttendanceStorage.Create(eventAttendance);
         
         return Created();
     }
