@@ -1,17 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
 using WebCalendaar.Models;
 
-[Route("api/v1/eventAttendance")]
-public class EventAttendanceController : Controller {
+[Route("api/eventAttendance")]
+public class EventAttendanceController : Controller
+{
     readonly IEventAttendanceStorage Storage;
 
-    public EventAttendanceController(IEventAttendanceStorage storage) {
+    public EventAttendanceController(IEventAttendanceStorage storage)
+    {
         Storage = storage;
     }
 
     [HttpPost("Post")]
-    public async Task<IActionResult> CreateEventAttendance([FromBody] Event_Attendance eventAttendance) {
-        if (eventAttendance == null) {
+    public async Task<IActionResult> CreateEventAttendance([FromBody] Event_Attendance eventAttendance)
+    {
+        if (eventAttendance == null)
+        {
             return BadRequest("Event attendance cannot be null");
         }
 
@@ -20,17 +24,21 @@ public class EventAttendanceController : Controller {
     }
 
     [HttpGet("Get")]
-    public async Task<IActionResult> GetEventAttendance([FromQuery] int id) {
+    public async Task<IActionResult> GetEventAttendance([FromQuery] int id)
+    {
         var attendance = await Storage.Find(id);
-        if (attendance == null) {
+        if (attendance == null)
+        {
             return NotFound($"Event attendance with id {id} not found");
         }
         return Ok(attendance);
     }
 
     [HttpPut("Put")]
-    public async Task<IActionResult> UpdateEventAttendance([FromBody] Event_Attendance eventAttendance) {
-        if (eventAttendance == null) {
+    public async Task<IActionResult> UpdateEventAttendance([FromBody] Event_Attendance eventAttendance)
+    {
+        if (eventAttendance == null)
+        {
             return BadRequest("Event attendance cannot be null");
         }
 
@@ -39,9 +47,11 @@ public class EventAttendanceController : Controller {
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteEventAttendance([FromQuery] int id) {
+    public async Task<IActionResult> DeleteEventAttendance([FromQuery] int id)
+    {
         var existing = await Storage.Find(id);
-        if (existing == null) {
+        if (existing == null)
+        {
             return NotFound($"Event attendance with id {id} not found");
         }
 
