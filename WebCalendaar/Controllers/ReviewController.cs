@@ -17,14 +17,16 @@ public class ReviewController : Controller
     {
         int myUserId = int.Parse(HttpContext.Session.GetString("LoggedInUser"));
         bool added = await attendanceStorage.LeaveReview(eventId, myUserId, rating, review);
-        return Ok();
+        if (added) return Created("", $"Left a review for event with id: {eventId} rating: {rating} and message: {review}");
+        return BadRequest("Something went wrong or this exact review already exsists");
     }
 
     [RequiresAdminLogin]
     [HttpDelete("Review")]
     public async Task<IActionResult> DeleteAReview([FromQuery] int eventId, [FromQuery] int userId)
     {
-        bool added = await attendanceStorage.LeaveReview(eventId, userId, 0, "");
-        return Ok();
+        bool removed = await attendanceStorage.LeaveReview(eventId, userId, 0, "");
+        if (removed) return Ok($"Removed the review from an event id: {eventId} of the user {userId}");
+        return BadRequest("Something went wrong");
     }
 }
