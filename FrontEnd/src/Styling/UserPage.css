@@ -1,0 +1,38 @@
+.card {
+    border-radius: 0.8rem;
+    padding: 1.5rem;
+    
+    margin: 0 auto;
+}
+
+.userPage {
+    width: 80%;
+    border: solid gray 1px;
+    box-shadow: gray 0 0 0.5rem;
+}
+
+.card__banner {
+    width: 100%;
+    height: 10rem;
+    object-fit: cover;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th {
+    text-align: left;
+}
+
+table tr {
+    border-bottom: 1px gray solid;
+    height: 3rem;
+    padding: 1rem;
+}
+
+table td {
+    min-width: 8rem;
+    padding: 1rem 0;
+}
