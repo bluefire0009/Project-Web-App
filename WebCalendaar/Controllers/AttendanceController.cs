@@ -1,70 +1,161 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebCalendaar.Models;
+
 [Route("api/Attendance")]
-[RequiresAdminLogin]
+[ApiController]
 public class AttendanceController : Controller
 {
-    readonly IAttendanceStorage attendanceStorage;
+    private readonly IAttendanceStorage attendanceStorage;
+    private readonly IEventAttendanceStorage eventAttendanceStorage;
+    private readonly IEventStorage eventStorage;
+    private readonly IUserStorage userStorage;
 
-    public AttendanceController(IAttendanceStorage attendanceStorage)
+    public AttendanceController(
+        IAttendanceStorage attendanceStorage,
+        IEventAttendanceStorage eventAttendanceStorage,
+        IEventStorage eventStorage,
+        IUserStorage userStorage)
     {
         this.attendanceStorage = attendanceStorage;
+        this.eventAttendanceStorage = eventAttendanceStorage;
+        this.eventStorage = eventStorage;
+        this.userStorage = userStorage;
     }
 
-    [HttpPost("Add")]
-    public async Task<IActionResult> AddAttendance([FromBody] Attendance attendance)
+    // POST: Create attendance for a user (replaces Add and CreateAttendance)
+    [HttpPost("Create")]
+    public async Task<IActionResult> CreateAttendance(
+        [FromQuery] int eventId,
+        [FromQuery] int userId,
+        [FromQuery] DateOnly attendanceDate,
+        [FromQuery] string feedback = "")
     {
+        var user = await userStorage.Read(userId);
+        var eventDetails = await eventStorage.Read(eventId);
+
+        if (user == null || eventDetails == null)
+        {
+            return NotFound(user == null ? "User not found" : "Event not found");
+        }
+
+        var existingAttendance = await eventAttendanceStorage.FindByUserAndEvent(userId, eventId);
+        if (existingAttendance != null)
+        {
+            return BadRequest("Attendance already exists for this user and event.");
+        }
+
+        var eventAttendance = new Event_Attendance
+        {
+            User = user,
+            Event = eventDetails,
+            Feedback = feedback
+        };
+
+        var attendance = new Attendance
+        {
+            UserId = userId,
+            AttendanceDate = attendanceDate
+        };
+
+        var attendanceAdded = await attendanceStorage.Create(attendance);
+        var eventAttendanceAdded = await eventAttendanceStorage.Create(eventAttendance);
+
+        if (attendanceAdded && eventAttendanceAdded)
+        {
+            return Created($"Attendance created for User: {userId}, Event: {eventId}", eventAttendance);
+        }
+
+        return BadRequest("Failed to create attendance.");
+    }
+
+    // GET: Fetch attendance details for a user or event
+    [HttpGet("Details")]
+    public async Task<IActionResult> GetAttendanceDetails([FromQuery] int userId, [FromQuery] DateOnly? date, [FromQuery] int? eventId)
+    {
+        if (eventId.HasValue)
+        {
+            var eventAttendanceList = await eventAttendanceStorage.GetAllForEvent(eventId.Value);
+            return Ok(eventAttendanceList);
+        }
+
+        if (date.HasValue)
+        {
+            var attendance = await attendanceStorage.Find(userId, date.Value);
+            return attendance == null
+                ? NotFound("Attendance not found.")
+                : Ok(attendance);
+        }
+
+        var userAttendance = await attendanceStorage.GetAllForUser(userId);
+        return Ok(userAttendance);
+    }
+
+    // PUT: Update user attendance date (replaces ModifyAttendance)
+    [HttpPut("ChangeDate")]
+    public async Task<IActionResult> ModifyAttendanceDate([FromQuery] int userId, [FromQuery] DateOnly dateFrom, [FromQuery] DateOnly dateTo)
+    {
+        var attendance = await attendanceStorage.Find(userId, dateFrom);
         if (attendance == null)
         {
-            return BadRequest("Null in the request");
+            return BadRequest("No attendance found for the specified date.");
         }
-        bool added = await attendanceStorage.Create(attendance);
-        
-        if (added) 
-            return Created($"Created Attendance: ", attendance);
-        
-        return BadRequest("Attendance couldn't be added");        
+
+        var updatedAttendance = new Attendance
+        {
+            UserId = userId,
+            AttendanceDate = dateTo
+        };
+
+        var result = await attendanceStorage.Update(updatedAttendance, userId, dateFrom);
+        return result
+            ? Ok($"Attendance date updated from {dateFrom} to {dateTo}.")
+            : BadRequest("Failed to update attendance.");
     }
 
-    [HttpGet("Get")]
-    public async Task<IActionResult> GetAttendance([FromQuery] int userId, [FromQuery] DateOnly attendanceDate)
+    // PUT: Update event feedback (updates event attendance)
+    [HttpPut("Feedback")]
+    public async Task<IActionResult> UpdateFeedback([FromQuery] int eventId, [FromQuery] int userId, [FromBody] string feedback)
     {
-        if (attendanceStorage.Find(userId, attendanceDate).Result == null)
+        var existing = await eventAttendanceStorage.FindByUserAndEvent(userId, eventId);
+        if (existing == null)
         {
-            return NotFound($"Combination : {userId},{attendanceDate} not in the database");
+            return NotFound("No event attendance found for the given user and event.");
         }
-        Attendance found = await attendanceStorage.Find(userId, attendanceDate);
-        return Ok(found);
+
+        existing.Feedback = feedback;
+        var updated = await eventAttendanceStorage.Update(existing);
+        return updated
+            ? Ok("Feedback updated successfully.")
+            : BadRequest("Failed to update feedback.");
     }
 
-    [HttpPut("Put")]
-    public async Task<IActionResult> UpdateAttendance([FromBody] Attendance updatedAttendance, [FromQuery] int userIdToUpdate, [FromQuery] DateOnly attendanceDateToUpdate)
-    {
-        // Check if the updated attandance has invalid content
-        if (updatedAttendance == null || !attendanceStorage.IdExsists(updatedAttendance.UserId).Result)
-        {
-            return BadRequest("Invalid content in the attendance");
-        }
-        // check if the attendance is already in the database
-        else if (attendanceStorage.Find(userIdToUpdate, attendanceDateToUpdate).Result == null)
-        {
-            return NotFound($"Combination : {userIdToUpdate},{attendanceDateToUpdate} not in the database");
-        }
-
-        await attendanceStorage.Update(updatedAttendance, userIdToUpdate, attendanceDateToUpdate);
-
-        return Created($"Updated Attendance with combination={userIdToUpdate},{attendanceDateToUpdate} to: ", updatedAttendance);
-    }
-
+    // DELETE: Remove attendance (user or event-specific)
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAttendance([FromQuery] int userId, [FromQuery] DateOnly attendanceDate)
+    public async Task<IActionResult> DeleteAttendance([FromQuery] int userId, [FromQuery] DateOnly? date, [FromQuery] int? eventId)
     {
-        if (attendanceStorage.Find(userId, attendanceDate).Result == null)
+        if (eventId.HasValue)
         {
-            return NotFound($"Combination : {userId},{attendanceDate} not in the database");
+            var existing = await eventAttendanceStorage.FindByUserAndEvent(userId, eventId.Value);
+            if (existing == null)
+            {
+                return NotFound("Event attendance not found.");
+            }
+
+            var deleted = await eventAttendanceStorage.Delete(existing.Event_AttendanceId);
+            return deleted
+                ? Ok("Event attendance deleted successfully.")
+                : BadRequest("Failed to delete event attendance.");
         }
-        await attendanceStorage.Delete(userId, attendanceDate);
-        return Ok($"Deleted the Attendance with combination={userId},{attendanceDate}");
+
+        if (!date.HasValue)
+        {
+            return BadRequest("Attendance date is required for user attendance deletion.");
+        }
+
+        var result = await attendanceStorage.Delete(userId, date.Value);
+        return result
+            ? Ok("Attendance deleted successfully.")
+            : BadRequest("Failed to delete attendance.");
     }
 }

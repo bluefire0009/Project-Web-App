@@ -3,7 +3,7 @@ using WebCalendaar.Models;
 
 public class AttendanceDBStorage : IAttendanceStorage
 {
-    private DatabaseContext db;
+    private readonly DatabaseContext db;
 
     public AttendanceDBStorage(DatabaseContext db)
     {
@@ -12,75 +12,71 @@ public class AttendanceDBStorage : IAttendanceStorage
 
     public async Task<bool> Create(Attendance attendance)
     {
-        // Check if User from the attendance exsists in the database
-        User? userInDatabase = await db.User.FirstOrDefaultAsync(u => u.UserId == attendance.UserId);
+        // Validate user existence
+        var userInDatabase = await db.User.FirstOrDefaultAsync(u => u.UserId == attendance.UserId);
         if (userInDatabase == null) return false;
-        
-        Attendance? attendanceInDatabase = await db.Attendance.Where(a => a.UserId == attendance.UserId && a.AttendanceDate == attendance.AttendanceDate).FirstOrDefaultAsync();
-        if (attendanceInDatabase != null)
-            return false;
+
+        // Check for duplicate attendance records
+        var existingAttendance = await db.Attendance
+            .FirstOrDefaultAsync(a => a.UserId == attendance.UserId && a.AttendanceDate == attendance.AttendanceDate);
+        if (existingAttendance != null) return false;
 
         await db.Attendance.AddAsync(attendance);
 
-        int nrChanges = await db.SaveChangesAsync();
-        if (nrChanges > 0)
-            return true;
-        return false;
+        return await db.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> Delete(int userId, DateOnly attendanceDate)
     {
-        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
-        if (attendanceInDatabase == null)
-            return false;
+        var attendance = await db.Attendance
+            .FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
+        if (attendance == null) return false;
 
-        db.Attendance.Remove(attendanceInDatabase);
-
-        int nrChanges = await db.SaveChangesAsync();
-        if (nrChanges > 0)
-            return true;
-        return false;
+        db.Attendance.Remove(attendance);
+        return await db.SaveChangesAsync() > 0;
     }
 
-    // attendance is the object that will be changed to in the database
     public async Task<bool> Update(Attendance attendance, int userIdToUpdate, DateOnly dateToUpdate)
     {
-        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == attendance.UserId && a.AttendanceDate == dateToUpdate);
-        bool sameFields = attendance.AttendanceDate == dateToUpdate && attendance.UserId == userIdToUpdate;
-        if (attendanceInDatabase == null || sameFields)
-            return false;
+        // Find existing attendance record to update
+        var attendanceInDatabase = await db.Attendance
+            .FirstOrDefaultAsync(a => a.UserId == userIdToUpdate && a.AttendanceDate == dateToUpdate);
 
-        // This has to be done because the attandance is a composite key
+        if (attendanceInDatabase == null) return false;
+
+        // Update composite key requires removing and re-adding the record
         db.Attendance.Remove(attendanceInDatabase);
         await db.SaveChangesAsync();
 
-        attendanceInDatabase.AttendanceDate = attendance.AttendanceDate;
         attendanceInDatabase.UserId = attendance.UserId;
-        db.Attendance.Add(attendanceInDatabase);
+        attendanceInDatabase.AttendanceDate = attendance.AttendanceDate;
 
-        int nrChanges = await db.SaveChangesAsync();
-        if (nrChanges > 0)
-            return true;
-        return false;
+        await db.Attendance.AddAsync(attendanceInDatabase);
+
+        return await db.SaveChangesAsync() > 0;
     }
 
     public async Task<Attendance?> Find(int userId, DateOnly attendanceDate)
     {
-        Attendance? attendanceInDatabase = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
-        if (attendanceInDatabase == null)
-            return null;
-
-        return attendanceInDatabase;
+        return await db.Attendance
+            .FirstOrDefaultAsync(a => a.UserId == userId && a.AttendanceDate == attendanceDate);
     }
 
-    public async Task<bool> IdExsists(int userId)
+    public async Task<bool> IdExists(int userId)
     {
-        Attendance? found = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId);
+        var found = await db.Attendance.FirstOrDefaultAsync(a => a.UserId == userId);
         return found != null;
+    }
+
+    public async Task<List<Attendance>> GetAllForUser(int userId)
+    {
+        return await db.Attendance
+            .Where(a => a.UserId == userId)
+            .ToListAsync();
     }
 
     public async Task<List<Attendance>> GetAll()
     {
-        return db.Attendance.ToList();
+        return await db.Attendance.ToListAsync();
     }
 }
