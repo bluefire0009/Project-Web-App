@@ -23,7 +23,7 @@ public class AttendanceController : Controller
         this.userStorage = userStorage;
     }
 
-    // POST: Create attendance for a user (replaces Add and CreateAttendance)
+    // POST
     [HttpPost("Create")]
     public async Task<IActionResult> CreateAttendance(
         [FromQuery] int eventId,
@@ -69,7 +69,7 @@ public class AttendanceController : Controller
         return BadRequest("Failed to create attendance.");
     }
 
-    // GET: Fetch attendance details for a user or event
+    // GET
     [HttpGet("Details")]
     public async Task<IActionResult> GetAttendanceDetails([FromQuery] int userId, [FromQuery] DateOnly? date, [FromQuery] int? eventId)
     {
@@ -91,7 +91,7 @@ public class AttendanceController : Controller
         return Ok(userAttendance);
     }
 
-    // PUT: Update user attendance date (replaces ModifyAttendance)
+    // PUT
     [HttpPut("ChangeDate")]
     public async Task<IActionResult> ModifyAttendanceDate([FromQuery] int userId, [FromQuery] DateOnly dateFrom, [FromQuery] DateOnly dateTo)
     {
@@ -113,7 +113,7 @@ public class AttendanceController : Controller
             : BadRequest("Failed to update attendance.");
     }
 
-    // PUT: Update event feedback (updates event attendance)
+    // PUT
     [HttpPut("Feedback")]
     public async Task<IActionResult> UpdateFeedback([FromQuery] int eventId, [FromQuery] int userId, [FromBody] string feedback)
     {
@@ -130,7 +130,7 @@ public class AttendanceController : Controller
             : BadRequest("Failed to update feedback.");
     }
 
-    // DELETE: Remove attendance (user or event-specific)
+    // DELETE
     [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteAttendance([FromQuery] int userId, [FromQuery] DateOnly? date, [FromQuery] int? eventId)
     {
