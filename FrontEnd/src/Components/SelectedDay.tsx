@@ -1,6 +1,17 @@
-import React from "react";
+import React from 'react';
 
-function SelectedDay() {
+const SelectedDay: React.FC = () => {
+  // Simulated work data
+  const workDetails = [
+    {
+      work: 'WebDev FrontEnd pagina maken van pagina 8',
+      place: 'Thuis',
+      date: 'Zekers niet op de zondag avond',
+      time: '16.00 - 23:00',
+      description: 'Gewoon pagina maken die je al eens eerder hebt gemaakt, Je kan het :D',
+    },
+  ];
+
   return (
     <div className="container">
       <header className="navbar">
@@ -25,13 +36,15 @@ function SelectedDay() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>WebDev FrontEnd pagina maken van pagina 8</td>
-                <td>Thuis</td>
-                <td>Zekers niet op de zondag avond</td>
-                <td>16.00 - 23:00</td>
-                <td>Gewoon  pagina make die je al is eerder hebt gemaakt, Je kan het :D</td>
-              </tr>
+              {workDetails.map((work, index) => (
+                <tr key={index}>
+                  <td>{work.work}</td>
+                  <td>{work.place}</td>
+                  <td>{work.date}</td>
+                  <td>{work.time}</td>
+                  <td>{work.description}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </section>
@@ -50,6 +63,6 @@ function SelectedDay() {
       </footer>
     </div>
   );
-}
+};
 
 export default SelectedDay;
