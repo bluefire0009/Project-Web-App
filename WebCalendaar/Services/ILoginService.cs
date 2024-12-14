@@ -3,6 +3,6 @@ using WebCalendaar.Models;
 
 public interface ILoginService
 {
-    public Task<LoginStatus> CheckPasswordAsync(string username, string inputPassword, HttpContext context);
-    public Task<RegisterStatus> RegisterUserAsync(RegisterBody registerBody);
+    public Task<LoginStatus> CheckUserAsync(string username, string inputPassword, HttpContext context);
+    public Task<RegisterStatus> CheckIfCanRegisterUserAsync(RegisterBody registerBody);
 }

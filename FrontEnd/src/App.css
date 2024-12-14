@@ -1,0 +1,211 @@
+/* General table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  /* Header row styling */
+  table th {
+    background-color: #4a4a4a; /* Dark grey for headers */
+    color: #ffffff; /* White text for contrast */
+    font-weight: bold;
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #333;
+  }
+  
+  /* Body row styling */
+  table td {
+    padding: 10px;
+    border: 1px solid #333;
+    text-align: left;
+    color: #e0e0e0; /* Light grey for text */
+  }
+  
+  /* Alternate row colors for better readability */
+  table tbody tr:nth-child(odd) {
+    background-color: #333333; /* Dark grey for odd rows */
+  }
+  
+  table tbody tr:nth-child(even) {
+    background-color: #444444; /* Slightly lighter grey for even rows */
+  }
+  
+  /* Add hover effect */
+  table tbody tr:hover {
+    background-color: #555555; /* Lighter grey when hovering */
+  }
+  
+  /* Ensure good text readability */
+  p {
+    line-height: 1.6;
+    color: #e0e0e0; /* Light grey for normal text */
+  }
+  
+  
+  /* Pagination container */
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  /* Individual page buttons */
+  .pagination .page {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    color: #e0e0e0;
+    background-color: #333333;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  /* Hover effect */
+  .pagination .page:hover {
+    background-color: #555555;
+  }
+  
+  /* Active page styling */
+  .pagination .active {
+    background-color: #4a4a4a;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+  /* Previous and next buttons */
+  .pagination .prev,
+  .pagination .next {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    color: #e0e0e0;
+    background-color: #333333;
+  }
+  
+  .pagination .prev:hover,
+  .pagination .next:hover {
+    background-color: #555555;
+  }
+  
+  /* Disabled state */
+  .pagination .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222222; /* Dark background for better contrast */
+    color: #e0e0e0; /* Light grey text for readability */
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #333;
+    margin-bottom: 1rem;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: #e0e0e0;
+    padding: 0.5rem;
+  }
+  
+  main {
+    margin-bottom: 2rem;
+  }
+  
+  h1, h2 {
+    font-weight: 500;
+    margin: 0.5rem 0;
+    color: #ffffff; /* White headers for contrast */
+  }
+  
+  p {
+    margin: 0.5rem 0 1rem;
+    color: #e0e0e0;
+  }
+  
+  /* Table Styling */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  .info-table th {
+    background-color: #4a4a4a; /* Dark grey headers */
+    color: #ffffff; /* White text */
+    font-weight: bold;
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #333;
+  }
+  
+  .info-table td {
+    padding: 10px;
+    border: 1px solid #333;
+    text-align: left;
+    color: #e0e0e0; /* Light grey text */
+  }
+  
+  .info-table tbody tr:nth-child(odd) {
+    background-color: #333333; /* Dark grey for odd rows */
+  }
+  
+  .info-table tbody tr:nth-child(even) {
+    background-color: #444444; /* Slightly lighter grey for even rows */
+  }
+  
+  .info-table tbody tr:hover {
+    background-color: #555555; /* Hover effect */
+  }
+  
+  /* Blue Button Styling */
+  .remove-btn {
+    background-color: #007bff; /* Blue color */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .remove-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Footer Styling */
+  footer {
+    text-align: center;
+    border-top: 1px solid #333;
+    padding: 1rem 0;
+  }
+  
+  footer a {
+    margin: 0 1rem;
+    text-decoration: none;
+    color: #007bff; /* Blue for footer links */
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* Darker blue on hover */
+  }

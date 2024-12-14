@@ -32,7 +32,7 @@ public class LoginController : Controller
             return BadRequest($"You are already logged in as {HttpContext.Session.GetString("LoggedInUser")}{HttpContext.Session.GetString("LoggedInAdmin")}");
         }
 
-        var LoginState = await _loginService.CheckPasswordAsync(loginBody.Username!, loginBody.Password!, HttpContext);
+        var LoginState = await _loginService.CheckUserAsync(loginBody.Username!, loginBody.Password!, HttpContext);
         if (LoginState == LoginStatus.Success)
         {
             HttpContext.Session.SetString("UserSession", "LoggedIn");
@@ -74,45 +74,6 @@ public class LoginController : Controller
             return Ok("User Logged out");
         }
         return BadRequest("You are not logged in");
-    }
-    [HttpPost("Register")]
-    public async Task<IActionResult> RegisterUser([FromBody] RegisterBody registerBody)
-    {
-        // registerBody == Firstname, lastName, Email, Password
-        RegisterStatus RegisterState = await _loginService.RegisterUserAsync(registerBody);
-        if (RegisterState == RegisterStatus.Success)
-        {
-            User newUser = new User
-            {
-                UserId = 0,
-                FirstName = registerBody.FirstName,
-                LastName = registerBody.LastName,
-                Email = registerBody.Email,
-                Password = registerBody.Password,
-                RecuringDays = "",
-                AttendanceIds = new List<int>(),
-                Event_Attendances = new List<Event_Attendance>()
-            };
-            if (await _userStorage.Create(newUser))
-            {
-                return Ok("Registered Successfully");
-            }
-            return BadRequest("Registration Failed Cant create user");
-
-        }
-        else if (RegisterState == RegisterStatus.DuplicateEmail)
-        {
-            return BadRequest("That E-mail is already registerd");
-        }
-        else if (RegisterState == RegisterStatus.InvalidEmailFormat)
-        {
-            return BadRequest("Invalid E-mail format");
-        }
-        else if (RegisterState == RegisterStatus.InvalidPassword)
-        {
-            return BadRequest("Invalid Password");
-        }
-        return BadRequest("Registration Failed");
     }
 }
 
