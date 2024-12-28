@@ -2,7 +2,7 @@
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 10px 0;
     font-family: Arial, sans-serif;
     font-size: 14px;
   }
@@ -51,14 +51,12 @@ table {
     display: flex;
     list-style: none;
     padding: 0;
-    margin: 20px 0;
     justify-content: center;
     gap: 10px;
   }
   
   /* Individual page buttons */
   .pagination .page {
-    padding: 8px 12px;
     border: 1px solid #ccc;
     cursor: pointer;
     color: #e0e0e0;
@@ -78,21 +76,37 @@ table {
     font-weight: bold;
   }
   
-  /* Previous and next buttons */
+/* Previous and next buttons */
   .pagination .prev,
   .pagination .next {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    color: #e0e0e0;
-    background-color: #333333;
+      display: flex; /* Ensure the button is treated as a block for full-area clicks */
+      align-items: center; /* Center the text vertically */
+      justify-content: center; /* Center the text horizontally */
+      border: 1px solid #ccc; /* Add a border */
+      cursor: pointer; /* Show pointer cursor */
+      color: #e0e0e0; /* Text color */
+      background-color: #333333; /* Background color */
+      width: auto; /* Automatically size the button */
+      min-width: 50px; /* Ensure buttons have a decent size */
+      transition: background-color 0.2s ease-in-out;
+      text-align: center; /* Center-align the text */
+      box-sizing: border-box; /* Ensure padding and border are within the defined size */
   }
-  
+
+  .pagination .page a {
+    text-align: center;
+    display: flex; /* Use flexbox for alignment */
+    justify-content: center; /* Horizontally center content */
+    align-items: center; /* Vertically center content */
+    width: 32px; /* Span the entire width of the button */
+    height: 100%; /* Span the entire height of the button */
+  }
+
   .pagination .prev:hover,
   .pagination .next:hover {
     background-color: #555555;
   }
-  
+
   /* Disabled state */
   .pagination .disabled {
     opacity: 0.5;
@@ -136,7 +150,7 @@ table {
   }
   
   p {
-    margin: 0.5rem 0 1rem;
+    margin: 0rem 0rem;
     color: #e0e0e0;
   }
   
