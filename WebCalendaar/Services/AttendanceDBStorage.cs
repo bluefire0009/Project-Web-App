@@ -83,4 +83,9 @@ public class AttendanceDBStorage : IAttendanceStorage
     {
         return db.Attendance.ToList();
     }
+
+    public async Task<List<Attendance>> GetAllByUser(int UserId)
+    {
+        return db.Attendance.Where(_ => _.UserId == UserId).ToList();
+    }
 }

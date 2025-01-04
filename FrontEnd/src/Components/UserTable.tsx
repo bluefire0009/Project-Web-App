@@ -3,7 +3,7 @@ import {schedule} from './UserPageMain';
 import '../Styling/UserPage.css';
 
 type UserTableProps = {title:string, schedules:schedule[]}
-class UserWorkSchedule extends React.Component<UserTableProps, {}> {
+class UserSchedule extends React.Component<UserTableProps, {}> {
     constructor(props:UserTableProps){
         super(props)
 
@@ -11,26 +11,36 @@ class UserWorkSchedule extends React.Component<UserTableProps, {}> {
     }
 
     render(): React.ReactNode {
-        return <div className="card">
+        return <div>
             <h1>{this.props.title}</h1>
             <table>
-                <tr>
-                    <th>Title</th>
-                    <th>Place</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Description</th>
-                </tr>
-                {this.props.schedules.map(schedule => {
-                    return <tr>
-                        {Object.values(schedule).map(data => {
-                            return <td>{data}</td>
-                        })}
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Place</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Description</th>
                     </tr>
-                })}
+                </thead>
+                <tbody>
+                    {
+                        !!this.props.schedules && this.props.schedules.length > 0
+                        ? this.props.schedules.map(schedule => {
+                            return <tr key={schedule.title + schedule.date}>
+                                <td>{schedule.title}</td>
+                                <td>{schedule.location}</td>
+                                <td>{schedule.date}</td>
+                                <td>{schedule.time}</td>
+                                <td>{schedule.description}</td>
+                            </tr>
+                        })
+                        : <></>
+                    }
+                </tbody>
             </table>
         </div>
     }
 }
 
-export default UserWorkSchedule;
+export default UserSchedule ;
