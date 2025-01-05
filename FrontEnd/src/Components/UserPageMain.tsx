@@ -1,15 +1,13 @@
 import React from "react"
 import '../Styling/UserPage.css'
 import UserPageBanner from '../assets/UserPageBanner.jpg'
-import UserTable from './UserTable'
 
-export type schedule = {title:string, location:string, date:string, time:string, description:string}
+type schedule = {title:string, location:string, date:string, time:string, description:string}
 
 type UserPageState = {UserName:string, workSchedules:schedule[], eventSchedules:schedule[]}
 type UserPageProps = {UserId:number|null}
 
 class UserPageMain extends React.Component<UserPageProps, UserPageState> {
-    
     constructor(props:UserPageProps, state:UserPageState){
         super(props)
 
@@ -40,12 +38,10 @@ class UserPageMain extends React.Component<UserPageProps, UserPageState> {
         var workSchedules = await fetch(`http://localhost:5097/api/user/GetWorkAttendances?userId=${this.props.UserId}`)
         .then(response => response.json())
         .then(content => 
-            content.map((event: { attendanceDate: any; userId: any; user: any;}) => ({
-                title: "work",
-                location: "work",
-                date: event.attendanceDate,
-                time: "all day",
-                description: "work work all day",
+            content.map((work: { attendanceDate: any; userId: any; time:any; location:any}) => ({
+                location: "at office",
+                date: work.attendanceDate,
+                time: work.time ?? "all day",
             }))
         )
         
@@ -60,9 +56,65 @@ class UserPageMain extends React.Component<UserPageProps, UserPageState> {
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae nisi ut ante pharetra faucibus sit amet eget ante. Proin in ultrices nulla. Donec condimentum leo nulla. Vestibulum id varius metus, sit amet accumsan ipsum. Ut tincidunt massa sed aliquam tempus. Phasellus sed tempus sem, feugiat ultrices nibh. Donec laoreet rutrum sagittis. Nullam pulvinar velit vitae ligula auctor tincidunt. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed in tristique ex. Aliquam viverra ipsum a ultrices venenatis. Pellentesque pulvinar elit et elementum auctor.
             </p>
-            <UserTable title="Your schedule for this week" schedules={this.state.workSchedules}/>
+            {/* <UserTable title="Your schedule for this week" schedules={this.state.workSchedules}/> */}
+
+            <div>
+                <h1>Your schedule for this week</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Place</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            !!this.state.workSchedules && this.state.workSchedules.length > 0
+                            ? this.state.workSchedules.map(schedule => {
+                                return <tr key={schedule.title + schedule.date}>
+                                    <td>{schedule.location}</td>
+                                    <td>{schedule.date}</td>
+                                    <td>{schedule.time}</td>
+                                </tr>
+                            })
+                            : <></>
+                        }
+                    </tbody>
+                </table>
+            </div>
             
-            <UserTable title="Your upcoming events" schedules={this.state.eventSchedules}/>
+            {/* <UserTable title="Your upcoming events" schedules={this.state.eventSchedules}/> */}
+
+            <div>
+                <h1>Your upcoming events</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Place</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            !!this.state.eventSchedules && this.state.eventSchedules.length > 0
+                            ? this.state.eventSchedules.map(schedule => {
+                                return <tr key={schedule.title + schedule.date}>
+                                    <td>{schedule.title}</td>
+                                    <td>{schedule.location}</td>
+                                    <td>{schedule.date}</td>
+                                    <td>{schedule.time}</td>
+                                    <td>{schedule.description}</td>
+                                </tr>
+                            })
+                            : <></>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     }
 }
