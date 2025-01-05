@@ -21,7 +21,7 @@ class UserPageMain extends React.Component<UserPageProps, UserPageState> {
 
         this.setState(prev => ({...prev, UserName:UserName}))
 
-        var eventSchedules = await fetch(`http://localhost:5097/api/user/getEvents?userId=${this.props.UserId}`)
+        var eventSchedules = await fetch(`http://localhost:5097/api/user/getUpcomingEvents?userId=${this.props.UserId}`)
         .then(response => response.json())
         .then(content => 
             content.map((event: { title: any; location: any; eventDate: any; startTime: any; description: any }) => ({
@@ -35,7 +35,7 @@ class UserPageMain extends React.Component<UserPageProps, UserPageState> {
         
         this.setState(prev => ({...prev, eventSchedules:eventSchedules}))
 
-        var workSchedules = await fetch(`http://localhost:5097/api/user/GetWorkAttendances?userId=${this.props.UserId}`)
+        var workSchedules = await fetch(`http://localhost:5097/api/user/GetUpcomingWorkAttendances?userId=${this.props.UserId}`)
         .then(response => response.json())
         .then(content => 
             content.map((work: { attendanceDate: any; userId: any; time:any; location:any}) => ({

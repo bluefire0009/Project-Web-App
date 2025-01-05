@@ -8,5 +8,5 @@ public interface IAttendanceStorage
     Task<Attendance?> Find(int userId, DateOnly attendanceDate);
     Task<bool> IdExsists(int userId);
     Task<List<Attendance>> GetAll();
-    Task<List<Attendance>> GetAllByUser(int userId);
+    Task<List<Attendance>> GetAllUpcomingByUser(int userId);
 }

@@ -84,8 +84,9 @@ public class AttendanceDBStorage : IAttendanceStorage
         return db.Attendance.ToList();
     }
 
-    public async Task<List<Attendance>> GetAllByUser(int UserId)
+    public async Task<List<Attendance>> GetAllUpcomingByUser(int UserId)
     {
-        return db.Attendance.Where(_ => _.UserId == UserId).ToList();
+        List<Attendance> data = db.Attendance.Where(_ => _.UserId == UserId).ToList();
+        return data.Where(_ => _.AttendanceDate > DateOnly.FromDateTime(DateTime.Now)).ToList();
     }
 }

@@ -79,16 +79,16 @@ public class UserController : Controller
         return NotFound("user not found");
     }
 
-    [HttpGet("GetWorkAttendances")]
+    [HttpGet("GetUpcomingWorkAttendances")]
     public async Task<IActionResult> GetAttendancesByUser([FromQuery] int userId) {
-        List<Attendance> found = await this._AttendanceStorage.GetAllByUser(userId);
+        List<Attendance> found = await this._AttendanceStorage.GetAllUpcomingByUser(userId);
         return Ok(found);
     }
 
-    [HttpGet("GetEvents")]
-    public async Task<IActionResult> GetEventAttendancesByUser([FromQuery] int userId) {
+    [HttpGet("GetUpcomingEvents")]
+    public async Task<IActionResult> GetUpcomingEventAttendancesByUser([FromQuery] int userId) {
         List<Event_Attendance> event_Attendances = await this._EventAttendanceStorage.GetAllByUser(userId);
-        List<Event> found = await this._EventStorage.GetAllByIds(event_Attendances.Select(_ => _.EventId).ToList());
+        List<Event> found = await this._EventStorage.GetAllUpcomingByIds(event_Attendances.Select(_ => _.EventId).ToList());
         return Ok(found);
     }
 }
