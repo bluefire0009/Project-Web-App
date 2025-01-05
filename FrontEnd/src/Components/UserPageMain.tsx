@@ -39,7 +39,7 @@ class UserPageMain extends React.Component<UserPageProps, UserPageState> {
         .then(response => response.json())
         .then(content => 
             content.map((work: { attendanceDate: any; userId: any; time:any; location:any}) => ({
-                location: "at office",
+                location: work.location ?? "in office",
                 date: work.attendanceDate,
                 time: work.time ?? "all day",
             }))
@@ -56,10 +56,9 @@ class UserPageMain extends React.Component<UserPageProps, UserPageState> {
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae nisi ut ante pharetra faucibus sit amet eget ante. Proin in ultrices nulla. Donec condimentum leo nulla. Vestibulum id varius metus, sit amet accumsan ipsum. Ut tincidunt massa sed aliquam tempus. Phasellus sed tempus sem, feugiat ultrices nibh. Donec laoreet rutrum sagittis. Nullam pulvinar velit vitae ligula auctor tincidunt. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed in tristique ex. Aliquam viverra ipsum a ultrices venenatis. Pellentesque pulvinar elit et elementum auctor.
             </p>
-            {/* <UserTable title="Your schedule for this week" schedules={this.state.workSchedules}/> */}
 
             <div>
-                <h1>Your schedule for this week</h1>
+                <h1>Your work schedule for this week</h1>
                 <table>
                     <thead>
                         <tr>
@@ -84,8 +83,6 @@ class UserPageMain extends React.Component<UserPageProps, UserPageState> {
                 </table>
             </div>
             
-            {/* <UserTable title="Your upcoming events" schedules={this.state.eventSchedules}/> */}
-
             <div>
                 <h1>Your upcoming events</h1>
                 <table>
