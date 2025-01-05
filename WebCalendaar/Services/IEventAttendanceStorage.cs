@@ -6,6 +6,7 @@ public interface IEventAttendanceStorage {
     Task<Event_Attendance?> Find(int id);
     Task<bool> Update(Event_Attendance eventAttendance);
     Task<bool> Delete(int id);
+    Task<List<User?>> GetAllUsersByEventId(int eventId);
 }
 
 public class EventAttendanceDBStorage : IEventAttendanceStorage {
@@ -47,5 +48,9 @@ public class EventAttendanceDBStorage : IEventAttendanceStorage {
         Db.Event_Attendance.Update(eventAttendance);
         int n = await Db.SaveChangesAsync();
         return n>0;
+    }
+
+    public async Task<List<User?>> GetAllUsersByEventId(int eventId) {
+        return Db.Event_Attendance.Where(_ => _.EventId == eventId).Select(_ => _.User).ToList();
     }
 }

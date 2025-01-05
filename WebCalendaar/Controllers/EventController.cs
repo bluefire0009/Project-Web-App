@@ -11,9 +11,12 @@ public class EventController : Controller
 {
     readonly IEventStorage _storage;
 
-    public EventController(IEventStorage storage)
+    private IEventAttendanceStorage _eventAttendanceStorage;
+
+    public EventController(IEventStorage storage, IEventAttendanceStorage eventAttendanceStorage)
     {
         _storage = storage;
+        _eventAttendanceStorage = eventAttendanceStorage;
     }
 
     [HttpGet("{id:int}")]
@@ -104,5 +107,11 @@ public class EventController : Controller
         }
 
         return Ok($"Event with id {id} deleted successfully");
+    }
+
+    [HttpGet("getAttendingUsers/{id:int}")]
+    public async Task<IActionResult> getAttendingUsers(int id) {
+        List<User> users = await _eventAttendanceStorage.GetAllUsersByEventId(id);
+        return Ok(users);
     }
 }
