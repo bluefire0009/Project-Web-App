@@ -16,7 +16,7 @@ import { CalendarPage } from './Components/CalendarPage';
 
 const App: React.FC = () => {
   return (
-    <div style={{ margin: '20px' , }}>
+    <div>
       {/* <UserPageMain
         UserName='Micheal "toast" Grobsker'
         workSchedules={[{title: 'work', place: 'office', date:'45-8-1997', time: '11:3½', description: 'workTime at the office'}]}
