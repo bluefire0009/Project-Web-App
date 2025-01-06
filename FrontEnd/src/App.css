@@ -127,8 +127,13 @@ table {
   }
   
   .navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     border-bottom: 1px solid #333;
     margin-bottom: 1rem;
   }
