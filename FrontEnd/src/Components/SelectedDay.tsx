@@ -14,13 +14,6 @@ const SelectedDay: React.FC = () => {
 
   return (
     <div className="container">
-      <header className="navbar">
-        <a href="#">Homepage</a>
-        <a href="#">Events</a>
-        <a href="#">Calendar</a>
-        <a href="#">Log out</a>
-      </header>
-
       <main>
         <section>
           <h1>Selected day</h1>
@@ -55,12 +48,6 @@ const SelectedDay: React.FC = () => {
           <button className="remove-btn">REMOVE</button>
         </section>
       </main>
-
-      <footer>
-        <a href="#">Contact</a>
-        <a href="#">Information</a>
-        <a href="#">Report bug</a>
-      </footer>
     </div>
   );
 };
