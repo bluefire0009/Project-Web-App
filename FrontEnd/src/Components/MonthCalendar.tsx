@@ -6,8 +6,9 @@ import { InitCalendarState } from "../States/Updaters/CalendarUpdaters";
 import SelectedEvent from "./SelectedEvent";
 import Reviews from "./Reviews";
 import SignUpSection from "./SignUpSection";
+import { EventOverlay } from "./EventSignupOverlay";
 
-export class Calendar extends React.Component<{},CalendarState>{
+export class MonthCalendar extends React.Component<{},CalendarState>{
     constructor(props:{}){
         super(props)
         this.state = InitCalendarState()
@@ -15,10 +16,14 @@ export class Calendar extends React.Component<{},CalendarState>{
     
     render(): React.ReactNode{
         return<div className="wholeCalendar">
+            <EventOverlay
+            event={this.state.selectedEvent}
+            isVisible={this.state.isEventOverlayVisible}
+            onClose={() => this.setState(this.state.toggleEventOverlay(false))}
+            />
             {this.renderCalendarHeader()}
             {this.renderDays()}
             {this.renderCells()}
-            {this.renderEventOverlay(this.state.selectedEvent)}
         </div>
     }
 
@@ -75,21 +80,6 @@ export class Calendar extends React.Component<{},CalendarState>{
                 :
                 <div className="cell empty" key={`empty-${index}`} />)
         )}</div>
-    }
-
-    renderEventOverlay(event: CalendarEvent | undefined): JSX.Element | undefined{
-        if (this.state.isEventOverlayVisible == false || event == undefined) {
-            return undefined; // Don't render the overlay if it's not visible or there's no selected event
-        }
-        
-        return <div className="overlay">
-                <div className="overlay-content">
-                    <button className="close-button" onClick={() => this.setState(this.state.toggleEventOverlay(false))}>✖</button>
-                    {SelectedEvent(event)}
-                    <Reviews />
-                    <SignUpSection />
-                </div>
-            </div>
     }
 }
 
