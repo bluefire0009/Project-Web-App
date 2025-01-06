@@ -3,6 +3,7 @@ import { Footer } from "./Footer"
 import { Header } from "./Header"
 import { WeekCalendar } from "./WeekCalendar"
 import { MonthCalendar } from "./MonthCalendar"
+import { HourDisplay } from "./HourDisplay"
 
 export const CalendarPage: React.FC = () =>{
     const [selectedCalendar, setSelectedCalendar] = useState<CurrentlySelectedCalendar>(CurrentlySelectedCalendar.WeeklyCalendar)
@@ -20,12 +21,12 @@ export const CalendarPage: React.FC = () =>{
                 Monthly Calendar</button>
         </span>
     }
-
     return <div className="CalendarPage">
         <Header/>
+        
+        <ChangeCalendarButtons/>
         <div className="CalendarSection">
-            <ChangeCalendarButtons/>
-            {selectedCalendar == CurrentlySelectedCalendar.WeeklyCalendar? <WeekCalendar/>:<MonthCalendar/>}
+            {selectedCalendar == CurrentlySelectedCalendar.WeeklyCalendar? <span style={{display:"flex"}}><HourDisplay/><WeekCalendar/></span>:<MonthCalendar/>}
         </div>
         
         <Footer/>

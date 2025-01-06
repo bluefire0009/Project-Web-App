@@ -1,11 +1,8 @@
 // src/Calendar.js
 import React from "react";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths, addDays, isSameDay, isSameMonth,  } from "date-fns";
-import { CalendarEvent, CalendarState } from "../States/CalendarState";
+import { CalendarState } from "../States/CalendarState";
 import { InitCalendarState } from "../States/Updaters/CalendarUpdaters";
-import SelectedEvent from "./SelectedEvent";
-import Reviews from "./Reviews";
-import SignUpSection from "./SignUpSection";
 import { EventOverlay } from "./EventSignupOverlay";
 
 export class MonthCalendar extends React.Component<{},CalendarState>{
@@ -80,58 +77,5 @@ export class MonthCalendar extends React.Component<{},CalendarState>{
                 :
                 <div className="cell empty" key={`empty-${index}`} />)
         )}</div>
-    }
-}
-
-export class CalendarSiteHeader extends React.Component{
-    constructor(props:{}){
-        super(props)
-    }
-    
-    render(): React.ReactNode{
-        return<header className="CalendarSiteHeader"
-            style={{ textAlign: 'left', marginTop: '4px', paddingBottom: '2px', fontSize: '20px',  position: 'relative'}}>
-                <a href="#" style={{ margin: '0 14px', textDecoration: 'none', color: '#000000' }}>
-                Homepage
-                </a>
-                <a href="#" style={{ margin: '0 14px', textDecoration: 'none', color: '#000000' }}>
-                Events
-                </a>
-                <a href="#" style={{ margin: '0 14px', textDecoration: 'none', color: '#000000' }}>
-                Log out
-                </a>
-                {/* Rounded line container */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '100%',
-                        left: '0',
-                        width: '100%',
-                        height: '2px',
-                        backgroundColor: '#89898967',
-                        borderRadius: '4px', // Rounds the ends of the line
-                    }}
-                />
-        </header>
-    }
-}
-
-export class CalendarSiteFooter extends React.Component{
-    constructor(props:{}){
-        super(props)
-    }
-    
-    render(): React.ReactNode{
-        return <footer style={{ textAlign: 'center', marginTop: '50px', fontSize: '14px' }}>
-          <a href="#" style={{ margin: '0 10px', textDecoration: 'none', color: '#007BFF' }}>
-            Contact
-          </a>
-          <a href="#" style={{ margin: '0 10px', textDecoration: 'none', color: '#007BFF' }}>
-            Information
-          </a>
-          <a href="#" style={{ margin: '0 10px', textDecoration: 'none', color: '#007BFF' }}>
-            Report bug
-          </a>
-        </footer>
     }
 }

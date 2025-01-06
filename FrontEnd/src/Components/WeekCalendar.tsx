@@ -69,6 +69,7 @@ export const WeekCalendar: React.FC = () => {
         };
         
         return<div className="WeekGrid">
+            
             {eventsThisWeek.map((event) => (
                 <button className="WeekCalendarEvent"
                 key={event.EventId.toString()}
@@ -82,7 +83,6 @@ export const WeekCalendar: React.FC = () => {
                 </button>
             ))}
 
-
             {currentWeek.map((day) => (
                 <div>
                   {Array.from({ length: 48 }, (_, i) => i + 1).map((hour) => 
@@ -92,17 +92,6 @@ export const WeekCalendar: React.FC = () => {
             ))}
         </div>
     }
-
-    const HourDisplay: React.FC = () => {
-        return<div className="HourDisplay">
-            {Array.from({ length: 48 }, (_, i) => i + 1).map((hour) => 
-            hour ==48? <></>:
-            hour%2==0?
-            <p className="HourText">
-                {hour/2}:00
-            </p>:<></>)}
-        </div>
-    }
     
     return <div className="WeekCalendar">
         <EventOverlay
@@ -110,9 +99,9 @@ export const WeekCalendar: React.FC = () => {
             isVisible={eventOverlaysVisible}
             onClose={() => toggleEventOverlay(false)}
             />
-        <HourDisplay/>
         <WeekBar/>
         <WeekHeader/>
         <WeekGrid/>
+        
     </div>
 }

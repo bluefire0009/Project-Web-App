@@ -1,17 +1,20 @@
 .CalendarSection {
-    position: absolute;
-    top: 7%;
-    right: 0;
-    left: 0;
+    position: relative;
+    top: -20px;
+    left: 0%;
+    right: 0%;
     margin: auto;
-    width: 90%;
-    border: 1px solid black;
+    width: 1500px;
+    max-height: 700px;
+    overflow-y: scroll;
 }
 .CalendarButtons{
     display: flex;
     position: relative;
+    width: 100%;
+    top: -20px;
     justify-content: end;
-    right: 10px;
+    right: 0%;
 }
 
 .MonthlyCalendarButton {
@@ -22,7 +25,7 @@
     padding-left: 5px;
     padding-right: 10px;
     background-color: rgb(100, 100, 100);
-    font-size: small;
+    font-size: large;
 }
 .MonthlyCalendarButton:disabled{
     background-color: rgb(75, 75, 75);
@@ -37,7 +40,7 @@
     padding-right: 5px;
     padding-left: 10px;
     background-color: rgb(100, 100, 100);
-    font-size: small;
+    font-size: large;
 }
 .WeeklyCalendarButton:disabled{
     background-color: rgb(75, 75, 75);
