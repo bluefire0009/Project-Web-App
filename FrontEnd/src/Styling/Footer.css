@@ -1,0 +1,10 @@
+Footer {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    margin-top: '25px';
+
+}
