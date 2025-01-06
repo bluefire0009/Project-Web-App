@@ -15,7 +15,9 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Navbar/>
         <Routes>
+          {/* homepage */}
           <Route path="/" element={<SelectedDay />} />
+          
           <Route path="/user" element={
             <UserPageMain
             UserName='Micheal "toast" Grobsker'
