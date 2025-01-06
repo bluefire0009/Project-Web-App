@@ -1,0 +1,46 @@
+.CalendarSection {
+    position: absolute;
+    top: 7%;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 90%;
+    border: 1px solid black;
+}
+.CalendarButtons{
+    display: flex;
+    position: relative;
+    justify-content: end;
+    right: 10px;
+}
+
+.MonthlyCalendarButton {
+    border-left : 1px solid white;
+    border-radius: 0px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-left: 5px;
+    padding-right: 10px;
+    background-color: rgb(100, 100, 100);
+    font-size: small;
+}
+.MonthlyCalendarButton:disabled{
+    background-color: rgb(75, 75, 75);
+    cursor: not-allowed;
+}
+
+.WeeklyCalendarButton {
+    border-right : 1px solid white;
+    border-radius: 0px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-right: 5px;
+    padding-left: 10px;
+    background-color: rgb(100, 100, 100);
+    font-size: small;
+}
+.WeeklyCalendarButton:disabled{
+    background-color: rgb(75, 75, 75);
+    cursor: not-allowed;
+    
+}
