@@ -9,12 +9,12 @@ import './App.css';
 const App: React.FC = () => {
   return (
     <div style={{ margin: '20px' }}>
-      {/* <SelectedEvent /> */}
-      {/* <Reviews />
-      <SignUpSection /> */}
+      <SelectedEvent />
+      <Reviews />
+      <SignUpSection />
 
       <UserPageMain UserId={4}/>
-      {/* <SelectedDay /> */}
+      <SelectedDay />
     </div>
     
   );
