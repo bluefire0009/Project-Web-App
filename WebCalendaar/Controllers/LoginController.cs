@@ -6,7 +6,7 @@ using WebCalendaar.Models;
 namespace WebCalendaar.Controllers;
 
 
-[Route("api/v1/Login")]
+[Route("api/v1/")]
 public class LoginController : Controller
 {
     private readonly ILoginService _loginService;
@@ -57,7 +57,11 @@ public class LoginController : Controller
         if (IsSessionRegisterd()) return Ok($"Logged in as {HttpContext.Session.GetString("LoggedInAdmin")}");
         return Unauthorized("You are not logged in As Admin");
     }
+
+    [HttpGet("IsUserLoggedIn")]
     public bool IsUserLoggedIn() => HttpContext.Session.GetString("UserSession") == "LoggedIn";
+
+    [HttpGet("IsSessionRegisterd")]
     public bool IsSessionRegisterd() => HttpContext.Session.GetString("AdminSession") == "LoggedIn";
 
     [HttpGet("Logout")]

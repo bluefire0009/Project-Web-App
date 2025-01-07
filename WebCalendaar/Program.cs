@@ -8,10 +8,13 @@ namespace WebCalendaar
     class Program
     {
         static void Main(string[] args)
-        {            
+        {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             builder.Services.AddTransient<IAdminStorage, AdminDBStorage>();
             builder.Services.AddTransient<IAttendanceStorage, AttendanceDBStorage>();
@@ -36,6 +39,13 @@ namespace WebCalendaar
 
             var app = builder.Build();
 
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -56,6 +66,13 @@ namespace WebCalendaar
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+                await next(); // Call the next middleware
+                Console.WriteLine($"Response: {context.Response.StatusCode}");
+            });
 
             app.Run();
 

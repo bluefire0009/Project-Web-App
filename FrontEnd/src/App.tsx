@@ -7,6 +7,7 @@ import SelectedDay from './Components/SelectedDay'
 import './App.css';
 import SignInForm from './Components/loginPage';
 import RegistrationForm from './Components/RegistrationPage';
+import SignInForm2 from './Components/loginPageTest';
 
 
 const App: React.FC = () => {
@@ -22,7 +23,8 @@ const App: React.FC = () => {
         eventSchedules={[{ title: 'Party', place: 'office', date: '45-8-1997', time: '11:3½', description: 'party time at the office, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt turpis sed mi placerat, semper fringilla eros elementum. Morbi id dolor suscipit, elementum quam quis, eleifend augue. Nunc egestas orci non purus tincidunt, non vulputate nunc ultricies. Integer in tempus neque. Nam at lectus ex. Sed finibus magna sed ornare pharetra posuere. ' }]}>
       </UserPageMain>
       <SelectedDay />
-      <SignInForm />
+      {/* <SignInForm /> */}
+      <SignInForm2 />
       <RegistrationForm />
     </div>
 
