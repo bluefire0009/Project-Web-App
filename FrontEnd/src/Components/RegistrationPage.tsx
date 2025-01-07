@@ -2,18 +2,24 @@
 import '../Styling/loginpageCss.css';
 import CalendarBackground from '../assets/CalendarBackgroundColour.webp'
 
-
-
-function SignInForm() {
+function RegistrationForm() {
     return (
         <>
             <img
                 className="sign-in-image" src={CalendarBackground} alt="Calendar Background"
-            >
-            </img>
+            />
             <div className="sign-in-container">
-                <h1 className="sign-in-title">Sign In</h1>
+                <h1 className="sign-in-title">Sign Up</h1>
                 <form className="sign-in-form">
+                    <div className="form-group">
+                        <label htmlFor="name" className="form-label">Full Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            className="form-input"
+                            placeholder="Enter your full name"
+                        />
+                    </div>
                     <div className="form-group">
                         <label htmlFor="email" className="form-label">Email</label>
                         <input
@@ -32,11 +38,20 @@ function SignInForm() {
                             placeholder="Enter your password"
                         />
                     </div>
+                    <div className="form-group">
+                        <label htmlFor="confirm-password" className="form-label">Confirm Password</label>
+                        <input
+                            type="password"
+                            id="confirm-password"
+                            className="form-input"
+                            placeholder="Confirm your password"
+                        />
+                    </div>
                     <button type="submit" className="sign-in-button">
-                        Sign In
+                        Sign Up
                     </button>
                     <p className="sign-in-footer">
-                        Don't have an account? <a href="#signup" className="sign-up-link">Sign up</a>
+                        Already have an account? <a href="#signin" className="sign-up-link">Sign In</a>
                     </p>
                 </form>
             </div>
@@ -44,4 +59,4 @@ function SignInForm() {
     );
 }
 
-export default SignInForm;
+export default RegistrationForm;
