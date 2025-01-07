@@ -1,6 +1,7 @@
 import React from "react"
 import '../Styling/UserPage.css'
 import UserPageBanner from '../assets/UserPageBanner.jpg'
+import Api_url from "./Api_url"
 
 type schedule = {title:string, location:string, date:string, time:string, description:string}
 
@@ -15,13 +16,13 @@ class UserPageMain extends React.Component<UserPageProps, UserPageState> {
     }
 
     async componentDidMount() {
-        const UserName:string = await fetch(`http://localhost:5097/api/user/read?userId=${this.props.UserId}`)
+        const UserName:string = await fetch(`${Api_url}/api/user/read?userId=${this.props.UserId}`)
         .then(response => response.json())
         .then(content => `${content.firstName} ${content.lastName}`)
 
         this.setState(prev => ({...prev, UserName:UserName}))
 
-        var eventSchedules = await fetch(`http://localhost:5097/api/user/getUpcomingEvents?userId=${this.props.UserId}`)
+        var eventSchedules = await fetch(`${Api_url}/api/user/getUpcomingEvents?userId=${this.props.UserId}`)
         .then(response => response.json())
         .then(content => 
             content.map((event: { title: any; location: any; eventDate: any; startTime: any; description: any }) => ({
@@ -35,7 +36,7 @@ class UserPageMain extends React.Component<UserPageProps, UserPageState> {
         
         this.setState(prev => ({...prev, eventSchedules:eventSchedules}))
 
-        var workSchedules = await fetch(`http://localhost:5097/api/user/GetUpcomingWorkAttendances?userId=${this.props.UserId}`)
+        var workSchedules = await fetch(`${Api_url}/api/user/GetUpcomingWorkAttendances?userId=${this.props.UserId}`)
         .then(response => response.json())
         .then(content => 
             content.map((work: { attendanceDate: any; userId: any; time:any; location:any}) => ({
