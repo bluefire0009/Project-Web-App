@@ -16,8 +16,8 @@ export class SignInForm extends React.Component<{}, { Email: string, Password: s
         }
     }
 
-    HandleLogin = async () => {
-        // this.setState({ Message: "login" })
+    HandleLogin = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault()
 
         const payload = {
             Email: this.state.Email,
@@ -26,7 +26,7 @@ export class SignInForm extends React.Component<{}, { Email: string, Password: s
 
         try {
 
-            const response = await fetch(`${BaseUrl}Login`, {
+            const response = await fetch(`${BaseUrl}Login/`, {
                 method: `POST`,
                 headers: {
                     'Content-Type': 'application/json', // Specify JSON content type
@@ -81,7 +81,7 @@ export class SignInForm extends React.Component<{}, { Email: string, Password: s
                             />
                             <div className='Message'>{this.state.Message}</div>
                         </div>
-                        <button className="sign-in-button" onClick={this.HandleLogin}>
+                        <button className="sign-in-button" onClick={(e) => this.HandleLogin(e)}>
                             Sign In
                         </button>
                         <p className="sign-in-footer">
