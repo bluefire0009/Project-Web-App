@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styling/SelectedEvent.css';
 
 const SelectedEvent: React.FC = () => {
   const event = {
