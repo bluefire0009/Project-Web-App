@@ -23,7 +23,7 @@ const App: React.FC = () => {
       <UserPageMain UserId={4}/>
       <SelectedDay />
       
-      {/*<CalendarPage>*/}
+      {/*<CalendarPage/>*/}
       
     </div>
     
