@@ -17,7 +17,6 @@ import { CalendarPage } from './Components/CalendarPage';
 const App: React.FC = () => {
   return (
     <div style={{ margin: '20px' }}>
-      <SelectedEvent />
       <Reviews />
       <SignUpSection />
 
