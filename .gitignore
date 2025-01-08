@@ -1,4 +1,4 @@
-WebCalendaar.sln
+*.sln
 /.vscode/
 /WebCalendaar/bin/
 /WebCalendaar/obj/

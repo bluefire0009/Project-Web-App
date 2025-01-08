@@ -1,0 +1,53 @@
+
+/* Styling for the overlay */
+.overlay {
+    position: fixed;
+    text-align: center;
+    top: 0vh;
+    left: 0%;
+    width: 99vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Make sure it's on top of the calendar */
+    overflow: auto;
+}
+
+.overlay-content {
+    position: fixed;
+    background: rgb(88, 84, 84);
+    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+}
+
+.close-button {
+    position: relative;
+    top: 4.5%;
+    left: 49%;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.show-overlay-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

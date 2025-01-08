@@ -32,11 +32,18 @@ namespace WebCalendaar.Models
 
     public class Event_Attendance
     {
+        [Key]
         public int Event_AttendanceId { get; set; }
         public int Rating { get; set; }
         public required string Feedback { get; set; }
-        public required User User { get; set; }
-        public required Event Event { get; set; }
+
+        [ForeignKey("UserId")]
+        public User? User { get; set; }
+        public int UserId {get; set;}
+
+        [ForeignKey("EventId")]
+        public Event? Event { get; set; }
+        public int EventId {get; set;}
     }
 
     public class Event
