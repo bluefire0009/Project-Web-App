@@ -28,10 +28,7 @@ const App: React.FC = () => {
           
           <Route path="/user" element={<UserPageMain UserId={4}/>} />
           <Route path="/day" element={<SelectedDay />} />
-          {/* <Route path="/event" element={<SelectedEvent />} /> */}
           <Route path='/calender' element={<CalendarPage/>}/>
-          <Route path='/weekly' element={<WeekCalendar></WeekCalendar>}/>
-          <Route path='/monthly' element={<MonthCalendar/>}/>
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/signup" element={<SignUpSection />} />
         </Routes>
