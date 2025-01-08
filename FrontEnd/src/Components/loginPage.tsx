@@ -1,16 +1,15 @@
 import React from 'react';
 import '../Styling/loginpageCss.css';
 import CalendarBackground from '../assets/CalendarBackgroundColour.webp'
+import Api_url from "./Api_url"
 
-export const BaseUrl: string = "http://localhost:5097/api/v1/"
 
-
-export class SignInForm extends React.Component<{}, { Email: string, Password: string, Message: string }> {
+export class SignInForm extends React.Component<{}, { Username: string, Password: string, Message: string }> {
     constructor(props: {}) {
         super(props)
 
         this.state = {
-            Email: "",
+            Username: "",
             Password: "",
             Message: ""
         }
@@ -20,26 +19,31 @@ export class SignInForm extends React.Component<{}, { Email: string, Password: s
         event.preventDefault()
 
         const payload = {
-            Email: this.state.Email,
+            Username: this.state.Username,
             Password: this.state.Password,
         };
 
+
         try {
 
-            const response = await fetch(`${BaseUrl}Login/`, {
+            const response = await fetch(`${Api_url}/api/Login`, {
                 method: `POST`,
                 headers: {
                     'Content-Type': 'application/json', // Specify JSON content type
                 },
                 body: JSON.stringify(payload),
+                credentials: 'include'
             })
 
             if (response.ok) {
-                const data = await response.json();
+                const data = await response.text();
                 this.setState({ Message: data })
+                window.location.href = "/user";  // Relative URL
             }
             else {
-                this.setState({ Message: "fail" })
+                const errorText = await response.text();
+                const errorMessage = `Error: ${response.status} - ${response.statusText} - ${errorText}`;
+                this.setState({ Message: errorMessage });
             }
         }
         catch {
@@ -64,10 +68,10 @@ export class SignInForm extends React.Component<{}, { Email: string, Password: s
                                 id="email"
                                 className="form-input"
                                 placeholder="Enter your email"
-                                value={this.state.Email}
-                                onChange={(e) => this.setState({ Email: e.target.value })}
+                                value={this.state.Username}
+                                onChange={(e) => this.setState({ Username: e.target.value })}
                             />
-                            <div>{this.state.Email}</div>
+                            <div>{this.state.Username}</div>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password" className="form-label">Password</label>

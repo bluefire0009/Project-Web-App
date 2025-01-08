@@ -15,10 +15,13 @@ namespace WebCalendaar
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
-                                policy =>
-                                {
-                                    policy.WithOrigins("*");
-                                });
+                                    policy =>
+                                    {
+                                        policy.WithOrigins("http://localhost:5173") // Allow React app URL
+                                              .AllowAnyMethod() // Allow any HTTP method (GET, POST, etc.)
+                                              .AllowAnyHeader() // Allow any header (Content-Type, Authorization, etc.)
+                                              .AllowCredentials(); // Allow credentials if needed (cookies, HTTP authentication)
+                                    });
             });
 
             builder.Services.AddControllersWithViews();
@@ -34,9 +37,10 @@ namespace WebCalendaar
 
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromSeconds(5);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Lax;      // Set SameSite for security
             });
 
             builder.Services.AddScoped<ILoginService, LoginService>();
@@ -48,6 +52,9 @@ namespace WebCalendaar
                 options => options.UseSqlite(builder.Configuration.GetConnectionString("SqlLiteDb")));
 
             var app = builder.Build();
+
+            app.UseSession();
+            app.UseCors(MyAllowSpecificOrigins);
 
             if (app.Environment.IsDevelopment())
             {
@@ -64,18 +71,17 @@ namespace WebCalendaar
                 app.UseHsts();
             }
 
-            
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+
             app.UseRouting();
 
-            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 
-            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",
