@@ -10,6 +10,7 @@ public interface IEventStorage
     Task<bool> Update(int event_id, Event updatedEvent); // Returns bool
     Task<bool> Delete(int event_id); // Return int
     List<Event> GetAll();
+    Task<List<Event>> GetAllUpcomingByIds(List<int> ids);
 }
 
 public class EventDBStorage : IEventStorage
@@ -75,5 +76,10 @@ public class EventDBStorage : IEventStorage
     public List<Event> GetAll()
     {
         return db.Event.ToList();
+    }
+
+    public async Task<List<Event>> GetAllUpcomingByIds(List<int> ids) {
+        List<Event> data = db.Event.Where(_ => ids.Contains(_.EventId)).ToList();
+        return data.Where(_ => _.EventDate > DateOnly.FromDateTime(DateTime.Now)).ToList();
     }
 }
