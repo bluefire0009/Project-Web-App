@@ -27,7 +27,7 @@ export class MonthCalendar extends React.Component<{},CalendarState>{
     renderCalendarHeader(): JSX.Element{
         return (
             <div className="calendar-header">
-                <button 
+                <button style={{marginBottom: "5px", marginTop: "5px", backgroundColor: "rgb(100, 100, 100)"}}
                     onClick={() => {
                                     this.setState(this.state.setCurrentDate(subMonths(this.state.currentDate, 1)))
                                     this.setState(this.state.setCurrentMonth(subMonths(this.state.currentDate, 1)))    
@@ -35,7 +35,7 @@ export class MonthCalendar extends React.Component<{},CalendarState>{
                     ❮
                 </button>
                 <h2>{format(this.state.currentDate, "MMMM yyyy")} </h2>
-                <button 
+                <button style={{marginBottom: "5px", marginTop: "5px", backgroundColor: "rgb(100, 100, 100)"}}
                     onClick={() => {
                                     this.setState(this.state.setCurrentDate(addMonths(this.state.currentDate, 1)))
                                     this.setState(this.state.setCurrentMonth(addMonths(this.state.currentDate, 1))) 

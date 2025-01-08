@@ -1,20 +1,20 @@
 .CalendarSection {
-    position: relative;
-    top: -20px;
+    position: fixed;
+    top: 23vh;
     left: 0%;
     right: 0%;
     margin: auto;
     width: 90vw;
-    height: 80vh;
+    height: 70vh;
     overflow-y: scroll;
 }
 .CalendarButtons{
     display: flex;
-    position: relative;
-    width: 100%;
-    top: -20px;
+    position: absolute;
+    width: 30%;
+    top: 50px;
     justify-content: end;
-    right: 0%;
+    right: 5%;
 }
 
 .MonthlyCalendarButton {

@@ -20,7 +20,7 @@ export const WeekCalendar: React.FC = () => {
     const WeekBar: React.FC = () => {
         const paddingLeftRight = "100px"
         return <div className="WeekBar">
-            <button style={{marginBottom: "5px", marginTop: "5px"}} 
+            <button style={{position: "fixed", right: "60%", width: "10%", marginBottom: "5px", marginTop: "5px", backgroundColor: "rgb(100, 100, 100)", zIndex: "10000"}} 
             onClick={_ => setSelectedWeek(subDays(selectedDate, 7))}>
                 ← Previous
             </button>
@@ -30,7 +30,7 @@ export const WeekCalendar: React.FC = () => {
                 Week {getWeek(selectedDate)}
             </h2>
 
-            <button style={{marginBottom: "5px", marginTop: "5px"}}
+            <button style={{position: "fixed", left: "60%", width: "10%", marginBottom: "5px", marginTop: "5px", backgroundColor: "rgb(100, 100, 100)", zIndex: "10000"}}
             onClick={_ => setSelectedWeek(addDays(selectedDate, 7))}>
                 Next →
             </button>
