@@ -22,14 +22,10 @@ export const CalendarPage: React.FC = () =>{
         </span>
     }
     return <div className="CalendarPage">
-        <Header/>
-        
         <ChangeCalendarButtons/>
         <div className="CalendarSection">
             {selectedCalendar == CurrentlySelectedCalendar.WeeklyCalendar? <span style={{display:"flex"}}><HourDisplay/><WeekCalendar/></span>:<MonthCalendar/>}
         </div>
-        
-        <Footer/>
     </div>
 }
 
