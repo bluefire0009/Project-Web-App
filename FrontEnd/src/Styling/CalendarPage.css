@@ -11,6 +11,7 @@
 .CalendarButtons{
     display: flex;
     position: absolute;
+    height: 6%;
     width: 30%;
     top: 50px;
     justify-content: end;
@@ -18,10 +19,11 @@
 }
 
 .MonthlyCalendarButton {
+    width: 100%;
     border-left : 1px solid white;
     border-radius: 0px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-top-right-radius: 10vw;
+    border-bottom-right-radius: 10vw;
     padding-left: 5px;
     padding-right: 10px;
     background-color: rgb(100, 100, 100);
@@ -33,10 +35,11 @@
 }
 
 .WeeklyCalendarButton {
+    width: 100%;
     border-right : 1px solid white;
     border-radius: 0px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-left-radius: 10vw;
+    border-bottom-left-radius: 10vw;
     padding-right: 5px;
     padding-left: 10px;
     background-color: rgb(100, 100, 100);
