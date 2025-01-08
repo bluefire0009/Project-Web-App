@@ -10,7 +10,7 @@ Content-Type: application/json
 
 
 {
-  "EventId":6,
+  "EventId":1,
   "Title":"AAA",
   "Description":"BBB",
   "EventDate":"0001-01-01",
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 {
     "eventId": 1,
-    "title": "Another Updated Event",
+    "title": "Jippieeee",
     "description": "Updated description for the event.",
     "eventDate": "2024-12-02",
     "startTime": "11:00:00",

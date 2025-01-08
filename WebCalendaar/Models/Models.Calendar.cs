@@ -34,7 +34,7 @@ namespace WebCalendaar.Models
     {
         [Key]
         public int Event_AttendanceId { get; set; }
-        public int Rating { get; set; }
+        public string Rating { get; set; }
         public required string Feedback { get; set; }
 
         [ForeignKey("UserId")]
@@ -44,6 +44,7 @@ namespace WebCalendaar.Models
         [ForeignKey("EventId")]
         public Event? Event { get; set; }
         public int EventId {get; set;}
+        public DateOnly DatePlaced { get; set; }
     }
 
     public class Event

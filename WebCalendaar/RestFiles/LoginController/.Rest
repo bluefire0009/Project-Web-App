@@ -4,7 +4,7 @@ POST http://localhost:5097/api/Login/Login
 Content-Type: application/json
 
 {
-    "Username" : "Adam",
+    "Username" : "Admin1",
     "Password" : "Smith"
 }
 

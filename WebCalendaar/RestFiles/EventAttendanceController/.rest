@@ -4,12 +4,12 @@ GET http://localhost:5097/api/eventAttendance/get?id=8797978
 
 ###
 
-POST http://localhost:5097/api/eventAttendance/create
+POST http://localhost:5097/api/eventAttendance/Post
 Content-Type: application/json
 
 {
     "Event_AttendanceId": 1,
-    "Rating": 3,
+    "Rating": "3/5",
     "Feedback": "Testing",
     "UserId": 1,
     "EventId": 1

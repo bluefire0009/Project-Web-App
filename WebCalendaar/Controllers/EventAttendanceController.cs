@@ -48,4 +48,9 @@ public class EventAttendanceController : Controller {
         await Storage.Delete(id);
         return Ok($"Event attendance with id {id} deleted successfully");
     }
+    
+    [HttpGet("GetAllForEvent")]
+    public async Task<IActionResult> GetAllEventAttendenceForEvent() {
+        List<EventAttendance> eventAttendance
+    }
 };
