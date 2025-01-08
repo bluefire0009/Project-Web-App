@@ -16,6 +16,18 @@ const Reviews: React.FC = () => {
     { user: 'Jesus', dateEvent: '20-07-2025', datePlaced: '27-07-2025', stars: '4/5', review: 'Really liked the React part of React' },
     { user: 'Michiel de Ruijter', dateEvent: '20-07-2025', datePlaced: '28-07-2025', stars: '5/5', review: 'Would go again' },
     { user: 'HeWhoMustNotBeNamed', dateEvent: '20-07-2025', datePlaced: '28-07-2025', stars: '4/5', review: 'Now I can actually do some stuff in here :D' },
+    { user: 'Bommel', dateEvent: '20-07-2025', datePlaced: '20-07-2025', stars: '3/5', review: 'Event was pretty good' },
+    { user: 'Bramsko', dateEvent: '20-07-2025', datePlaced: '25-07-2025', stars: '4/5', review: 'I really liked the Event' },
+    { user: 'Jerome', dateEvent: '20-07-2025', datePlaced: '26-07-2025', stars: '2/5', review: 'Wat een kut event, waarom is alles in het enegls >:(' },
+    { user: 'Achilles', dateEvent: '20-07-2025', datePlaced: '26-07-2025', stars: '5/5', review: 'This was the best event until now <3' },
+    { user: 'IllusiveAnt599', dateEvent: '20-07-2025', datePlaced: '27-07-2025', stars: '3/5', review: 'It was Okay' },
+    { user: 'Draw_Lok', dateEvent: '20-07-2025', datePlaced: '27-07-2025', stars: '4/5', review: 'Really liked the React part of React' },
+    { user: 'Ryuma', dateEvent: '20-07-2025', datePlaced: '28-07-2025', stars: '5/5', review: 'Would go again' },
+    { user: 'Milan', dateEvent: '20-07-2025', datePlaced: '28-07-2025', stars: '4/5', review: 'Now I can actually do some stuff in here :D' },
+    { user: 'DrFeelGood0908', dateEvent: '20-07-2025', datePlaced: '27-07-2025', stars: '3/5', review: 'It was Okay' },
+    { user: 'Jesus', dateEvent: '20-07-2025', datePlaced: '27-07-2025', stars: '4/5', review: 'Really liked the React part of React' },
+    { user: 'Michiel de Ruijter', dateEvent: '20-07-2025', datePlaced: '28-07-2025', stars: '5/5', review: 'Would go again' },
+    { user: 'HeWhoMustNotBeNamed', dateEvent: '20-07-2025', datePlaced: '28-07-2025', stars: '4/5', review: 'Now I can actually do some stuff in here :D' },
   ];
 
   // Pagination state
@@ -33,7 +45,7 @@ const Reviews: React.FC = () => {
 
   return (
     <div>
-      <h2>Reviews</h2>
+      <h2 style={{margin: '0px'}}>Reviews</h2>
       <table>
         <thead>
           <tr>
@@ -57,8 +69,8 @@ const Reviews: React.FC = () => {
         </tbody>
       </table>
       <ReactPaginate
-        previousLabel={"← Previous"}
-        nextLabel={"Next →"}
+        previousLabel={<button style={{border:"0px", outline:"none", color:"#007bff"}} className="prev">← Previous</button>}
+        nextLabel={<button style={{border:"0px", outline:"none", color:"#007bff"}} className="next">Next →</button>}
         pageCount={Math.ceil(reviews.length / itemsPerPage)}
         onPageChange={handlePageClick}
         containerClassName={"pagination"}
@@ -66,6 +78,7 @@ const Reviews: React.FC = () => {
         pageClassName={"page"}
         previousClassName={"prev"}
         nextClassName={"next"}
+        forcePage={currentPage}
         disabledClassName={"disabled"}
       />
     </div>
