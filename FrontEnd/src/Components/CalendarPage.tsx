@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { Footer } from "./Footer"
-import { Header } from "./Header"
 import { WeekCalendar } from "./WeekCalendar"
 import { MonthCalendar } from "./MonthCalendar"
 import { HourDisplay } from "./HourDisplay"

@@ -8,13 +8,11 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import './App.css';
-import { MonthCalendar } from './Components/MonthCalendar';
 import "./Styling/MonthCalendar.css";
 import "./Styling/EventSignupOverlay.css";
 import "./Styling/WeekCalendar.css"
 import "./Styling/Footer.css"
 import "./Styling/CalendarPage.css"
-import { WeekCalendar } from './Components/WeekCalendar';
 import { CalendarPage } from './Components/CalendarPage';
 
 const App: React.FC = () => {
