@@ -23,6 +23,7 @@ public class LoginController : Controller
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginBody loginBody)
     {
+        Console.WriteLine($"Tried loging in with {loginBody}");
         if (loginBody is null)
         {
             return BadRequest("Loginbody is null");
