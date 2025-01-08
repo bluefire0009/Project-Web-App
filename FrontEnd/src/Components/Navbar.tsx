@@ -23,6 +23,9 @@ class Navbar extends React.Component<{}, {}> {
             <NavLink to="/logout">
                 Log out
             </NavLink>
+            <NavLink to="/admin">
+                Admin
+                </NavLink>
         </nav>
     }
 }

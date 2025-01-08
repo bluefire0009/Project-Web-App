@@ -4,5 +4,6 @@ export const Header: React.FC = () => {
         <a href="#">Events</a>
         <a href="#">Calendar</a>
         <a href="#">Log out</a>
+        <a href="#">Admin</a>
     </header>
 }
