@@ -48,12 +48,6 @@ const SelectedDay: React.FC = () => {
           <button className="remove-btn">REMOVE</button>
         </section>
       </main>
-
-      <footer>
-        <a href="#">Contact</a>
-        <a href="#">Information</a>
-        <a href="#">Report bug</a>
-      </footer>
     </div>
   );
 };
