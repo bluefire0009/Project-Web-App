@@ -11,16 +11,16 @@ class Navbar extends React.Component<{}, {}> {
 
     render(): React.ReactNode {
         return <nav className="navbar">
-            <NavLink to="/user">
+            <NavLink to="/">
                 Homepage
             </NavLink>
-            <NavLink to="/day">
+            <NavLink to="/calendar">
                 Events
             </NavLink>
-            <NavLink to="/user">
+            <NavLink to="/calendar">
                 Calendar
             </NavLink>
-            <NavLink to="/user">
+            <NavLink to="/logout">
                 Log out
             </NavLink>
         </nav>
