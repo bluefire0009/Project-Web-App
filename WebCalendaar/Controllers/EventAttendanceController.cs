@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebCalendaar.Models;
 
-[Route("api/v1/eventAttendance")]
+[Route("api/eventAttendance")]
 public class EventAttendanceController : Controller {
     readonly IEventAttendanceStorage Storage;
 

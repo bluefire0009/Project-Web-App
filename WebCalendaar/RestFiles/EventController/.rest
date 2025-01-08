@@ -1,11 +1,11 @@
 ### GET Event by ID
-GET http://localhost:5097/api/v1/events/1
+GET http://localhost:5097/api/events/1
 Content-Type: application/json
 
 ###
 
 ### Create a new Event
-POST http://localhost:5097/api/v1/events/create
+POST http://localhost:5097/api/events/create
 Content-Type: application/json
 
 
@@ -23,7 +23,7 @@ Content-Type: application/json
 ###
 
 ### Update an existing Event
-PUT http://localhost:5097/api/v1/events/update/1
+PUT http://localhost:5097/api/events/update/1
 Content-Type: application/json
 
 {
@@ -40,4 +40,4 @@ Content-Type: application/json
 ###
 
 ### Delete an Event by ID
-DELETE http://localhost:5097/api/v1/events/delete/1
+DELETE http://localhost:5097/api/events/delete/1

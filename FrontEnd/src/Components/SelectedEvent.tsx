@@ -1,18 +1,11 @@
 import React from 'react';
+import { CalendarEvent } from '../States/CalendarState';
+import { format } from 'date-fns';
 
-const SelectedEvent: React.FC = () => {
-  const event = {
-    title: 'WebDev React les 2',
-    place: 'Hogeschool Rotterdam',
-    date: '20-07-2025',
-    time: '9:00 - 18:00',
-    description: 'Attendence necesary. Make sure to have created a React component. 1 per person',
-  };
-
+export const SelectedEvent: React.FC<CalendarEvent> = (event: CalendarEvent) => {
   return (
     <div>
-      <h2>Selected Event</h2>
-      <p>Here you can see more information about the selected event.</p>
+      <div>Here you can see more information about the selected event.</div>
       <table>
         <thead>
           <tr>
@@ -25,11 +18,11 @@ const SelectedEvent: React.FC = () => {
         </thead>
         <tbody>
           <tr>
-            <td>{event.title}</td>
-            <td>{event.place}</td>
-            <td>{event.date}</td>
-            <td>{event.time}</td>
-            <td>{event.description}</td>
+            <td>{event.Title}</td>
+            <td>{event.Location}</td>
+            <td>{format(event.StartTime, 'dd/MM/yyyy')}</td>
+            <td>{format(event.StartTime, "kk:mm")} - {format(event.EndTime, "kk:mm")}</td>
+            <td>{event.Description}</td>
           </tr>
         </tbody>
       </table>
