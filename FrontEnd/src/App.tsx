@@ -19,14 +19,10 @@ const App: React.FC = () => {
     <div style={{ margin: '20px' }}>
       <Reviews />
       <SignUpSection />
-
       <UserPageMain UserId={4}/>
       <SelectedDay />
-      
-      {/*<CalendarPage/>*/}
-      
+      {/* <CalendarPage/> */}
     </div>
-    
   );
 };
 
