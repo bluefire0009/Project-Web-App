@@ -6,7 +6,7 @@ using WebCalendaar.Models;
 namespace WebCalendaar.Controllers;
 
 
-[Route("api/Login")]
+[Route("api/")]
 public class LoginController : Controller
 {
     private readonly ILoginService _loginService;
@@ -23,6 +23,7 @@ public class LoginController : Controller
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginBody loginBody)
     {
+
         if (loginBody is null)
         {
             return BadRequest("Loginbody is null");
@@ -36,6 +37,8 @@ public class LoginController : Controller
         if (LoginState == LoginStatus.Success)
         {
             HttpContext.Session.SetString("UserSession", "LoggedIn");
+            HttpContext.Session.SetString("LoggedInUser", loginBody.Username!);
+
             return Ok($"login success as {loginBody.Username}");
         }
         else if (LoginState == LoginStatus.adminLoggedIn)
@@ -57,7 +60,11 @@ public class LoginController : Controller
         if (IsSessionRegisterd()) return Ok($"Logged in as {HttpContext.Session.GetString("LoggedInAdmin")}");
         return Unauthorized("You are not logged in As Admin");
     }
+
+    [HttpGet("IsUserLoggedIn")]
     public bool IsUserLoggedIn() => HttpContext.Session.GetString("UserSession") == "LoggedIn";
+
+    [HttpGet("IsSessionRegisterd")]
     public bool IsSessionRegisterd() => HttpContext.Session.GetString("AdminSession") == "LoggedIn";
 
     [HttpGet("Logout")]
@@ -66,11 +73,13 @@ public class LoginController : Controller
         if (IsSessionRegisterd())
         {
             HttpContext.Session.SetString("AdminSession", "LoggedOut");
+            HttpContext.Session.SetString("LoggedInAdmin", "");
             return Ok("Admin Logged out");
         }
         else if (IsUserLoggedIn())
         {
             HttpContext.Session.SetString("UserSession", "LoggedOut");
+            HttpContext.Session.SetString("LoggedInUser", "");
             return Ok("User Logged out");
         }
         return BadRequest("You are not logged in");
