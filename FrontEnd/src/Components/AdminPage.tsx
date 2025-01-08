@@ -46,7 +46,7 @@ const AdminDashboard: React.FC = () => {
     };
 
     const handleSaveReviewClick = () => {
-        // Save the updated review content (this is just a dummy implementation)
+       
         const reviewIndex = dummyReviews.findIndex(review => review.id === editingReviewId);
         if (reviewIndex !== -1) {
             dummyReviews[reviewIndex].content = reviewContent;
