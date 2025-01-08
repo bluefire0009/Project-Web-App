@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Identity.Client.Extensions.Msal;
 
-[Route("api/v1/events")]
+[Route("api/events")]
 public class EventController : Controller
 {
     readonly IEventStorage _storage;
