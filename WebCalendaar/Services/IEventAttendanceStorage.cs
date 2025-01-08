@@ -8,6 +8,7 @@ public interface IEventAttendanceStorage
     Task<Event_Attendance?> FindByUserComposite(int userId, int eventId);
     Task<bool> Update(Event_Attendance eventAttendance);
     Task<bool> Delete(int id);
+    Task<List<Event_Attendance>> GetAllByUser(int userId);
 
 }
 
@@ -58,5 +59,10 @@ public class EventAttendanceDBStorage : IEventAttendanceStorage
         Db.Event_Attendance.Update(eventAttendance);
         int n = await Db.SaveChangesAsync();
         return n > 0;
+    }
+
+    public async Task<List<Event_Attendance>> GetAllByUser(int userId)
+    {
+        return Db.Event_Attendance.Where(_ => _.UserId == userId).ToList();
     }
 }

@@ -1,0 +1,231 @@
+/* General table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  /* Header row styling */
+  table th {
+    background-color: #4a4a4a; /* Dark grey for headers */
+    color: #ffffff; /* White text for contrast */
+    font-weight: bold;
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #333;
+  }
+  
+  /* Body row styling */
+  table td {
+    padding: 10px;
+    border: 1px solid #333;
+    text-align: left;
+    color: #e0e0e0; /* Light grey for text */
+  }
+  
+  /* Alternate row colors for better readability */
+  table tbody tr:nth-child(odd) {
+    background-color: #333333; /* Dark grey for odd rows */
+  }
+  
+  table tbody tr:nth-child(even) {
+    background-color: #444444; /* Slightly lighter grey for even rows */
+  }
+  
+  /* Add hover effect */
+  table tbody tr:hover {
+    background-color: #555555; /* Lighter grey when hovering */
+  }
+  
+  /* Ensure good text readability */
+  p {
+    line-height: 1.6;
+    color: #e0e0e0; /* Light grey for normal text */
+  }
+  
+  
+  /* Pagination container */
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  /* Individual page buttons */
+  .pagination .page {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    color: #e0e0e0;
+    background-color: #333333;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  /* Hover effect */
+  .pagination .page:hover {
+    background-color: #555555;
+  }
+  
+  /* Active page styling */
+  .pagination .active {
+    background-color: #4a4a4a;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+/* Previous and next buttons */
+  .pagination .prev,
+  .pagination .next {
+      display: flex; /* Ensure the button is treated as a block for full-area clicks */
+      align-items: center; /* Center the text vertically */
+      justify-content: center; /* Center the text horizontally */
+      border: 1px solid #ccc; /* Add a border */
+      cursor: pointer; /* Show pointer cursor */
+      color: #e0e0e0; /* Text color */
+      background-color: #333333; /* Background color */
+      width: auto; /* Automatically size the button */
+      min-width: 50px; /* Ensure buttons have a decent size */
+      transition: background-color 0.2s ease-in-out;
+      text-align: center; /* Center-align the text */
+      box-sizing: border-box; /* Ensure padding and border are within the defined size */
+  }
+
+  .pagination .page a {
+    text-align: center;
+    display: flex; /* Use flexbox for alignment */
+    justify-content: center; /* Horizontally center content */
+    align-items: center; /* Vertically center content */
+    width: 32px; /* Span the entire width of the button */
+    height: 100%; /* Span the entire height of the button */
+  }
+
+  .pagination .prev:hover,
+  .pagination .next:hover {
+    background-color: #555555;
+  }
+
+  /* Disabled state */
+  .pagination .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222222; /* Dark background for better contrast */
+    color: #e0e0e0; /* Light grey text for readability */
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #333;
+    margin-bottom: 1rem;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: #e0e0e0;
+    padding: 0.5rem;
+  }
+  
+  main {
+    margin-bottom: 2rem;
+  }
+  
+  h1, h2 {
+    font-weight: 500;
+    margin: 0.5rem 0;
+    color: #ffffff; /* White headers for contrast */
+  }
+  
+  p {
+    margin: 0rem 0rem;
+    color: #e0e0e0;
+  }
+  
+  /* Table Styling */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  .info-table th {
+    background-color: #4a4a4a; /* Dark grey headers */
+    color: #ffffff; /* White text */
+    font-weight: bold;
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #333;
+  }
+  
+  .info-table td {
+    padding: 10px;
+    border: 1px solid #333;
+    text-align: left;
+    color: #e0e0e0; /* Light grey text */
+  }
+  
+  .info-table tbody tr:nth-child(odd) {
+    background-color: #333333; /* Dark grey for odd rows */
+  }
+  
+  .info-table tbody tr:nth-child(even) {
+    background-color: #444444; /* Slightly lighter grey for even rows */
+  }
+  
+  .info-table tbody tr:hover {
+    background-color: #555555; /* Hover effect */
+  }
+  
+  /* Blue Button Styling */
+  .remove-btn {
+    background-color: #007bff; /* Blue color */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .remove-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Footer Styling */
+  footer {
+    text-align: center;
+    border-top: 1px solid #333;
+    padding: 1rem 0;
+  }
+  
+  footer a {
+    margin: 0 1rem;
+    text-decoration: none;
+    color: #007bff; /* Blue for footer links */
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* Darker blue on hover */
+  }

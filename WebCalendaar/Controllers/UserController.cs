@@ -7,12 +7,18 @@ using WebCalendaar.Utils;
 public class UserController : Controller
 {
     private readonly ILoginService _loginService;
-    public IUserStorage _userStorage;
+    private readonly IUserStorage _userStorage;
+    private readonly IAttendanceStorage _AttendanceStorage;
+    private readonly IEventAttendanceStorage _EventAttendanceStorage;
+    private readonly IEventStorage _EventStorage;
 
-    public UserController(ILoginService loginService, IUserStorage storage)
+    public UserController(ILoginService loginService, IUserStorage storage, IAttendanceStorage attendanceStorage, IEventAttendanceStorage eventAttendanceStorage, IEventStorage eventStorage)
     {
         this._userStorage = storage;
         this._loginService = loginService;
+        this._AttendanceStorage = attendanceStorage;
+        this._EventAttendanceStorage = eventAttendanceStorage;
+        this._EventStorage = eventStorage;
     }
 
     [HttpPost("")]
@@ -48,9 +54,13 @@ public class UserController : Controller
     }
 
     [HttpGet("Read")]
-    public async Task<IActionResult> Read([FromQuery] int userId)
+    public async Task<IActionResult> Read([FromQuery] int? userId)
     {
-        var user = await _userStorage.Read(userId);
+        if (userId is null && HttpContext.Session.GetString("LoggedInUser") is null)
+        return BadRequest("No user found");
+
+        int id = userId ?? int.Parse(HttpContext.Session.GetString("LoggedInUser"));
+        var user = await _userStorage.Read(id);
         if (user == null) return NotFound();
         return Ok(user);
     }
@@ -67,6 +77,19 @@ public class UserController : Controller
     {
         if (await _userStorage.Delete(userId)) return Ok("User deleted");
         return NotFound("user not found");
+    }
+
+    [HttpGet("GetUpcomingWorkAttendances")]
+    public async Task<IActionResult> GetAttendancesByUser([FromQuery] int userId) {
+        List<Attendance> found = await this._AttendanceStorage.GetAllUpcomingByUser(userId);
+        return Ok(found);
+    }
+
+    [HttpGet("GetUpcomingEvents")]
+    public async Task<IActionResult> GetUpcomingEventAttendancesByUser([FromQuery] int userId) {
+        List<Event_Attendance> event_Attendances = await this._EventAttendanceStorage.GetAllByUser(userId);
+        List<Event> found = await this._EventStorage.GetAllUpcomingByIds(event_Attendances.Select(_ => _.EventId).ToList());
+        return Ok(found);
     }
 }
 

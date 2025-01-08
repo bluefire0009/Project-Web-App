@@ -84,6 +84,12 @@ public class AttendanceDBStorage : IAttendanceStorage
         return db.Attendance.ToList();
     }
 
+    public async Task<List<Attendance>> GetAllUpcomingByUser(int UserId)
+    {
+        List<Attendance> data = db.Attendance.Where(_ => _.UserId == UserId).ToList();
+        return data.Where(_ => _.AttendanceDate > DateOnly.FromDateTime(DateTime.Now)).ToList();
+    }
+
     public async Task<bool> LeaveReview(int eventId, int myUserId, int rating, string review)
     {
         if (rating < 0 || rating > 5) return false;

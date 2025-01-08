@@ -6,7 +6,7 @@ using WebCalendaar.Models;
 namespace WebCalendaar.Controllers;
 
 
-[Route("api/v1/Login")]
+[Route("api/Login")]
 public class LoginController : Controller
 {
     private readonly ILoginService _loginService;
