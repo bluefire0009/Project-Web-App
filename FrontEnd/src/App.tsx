@@ -26,7 +26,7 @@ const App: React.FC = () => {
       <WeekCalendar/>
       <MonthCalendar/>
       
-      {/*<CalendarPage*/}>
+      {/*<CalendarPage>*/}
       
     </div>
     
