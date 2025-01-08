@@ -11,8 +11,8 @@ using WebCalendaar.Models;
 namespace WebCalendaar.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241120115606_m1")]
-    partial class m1
+    [Migration("20250108093001_resolveConflict")]
+    partial class resolveConflict
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
