@@ -30,7 +30,7 @@ const AdminDashboard: React.FC = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Fetched events:', data); // Debugging step
+                console.log('Fetched events:', data);
                 setEvents(data);
             } else {
                 console.error('Error fetching events:', response.statusText);
@@ -43,13 +43,13 @@ const AdminDashboard: React.FC = () => {
     const handleCreateEventClick = () => {
         setShowCreateEventForm(true);
         setShowEventList(false);
-        setFeedbackMessage(null); // Clear any previous feedback message
+        setFeedbackMessage(null); 
     };
     
     const handleShowEventListClick = () => {
         setShowEventList(true);
         setShowCreateEventForm(false);
-        setFeedbackMessage(null); // Clear any previous feedback message
+        setFeedbackMessage(null); 
     };
     
     const handleBackToDashboardClick = () => {
@@ -57,12 +57,12 @@ const AdminDashboard: React.FC = () => {
         setShowEventList(false);
         setSelectedEvent(null);
         setEditingReviewId(null);
-        setFeedbackMessage(null); // Clear any previous feedback message
+        setFeedbackMessage(null); 
     };
     
     const handleSelectEvent = (eventId: string) => {
         setSelectedEvent(eventId);
-        // Show the 3 dummy reviews directly
+      
         setEventReviews(dummyReviews);
     };
     
@@ -89,10 +89,10 @@ const AdminDashboard: React.FC = () => {
             title: (e.target as any).eventName.value,
             description: (e.target as any).eventDescription.value,
             eventDate: (e.target as any).eventDate.value,
-            startTime: "00:00:00", // Add default values if necessary
-            endTime: "23:59:59",   // Add default values if necessary
-            location: "Default Location", // Add default values if necessary
-            adminApproval: false // Default value for admin approval
+            startTime: "00:00:00", 
+            endTime: "23:59:59", 
+            location: "Default Location", 
+            adminApproval: false 
         };
         try {
             const response = await fetch(`${Api_url}/api/events/create`, {
