@@ -15,7 +15,17 @@ public class EventController : Controller
     {
         _storage = storage;
     }
+  [HttpGet]
+        public IActionResult GetAllEvents()
+        {
+            var events = _storage.GetAll();
+            if (events == null || !events.Any())
+            {
+                return NotFound("No events found");
+            }
 
+            return Ok(events);
+        }
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetEvent(int id)
     {

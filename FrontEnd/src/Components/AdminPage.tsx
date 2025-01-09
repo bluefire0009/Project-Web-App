@@ -1,19 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AdminPageStateProvider, useAdminPageState } from '../States/AdminPageState';
 import '../Styling/AdminPage.css';
 
 const AdminDashboard: React.FC = () => {
     const { showCreateEventForm, setShowCreateEventForm, showEventList, setShowEventList } = useAdminPageState();
+    const [events, setEvents] = useState<any[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
     const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
     const [reviewContent, setReviewContent] = useState<string>('');
-
-    const dummyEvent = { id: '1', name: 'Sample Event' };
     const dummyReviews = [
-        { id: '1', name: 'Peter Parker', rating: 5, content: 'Great event!' },
-        { id: '2', name: 'Miles Morales', rating: 4, content: 'Had a wonderful time.' },
-        { id: '3', name: 'Miguel O Hara', rating: 3, content: 'Looking forward to the next one.' },
+        { id: '1', name: 'Stars', rating: 5, content: 'Great event!' },
+        { id: '2', name: 'Sun', rating: 4, content: 'Had a good time.' },
     ];
+
+    useEffect(() => {
+        fetchEvents();
+    }, []);
+
+    const fetchEvents = async () => {
+        try {
+            const response = await fetch('http://localhost:5097/api/events');
+            const data = await response.json();
+            console.log('Fetched events:', data); 
+            setEvents(data);
+        } catch (error) {
+            console.error('Error fetching events:', error);
+        }
+    };
 
     const handleCreateEventClick = () => {
         setShowCreateEventForm(true);
@@ -46,12 +59,37 @@ const AdminDashboard: React.FC = () => {
     };
 
     const handleSaveReviewClick = () => {
-       
         const reviewIndex = dummyReviews.findIndex(review => review.id === editingReviewId);
         if (reviewIndex !== -1) {
             dummyReviews[reviewIndex].content = reviewContent;
         }
         setEditingReviewId(null);
+    };
+
+    const handleCreateEvent = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const newEvent = {
+            name: (e.target as any).eventName.value,
+            date: (e.target as any).eventDate.value,
+            description: (e.target as any).eventDescription.value,
+        };
+        try {
+            const response = await fetch('http://localhost:5097/api/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newEvent),
+            });
+            if (response.ok) {
+                fetchEvents();
+                setShowCreateEventForm(false);
+            } else {
+                console.error('Error creating event:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error creating event:', error);
+        }
     };
 
     return (
@@ -72,7 +110,7 @@ const AdminDashboard: React.FC = () => {
                 ) : showCreateEventForm ? (
                     <div className="section">
                         <h2>Create Event</h2>
-                        <form>
+                        <form onSubmit={handleCreateEvent}>
                             <div className="formGroup">
                                 <label htmlFor="eventName">Event Name:</label>
                                 <input type="text" id="eventName" name="eventName" />
@@ -89,15 +127,19 @@ const AdminDashboard: React.FC = () => {
                         </form>
                         <button onClick={handleBackToDashboardClick}>Back to Dashboard</button>
                     </div>
-                ) : (
+                ) : showEventList ? (
                     <div className="section">
                         <h2>Event List</h2>
-                        <div className="event" onClick={() => handleSelectEvent(dummyEvent.id)}>
-                            {dummyEvent.name}
-                        </div>
+                        {(
+                            events.map(event => (
+                                <div key={event.eventId} className="event" onClick={() => handleSelectEvent(event.eventId)}>
+                                    {event.title}
+                                </div>
+                            ))
+                        )}
                         <button onClick={handleBackToDashboardClick}>Back to Dashboard</button>
                     </div>
-                )}
+                ) : null}
                 {selectedEvent && (
                     <div className="reviews">
                         <h3>Recent Reviews</h3>
