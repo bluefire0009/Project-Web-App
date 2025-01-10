@@ -19,8 +19,6 @@ public class GoogleController : Controller
     [HttpGet("syncAll")]
     public async Task<IActionResult> SyncAll()
     {
-        HttpClient client = new HttpClient();
-
         List<Event_Attendance> event_Attendances = await this._eventAttendanceStorage.GetAllByUser(4);
         List<Event> allEvents = await this._eventStorage.GetAllUpcomingByIds(event_Attendances.Select(_ => _.EventId).ToList());
 
@@ -62,6 +60,51 @@ public class GoogleController : Controller
             if (!await SendToGoogleCalendar(JsonSerializer.Serialize(googleCalendarEvent))) {
                 return BadRequest("something went wrong");
             }
+        }
+
+        return Ok("success");
+    }
+
+    [HttpGet("sync/{eventId}")]
+    public async Task<IActionResult> SyncAll(int eventId)
+    {
+        Event Event = await this._eventStorage.Read(eventId);
+
+        var googleCalendarEvent = new
+        {
+            summary = Event.Title,
+            location = Event.Location,
+            description = Event.Description,
+            start = new
+            {
+                dateTime = $"{Event.EventDate.ToString("yyyy-MM-dd")}T{Event.StartTime}+00:00",
+            },
+            end = new
+            {
+                dateTime = $"{Event.EventDate.ToString("yyyy-MM-dd")}T{Event.EndTime}+00:00",
+            },
+            // recurrence = new[]
+            // {
+            //     new { freq = "daily", interval = 1, count = 5 }
+            // },
+            // attendees = new[]
+            // {
+            //     new { email = "attendee1@example.com" },
+            //     new { email = "attendee2@example.com" }
+            // },
+            reminders = new
+            {
+                useDefault = false,
+                // new[]
+                // {
+                //     new { method = "popup", minutes = 10 },
+                //     new { method = "email", minutes = 1440 }
+                // }
+            }
+        };
+        
+        if (!await SendToGoogleCalendar(JsonSerializer.Serialize(googleCalendarEvent))) {
+            return BadRequest("something went wrong");
         }
 
         return Ok("success");
