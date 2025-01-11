@@ -71,7 +71,6 @@ export class SignInForm extends React.Component<{}, { Username: string, Password
                                 value={this.state.Username}
                                 onChange={(e) => this.setState({ Username: e.target.value })}
                             />
-                            <div>{this.state.Username}</div>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password" className="form-label">Password</label>
