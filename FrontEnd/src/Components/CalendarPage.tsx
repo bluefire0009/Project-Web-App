@@ -14,16 +14,13 @@ export const CalendarPage: React.FC = () =>{
         const loadEvents = async () => {
             try {
                 const fetchedEvents = await fetchAllEvents();
-                console.log("------")
                 setCurrentEvents(fetchedEvents); // Update the state with fetched events
                 
             } catch (error) {
                 setCurrentEvents([]);
-                console.log(error)
             }
         };
         loadEvents();
-        console.log(events);
     }, []);
 
     const ChangeCalendarButtons: React.FC = () =>{
