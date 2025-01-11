@@ -1,14 +1,17 @@
 // src/Calendar.js
 import React from "react";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths, addDays, isSameDay, isSameMonth,  } from "date-fns";
-import { CalendarState } from "../States/CalendarState";
+import { CalendarEvent, MonthCalendarState } from "../States/CalendarState";
 import { InitCalendarState } from "../States/Updaters/CalendarUpdaters";
 import { EventOverlay } from "./EventSignupOverlay";
 
-export class MonthCalendar extends React.Component<{},CalendarState>{
-    constructor(props:{}){
+export class MonthCalendar extends React.Component<{events:CalendarEvent[]},MonthCalendarState>{
+    constructor(props:{events:CalendarEvent[]}){
         super(props)
-        this.state = InitCalendarState()
+        this.state = {
+            ...InitCalendarState(),
+            currentEvents: props.events, // Initialize currentEvents from props
+        }
     }
     
     render(): React.ReactNode{
