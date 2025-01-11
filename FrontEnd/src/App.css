@@ -1,3 +1,9 @@
+.main {
+  grid-template-rows: auto 1fr auto;
+  display: grid;
+  min-height: 100vh;
+}
+
 /* General table styling */
 table {
   width: 100%;
@@ -153,11 +159,7 @@ body {
 }
 
 .navbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5%;
+  width: 100%;
   margin: auto;
   display: flex;
   justify-content: center;

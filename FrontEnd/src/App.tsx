@@ -17,10 +17,11 @@ import "./Styling/CalendarPage.css"
 import { WeekCalendar } from './Components/WeekCalendar';
 import { CalendarPage } from './Components/CalendarPage';
 import { SignInForm } from './Components/loginPage';
+import RegistrationForm from './Components/RegistrationPage';
 
 const App: React.FC = () => {
   return (
-    <div style={{ margin: '0 20px', gridTemplateRows: 'auto 1fr auto', display: 'grid', minHeight: '100vh'}}>
+    <div className="main">
       <BrowserRouter>
         <Navbar/>
         <Routes>

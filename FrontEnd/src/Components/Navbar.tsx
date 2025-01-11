@@ -1,5 +1,5 @@
 import React from "react"
-import { NavLink, Router } from "react-router";
+import { NavLink } from "react-router";
 import Api_url from "./Api_url";
 
 class Navbar extends React.Component<{}, { LoggedIn: boolean }> {
