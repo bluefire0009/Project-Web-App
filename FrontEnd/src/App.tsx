@@ -16,6 +16,7 @@ import "./Styling/Footer.css"
 import "./Styling/CalendarPage.css"
 import { WeekCalendar } from './Components/WeekCalendar';
 import { CalendarPage } from './Components/CalendarPage';
+import { SignInForm } from './Components/loginPage';
 
 const App: React.FC = () => {
   return (
@@ -31,6 +32,7 @@ const App: React.FC = () => {
           <Route path='/calendar' element={<CalendarPage/>}/>
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/signup" element={<SignUpSection />} />
+          <Route path="/Login" element={<SignInForm />} />
         </Routes>
         <Footer/>
       </BrowserRouter>
