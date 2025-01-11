@@ -9,6 +9,11 @@ export const WeekCalendar: React.FC<{events: CalendarEvent[]}> = ({events}) => {
     const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | undefined>(undefined);
     const [currentEvents, setCurrentEvents] = useState<CalendarEvent[]>(events);
 
+    // this ensures that events are updated when they are fetched in CalendarPage component
+    useEffect(() => {
+        setCurrentEvents(events);
+    }, [events]);
+
     const WeekBar: React.FC = () => {
         const paddingLeftRight = "100px"
         return <div className="WeekBar">
@@ -43,7 +48,6 @@ export const WeekCalendar: React.FC<{events: CalendarEvent[]}> = ({events}) => {
     const WeekGrid: React.FC = () => {
         const currentWeek: Date[] = eachDayOfInterval(interval(addDays(selectedDate,1), addDays(selectedDate,7)))
         const eventsThisWeek = currentEvents.filter((event)=> event.StartTime>=currentWeek[0] && event.StartTime<addDays(currentWeek[currentWeek.length-1],1))
-        
 
         const getEventStyle = (event: CalendarEvent) => {
             const eventDayIndex = currentWeek.findIndex(day => isSameDay(day, event.StartTime));
