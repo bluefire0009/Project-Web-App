@@ -6,7 +6,9 @@ export const InitCalendarState = () : MonthCalendarState => ({
     currentMonth: eachDayOfInterval({start:startOfMonth(new Date()), end:endOfMonth(new Date())}),
     currentEvents: [],
     selectedEvent: undefined,
-    isEventOverlayVisible: true,
+    selectedSelectorEvents: [],
+    isEventOverlayVisible: false,
+    isEventSelectorVisible: false,
     setCurrentDate: (date: Date) => (currentState: MonthCalendarState) => ({...currentState, currentDate: date}),
     setCurrentMonth: (date: Date) => (currentState: MonthCalendarState) => {
         const startOfMonthDate = startOfMonth(date);
@@ -24,5 +26,7 @@ export const InitCalendarState = () : MonthCalendarState => ({
     },
     setCurrentEvents: (events: CalendarEvent[]) => (currentState: MonthCalendarState) => ({...currentState, currentEvents: events}),
     setSelectedEvent: (event: CalendarEvent | undefined) => (currentState: MonthCalendarState) => (event!=undefined?{...currentState, selectedEvent: event}:{...currentState}),
-    toggleEventOverlay: (visible: boolean) => (currentState: MonthCalendarState) => ({ ...currentState, isEventOverlayVisible: visible })
+    setSelectedEvents: (events: CalendarEvent[]) => (currentState: MonthCalendarState) => ({ ...currentState, selectedSelectorEvents: events }),
+    toggleEventOverlay: (visible: boolean) => (currentState: MonthCalendarState) => ({ ...currentState, isEventOverlayVisible: visible }),
+    toggleEventSelector: (visible: boolean) => (currentState: MonthCalendarState) => ({ ...currentState, isEventSelectorVisible: visible })
 })

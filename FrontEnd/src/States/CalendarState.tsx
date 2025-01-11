@@ -16,19 +16,19 @@ export const CalendarEventConstructor = (id:bigint, title:string, desc:string, s
     Location: location
 })
 
-export type WeekCalendarState = {
-    
-}
-
 export type MonthCalendarState = {
     currentDate: Date;
     currentMonth: Date[];
     currentEvents: CalendarEvent[];
     selectedEvent: CalendarEvent | undefined;
+    selectedSelectorEvents: CalendarEvent[];
     isEventOverlayVisible: boolean;
+    isEventSelectorVisible: boolean;
     setCurrentDate: (date: Date) => (currentState: MonthCalendarState) => MonthCalendarState;
     setCurrentMonth: (date: Date) => (currentState: MonthCalendarState) => MonthCalendarState;
     setSelectedEvent: (event: CalendarEvent | undefined) => (currentState: MonthCalendarState) => MonthCalendarState;
+    setSelectedEvents: (events: CalendarEvent[]) => (currentState: MonthCalendarState) => MonthCalendarState;
     setCurrentEvents: (events: CalendarEvent[]) => (currentState: MonthCalendarState) => MonthCalendarState;
     toggleEventOverlay: (visible: boolean) => (currentState: MonthCalendarState) => MonthCalendarState;
+    toggleEventSelector: (visible: boolean) => (currentState: MonthCalendarState) => MonthCalendarState;
 };
