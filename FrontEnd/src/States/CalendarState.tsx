@@ -7,6 +7,15 @@ export type CalendarEvent = {
     Location: string;
 };
 
+export const CalendarEventConstructor = (id:bigint, title:string, desc:string, startTime:Date, endTime:Date, location:string) : CalendarEvent => ({
+    EventId: id,
+    Title: title,
+    Description: desc,
+    StartTime: startTime,
+    EndTime: endTime,
+    Location: location
+})
+
 export type WeekCalendarState = {
     
 }
