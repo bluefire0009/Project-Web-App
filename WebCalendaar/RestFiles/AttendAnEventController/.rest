@@ -1,28 +1,28 @@
 
-GET http://localhost:5097/api/AttendAnEvent?eventId=908340985093&userId=448494894986446446
+POST http://localhost:5097/api/AttendAnEvent?eventId=908340985093&userId=448494894986446446
 // User and Event not found, 404
 
 ###
 
 //check if one event exists
-GET http://localhost:5097/api/AttendAnEvent?eventId=1&userId=448494894986446446
+POST http://localhost:5097/api/AttendAnEvent?eventId=1&userId=448494894986446446
 // User not found, 404
 
 ###
 
 
 //check if one user exists
-GET http://localhost:5097/api/AttendAnEvent?eventId=908340985093&userId=1
+POST http://localhost:5097/api/AttendAnEvent?eventId=908340985093&userId=1
 // Event not found, 404
 
 ###
 
 //check if one user and one event exist
-GET http://localhost:5097/api/AttendAnEvent?eventId=1&userId=1
+POST http://localhost:5097/api/AttendAnEvent?eventId=1&userId=1
 // created, 201
 
 ###
 
 //check if one user and one event exist
-GET http://localhost:5097/api/AttendAnEvent?eventId=1&userId=1&feedback=fun
+POST http://localhost:5097/api/AttendAnEvent?eventId=1&userId=1&feedback=fun
 // created, 201
