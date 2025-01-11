@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 
 [Route("api/google")]
+[RequiresUserLogin]
 public class GoogleController : Controller
 {
     readonly IEventStorage _eventStorage;
@@ -19,10 +20,12 @@ public class GoogleController : Controller
     [HttpGet("syncAll")]
     public async Task<IActionResult> SyncAll()
     {
-        List<Event_Attendance> event_Attendances = await this._eventAttendanceStorage.GetAllByUser(4);
+        // Cannot be null because the controller checks if user is logged in, and if user is logged in, they should have an id
+        int myUserId = int.Parse(HttpContext.Session.GetString("LoggedInUser"));
+        List<Event_Attendance> event_Attendances = await this._eventAttendanceStorage.GetAllByUser(myUserId);
         List<Event> allEvents = await this._eventStorage.GetAllUpcomingByIds(event_Attendances.Select(_ => _.EventId).ToList());
 
-        var googleCalendarEvents = allEvents.Select(e => new
+        var googleCalendarEvents = allEvents.Select(async e => new
         {
             summary = e.Title,
             location = e.Location,
@@ -44,6 +47,9 @@ public class GoogleController : Controller
             //     new { email = "attendee1@example.com" },
             //     new { email = "attendee2@example.com" }
             // },
+            attendees = (await this._eventAttendanceStorage.GetAllByEvent(e.EventId)).Select(ea => new {
+                email = ea.User.Email
+            }),
             reminders = new
             {
                 useDefault = false,
@@ -68,7 +74,9 @@ public class GoogleController : Controller
     [HttpGet("sync/{eventId}")]
     public async Task<IActionResult> SyncAll(int eventId)
     {
-        Event Event = await this._eventStorage.Read(eventId);
+        Event? Event = await this._eventStorage.Read(eventId);
+        if (Event == null)
+            return NotFound($"Event with id:{eventId} not found");
 
         var googleCalendarEvent = new
         {
@@ -107,7 +115,7 @@ public class GoogleController : Controller
             return BadRequest("something went wrong");
         }
 
-        return Ok("success");
+        return Ok($"Event with id:{eventId} synced to your google calendar");
     }
 
     private async Task<bool> SendToGoogleCalendar(string jsonData) {
