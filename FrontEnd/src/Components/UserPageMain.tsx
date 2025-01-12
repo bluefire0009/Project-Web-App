@@ -8,6 +8,10 @@ type schedule = { title: string; location: string; date: string; time: string; d
 
 type UserPageProps = {};
 
+const syncToGoogle = () => {
+    fetch(`${Api_url}/api/google/syncAll`)
+}
+
 const UserPageMain: React.FC<UserPageProps> = () => {
   const [userId, setUserId] = useState<number | null>(null);
   const [userName, setUserName] = useState<string>("");
@@ -74,6 +78,7 @@ const UserPageMain: React.FC<UserPageProps> = () => {
   return (
     <div className="card userPage">
       <img className="card__banner" src={UserPageBanner} alt="" />
+      {viewingOwnProfile ? <button onClick={syncToGoogle}>Sync to Google</button> : <></>} 
       <h1>{userName}</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae nisi ut ante pharetra faucibus sit amet
