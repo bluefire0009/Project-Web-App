@@ -9,9 +9,9 @@ POST http://localhost:5097/api/User
 Content-Type: application/json
 
 {
-  "FirstName" : "john",
-  "LastName" : "Doe",
-  "Email" : "johnDoe@example.com",
+  "FirstName" : "Milan",
+  "LastName" : ":)",
+  "Email" : "milan22versluis@gmail.com",
   "Password" : "123456789"
 }
 ####

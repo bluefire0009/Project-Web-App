@@ -67,4 +67,17 @@ public class EventAttendanceController : Controller
         }
         return Ok(attendances);
     }
+
+    [HttpGet("GetByEvent/{eventId}")]
+    public async Task<IActionResult> GetEventAttendancesByEvent(int eventId) {
+        var attendances = await Storage.GetAllByEventId(eventId);
+        
+        if (attendances == null || !attendances.Any()) {
+            return NotFound($"No attendances found for event with ID {eventId}");
+        }
+        
+        return Ok(attendances);
+    }
+
+
 };

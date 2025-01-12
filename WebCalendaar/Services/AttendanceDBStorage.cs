@@ -90,9 +90,9 @@ public class AttendanceDBStorage : IAttendanceStorage
         return data.Where(_ => _.AttendanceDate > DateOnly.FromDateTime(DateTime.Now)).ToList();
     }
 
-    public async Task<bool> LeaveReview(int eventId, int myUserId, int rating, string review)
+    public async Task<bool> LeaveReview(int eventId, int myUserId, string rating, string review)
     {
-        if (rating < 0 || rating > 5) return false;
+        //if (rating < 0 || rating > 5) return false;
 
         Event_Attendance? myAttendance = await db.Event_Attendance.FirstOrDefaultAsync(a => a.EventId == eventId && a.UserId == myUserId);
         if (myAttendance == null) return false;

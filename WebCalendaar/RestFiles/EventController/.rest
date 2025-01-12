@@ -10,13 +10,13 @@ Content-Type: application/json
 
 
 {
-  "EventId":2,
-  "Title":"AAA",
-  "Description":"BBB",
-  "EventDate":"0001-01-01",
+  "EventId":3,
+  "Title":"Leuke dingen",
+  "Description":"Yodieyo",
+  "EventDate":"2025-01-12",
   "StartTime":"00:00:00",
   "EndTime":"00:01:00",
-  "Location":"SSs",
+  "Location":"WijnHaven",
   "AdminApproval":false
 }
 

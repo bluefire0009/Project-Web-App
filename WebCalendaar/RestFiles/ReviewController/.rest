@@ -1,4 +1,4 @@
-POST http://localhost:5097/api/Attendance/Review?eventId=6&rating=6&review=abc
+POST http://localhost:5097/api/Attendance/Review?eventId=1&rating=3|5&review=Jippie
 // 
 
 ###

@@ -9,5 +9,5 @@ public interface IAttendanceStorage
     Task<bool> IdExsists(int userId);
     Task<List<Attendance>> GetAll();
     Task<List<Attendance>> GetAllUpcomingByUser(int userId);
-    Task<bool> LeaveReview(int eventId, int myUserId, int rating, string review);
+    Task<bool> LeaveReview(int eventId, int myUserId, string rating, string review);
 }

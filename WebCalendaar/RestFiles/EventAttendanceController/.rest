@@ -8,11 +8,10 @@ POST http://localhost:5097/api/eventAttendance/Post
 Content-Type: application/json
 
 {
-    "Event_AttendanceId": 2,
-    "Rating": "3/5",
-    "Feedback": "Testing",
-    "UserId": 1,
-    "EventId": 2
+    "Rating": "5/5",
+    "Feedback": "Enorm goede hulp",
+    "UserId": 3,
+    "EventId": 1
 }
 //201
 
@@ -27,10 +26,10 @@ PUT http://localhost:5097/api/eventAttendance/update
 Content-Type: application/json
 
 {
-    "Event_AttendanceId": 1,
-    "Rating": 4,
-    "Feedback": "Testing updated",
-    "UserId": 1,
+    "Event_AttendanceId": 2,
+    "Rating": "5/5",
+    "Feedback": "Enorm goede hulp",
+    "UserId": 3,
     "EventId": 1
 }
 // 200
@@ -42,4 +41,8 @@ DELETE http://localhost:5097/api/eventAttendance/delete?id=1
 
 ### Get all event attendances
 GET http://localhost:5097/api/eventAttendance/GetAll
+Accept: application/json
+
+###
+GET http://localhost:5097/api/EventAttendance/GetByEvent/1
 Accept: application/json

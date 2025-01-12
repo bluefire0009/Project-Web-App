@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import Api_url from './Api_url'; // Make sure this is correctly configured
+import { Review, ReviewConstructor } from '../States/ReviewState';
 
 const Reviews: React.FC = () => {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -13,14 +14,24 @@ const Reviews: React.FC = () => {
     const fetchReviews = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${Api_url}/api/eventAttendance/get?id=1`);
+        const response = await fetch(`${Api_url}/api/EventAttendance/GetByEvent/1`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         console.log(response);
         const data = await response.json();
-        console.log(data);
-        setReviews(data);
+        const parsedData: Review[]= data.map((review:any)=>
+        ReviewConstructor(
+          review.user.firstName,
+          review.datePlaced,
+          review.event.eventDate,
+          review.feedback,
+          review.rating
+        )
+
+        )
+        console.log(parsedData);
+        setReviews(parsedData);
       } catch (error) {
         console.error('Failed to fetch reviews:', error);
       } finally {
