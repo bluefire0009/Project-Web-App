@@ -49,8 +49,12 @@ public class EventAttendanceController : Controller {
         return Ok($"Event attendance with id {id} deleted successfully");
     }
     
-    [HttpGet("GetAllForEvent")]
-    public async Task<IActionResult> GetAllEventAttendenceForEvent() {
-        List<EventAttendance> eventAttendance
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAllEventAttendances() {
+        var attendances = await Storage.GetAll();
+        if (attendances == null || !attendances.Any()) {
+            return NotFound("No event attendances found");
+        }
+        return Ok(attendances);
     }
 };
