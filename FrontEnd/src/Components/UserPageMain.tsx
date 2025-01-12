@@ -24,19 +24,23 @@ const UserPageMain: React.FC<UserPageProps> = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      let id = UserId ? parseInt(UserId) : null;
-      
-      if (id) {
+      let id = UserId !== undefined ? parseInt(UserId) : null;
+      if (id !== null) {
         setUserId(id);
         setViewingOwnProfile(false);
       } else {
-        const userIdFromApi = await fetch(`${Api_url}/api/getUserId`)
+        const userIdFromApi = await fetch(`${Api_url}/api/getUserId`, {
+          method: 'GET',
+          credentials: 'include', // Include cookies for the session
+      })
           .then(response => response.json());
 
         if (userIdFromApi === -1) {
           navigate("/");
+          return;
         } else {
           setUserId(userIdFromApi);
+          id = userIdFromApi;
           setViewingOwnProfile(true);
         }
       }
