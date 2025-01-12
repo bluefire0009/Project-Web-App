@@ -8,9 +8,9 @@ type schedule = { title: string; location: string; date: string; time: string; d
 
 type UserPageProps = {};
 
-const syncToGoogle = () => {
-    fetch(`${Api_url}/api/google/syncAll`)
-}
+const syncToGoogle = (userId: number) => { 
+    fetch(`${Api_url}/api/google/syncAll/${userId}`);
+};
 
 const UserPageMain: React.FC<UserPageProps> = () => {
   const [userId, setUserId] = useState<number | null>(null);
@@ -32,14 +32,13 @@ const UserPageMain: React.FC<UserPageProps> = () => {
         const userIdFromApi = await fetch(`${Api_url}/api/getUserId`, {
           method: 'GET',
           credentials: 'include', // Include cookies for the session
-      })
-          .then(response => response.json());
+        }).then(response => response.json());
 
         if (userIdFromApi === -1) {
           navigate("/");
           return;
         } else {
-          setUserId(userIdFromApi);
+          setUserId(parseInt(userIdFromApi));
           id = userIdFromApi;
           setViewingOwnProfile(true);
         }
@@ -82,7 +81,9 @@ const UserPageMain: React.FC<UserPageProps> = () => {
   return (
     <div className="card userPage">
       <img className="card__banner" src={UserPageBanner} alt="" />
-      {viewingOwnProfile ? <button onClick={syncToGoogle}>Sync to Google</button> : <></>} 
+      {viewingOwnProfile && userId !== null ? (
+        <button onClick={() => syncToGoogle(userId)}>Sync to Google</button>
+      ) : null}
       <h1>{userName}</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae nisi ut ante pharetra faucibus sit amet
@@ -105,15 +106,15 @@ const UserPageMain: React.FC<UserPageProps> = () => {
           </thead>
           <tbody>
             {workSchedules.length > 0 ? (
-              workSchedules.map((schedule) => (
-                <tr key={schedule.title + schedule.date}>
+              workSchedules.map((schedule, index) => (
+                <tr key={index}>
                   <td>{schedule.location}</td>
                   <td>{schedule.date}</td>
                   <td>{schedule.time}</td>
                 </tr>
               ))
             ) : (
-                <tr>
+              <tr>
                 <td colSpan={3}>No work schedules available.</td>
               </tr>
             )}
@@ -135,8 +136,8 @@ const UserPageMain: React.FC<UserPageProps> = () => {
           </thead>
           <tbody>
             {eventSchedules.length > 0 ? (
-              eventSchedules.map((schedule) => (
-                <tr key={schedule.title + schedule.date}>
+              eventSchedules.map((schedule, index) => (
+                <tr key={index}>
                   <td>{schedule.title}</td>
                   <td>{schedule.location}</td>
                   <td>{schedule.date}</td>
@@ -145,7 +146,7 @@ const UserPageMain: React.FC<UserPageProps> = () => {
                 </tr>
               ))
             ) : (
-            <tr>
+              <tr>
                 <td colSpan={5}>No event schedules available.</td>
               </tr>
             )}
