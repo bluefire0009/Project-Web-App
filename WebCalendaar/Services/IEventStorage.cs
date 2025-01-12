@@ -9,7 +9,7 @@ public interface IEventStorage
     Task<Event?> Read(int event_id); // Return int
     Task<bool> Update(int event_id, Event updatedEvent); // Returns bool
     Task<bool> Delete(int event_id); // Return int
-    List<Event> GetAll();
+    Task<List<Event>> GetAll();
     Task<List<Event>> GetAllUpcomingByIds(List<int> ids);
 }
 
@@ -33,11 +33,11 @@ public class EventDBStorage : IEventStorage
         Event? eventInDatabase = await db.Event.FirstOrDefaultAsync(a => a.EventId == event_id);
         if (eventInDatabase == null)
             return null;
-        
-        return eventInDatabase;  
+
+        return eventInDatabase;
     }
 
-        public async Task<bool> Update(int event_id, Event UpdatedEvent)
+    public async Task<bool> Update(int event_id, Event UpdatedEvent)
     {
         // find event in db
         Event? foundEvent = await db.Event.FirstOrDefaultAsync(a => a.EventId == event_id);
@@ -73,12 +73,13 @@ public class EventDBStorage : IEventStorage
 
     }
 
-    public List<Event> GetAll()
+    public Task<List<Event>> GetAll()
     {
-        return db.Event.ToList();
+        return db.Event.ToListAsync();
     }
 
-    public async Task<List<Event>> GetAllUpcomingByIds(List<int> ids) {
+    public async Task<List<Event>> GetAllUpcomingByIds(List<int> ids)
+    {
         List<Event> data = db.Event.Where(_ => ids.Contains(_.EventId)).ToList();
         return data.Where(_ => _.EventDate > DateOnly.FromDateTime(DateTime.Now)).ToList();
     }
