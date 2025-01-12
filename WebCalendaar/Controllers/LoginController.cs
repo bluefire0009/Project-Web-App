@@ -59,13 +59,16 @@ public class LoginController : Controller
     [HttpGet("IsUserLoggedIn")]
     public bool IsUserLoggedIn() => HttpContext.Session.GetString("UserSession") == "LoggedIn";
 
+    [HttpGet("GetUserId")]
+    public int GetUserId() => HttpContext.Session.GetString("UserSession") == "LoggedIn" ? int.Parse(HttpContext.Session.GetString("LoggedInUser")) : -1;
+
 
     [HttpGet("IsSessionRegisterd")]
     public IActionResult IsSessionRegisterd()
     {    // Retrieve session values
         bool Loggedin = HttpContext.Session.GetString("AdminSession") == "LoggedIn" || HttpContext.Session.GetString("UserSession") == "LoggedIn";
         if (Loggedin) return Ok("logged in");
-        else return BadRequest("Not logged in");
+        else return Ok("Not logged in");
     }
 
 
