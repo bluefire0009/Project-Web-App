@@ -13,7 +13,7 @@ import "./Styling/Footer.css"
 import "./Styling/CalendarPage.css"
 import { CalendarPage } from './Components/CalendarPage';
 import { SignInForm } from './Components/loginPage';
-import RegistrationForm from './Components/RegistrationPage';
+import SignUpSection from './Components/SignUpSection';
 
 const App: React.FC = () => {
   return (
