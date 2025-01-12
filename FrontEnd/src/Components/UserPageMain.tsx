@@ -146,7 +146,7 @@ const UserPageMain: React.FC<UserPageProps> = () => {
               ))
             ) : (
             <tr>
-                <td colSpan={3}>No event schedules available.</td>
+                <td colSpan={5}>No event schedules available.</td>
               </tr>
             )}
           </tbody>
