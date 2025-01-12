@@ -1,6 +1,14 @@
 // login as admin
 
-POST http://localhost:5097/api/Login/Login
+POST http://localhost:5097/api/Login/
+Content-Type: application/json
+
+{
+    "Username" : "admin1",
+    "Password" : "password"
+}
+####
+POST http://localhost:5097/api/Login/
 Content-Type: application/json
 
 {
@@ -13,7 +21,7 @@ Content-Type: application/json
 GET  http://localhost:5097/api/Login/IsAdminLoggedIn
 ####
 // logout
-GET  http://localhost:5097/api/Login/Logout
+GET  http://localhost:5097/api/Logout
 ####
 // login as a user
 POST http://localhost:5097/api/Login/Login

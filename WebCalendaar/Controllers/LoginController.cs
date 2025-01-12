@@ -6,7 +6,7 @@ using WebCalendaar.Models;
 namespace WebCalendaar.Controllers;
 
 
-[Route("api/Login")]
+[Route("api/")]
 public class LoginController : Controller
 {
     private readonly ILoginService _loginService;
@@ -23,11 +23,12 @@ public class LoginController : Controller
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginBody loginBody)
     {
+
         if (loginBody is null)
         {
             return BadRequest("Loginbody is null");
         }
-        if (IsSessionRegisterd() || IsUserLoggedIn())
+        if (IsAdminLoggedIn() || IsUserLoggedIn())
         {
             return BadRequest($"You are already logged in as {HttpContext.Session.GetString("LoggedInUser")}{HttpContext.Session.GetString("LoggedInAdmin")}");
         }
@@ -36,6 +37,8 @@ public class LoginController : Controller
         if (LoginState == LoginStatus.Success)
         {
             HttpContext.Session.SetString("UserSession", "LoggedIn");
+            HttpContext.Session.SetString("LoggedInUser", loginBody.Username!);
+
             return Ok($"login success as {loginBody.Username}");
         }
         else if (LoginState == LoginStatus.adminLoggedIn)
@@ -51,26 +54,34 @@ public class LoginController : Controller
 
 
     [HttpGet("IsAdminLoggedIn")]
-    public IActionResult IsAdminLoggedIn()
-    {
-        // TODO: This method should return a status 200 OK when logged in, else 403, unauthorized : Done
-        if (IsSessionRegisterd()) return Ok($"Logged in as {HttpContext.Session.GetString("LoggedInAdmin")}");
-        return Unauthorized("You are not logged in As Admin");
-    }
+    public bool IsAdminLoggedIn() => HttpContext.Session.GetString("AdminSession") == "LoggedIn";
+
+    [HttpGet("IsUserLoggedIn")]
     public bool IsUserLoggedIn() => HttpContext.Session.GetString("UserSession") == "LoggedIn";
-    public bool IsSessionRegisterd() => HttpContext.Session.GetString("AdminSession") == "LoggedIn";
+
+
+    [HttpGet("IsSessionRegisterd")]
+    public IActionResult IsSessionRegisterd()
+    {    // Retrieve session values
+        bool Loggedin = HttpContext.Session.GetString("AdminSession") == "LoggedIn" || HttpContext.Session.GetString("UserSession") == "LoggedIn";
+        if (Loggedin) return Ok("logged in");
+        else return BadRequest("Not logged in");
+    }
+
 
     [HttpGet("Logout")]
     public IActionResult Logout()
     {
-        if (IsSessionRegisterd())
+        if (IsAdminLoggedIn())
         {
             HttpContext.Session.SetString("AdminSession", "LoggedOut");
+            HttpContext.Session.SetString("LoggedInAdmin", "");
             return Ok("Admin Logged out");
         }
         else if (IsUserLoggedIn())
         {
             HttpContext.Session.SetString("UserSession", "LoggedOut");
+            HttpContext.Session.SetString("LoggedInUser", "");
             return Ok("User Logged out");
         }
         return BadRequest("You are not logged in");

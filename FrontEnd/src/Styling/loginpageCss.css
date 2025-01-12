@@ -1,0 +1,101 @@
+/* General Container Styling */
+.sign-in-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* Title Styling */
+.sign-in-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Form Styling */
+.sign-in-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.sign-in-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.sign-in-button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
+.sign-in-footer {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.sign-up-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.sign-up-link:hover {
+    text-decoration: underline;
+}
+
+/* Image on the left */
+.sign-in-image {
+    width: 40%;
+    /* The width of the image container */
+    height: 300px;
+    /* Set a fixed height for the container */
+    background-size: contain;
+    /* Ensure the entire image is visible */
+    background-position: center;
+    /* Center the image horizontally and vertically */
+    background-repeat: no-repeat;
+    /* Prevent tiling of the image */
+    margin: 0 auto;
+    /* Center the container itself horizontally */
+    display: flex;
+    /* Flexbox helps with alignment */
+    align-items: center;
+    /* Centers content vertically */
+    justify-content: center;
+    /* Centers content horizontally */
+}
+
+.Message {
+    color: red;
+}

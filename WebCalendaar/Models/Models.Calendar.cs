@@ -39,7 +39,7 @@ namespace WebCalendaar.Models
 
         [ForeignKey("UserId")]
         public User? User { get; set; }
-        public int UserId {get; set;}
+        public int UserId { get; set; }
 
         [ForeignKey("EventId")]
         public Event? Event { get; set; }
