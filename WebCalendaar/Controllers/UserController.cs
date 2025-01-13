@@ -21,24 +21,27 @@ public class UserController : Controller
         this._EventStorage = eventStorage;
     }
 
-    [HttpPost("")]
+    [HttpPost("Register")]
     public async Task<IActionResult> RegisterUser([FromBody] RegisterBody registerBody)
     {
         // registerBody == Firstname, lastName, Email, Password
         RegisterStatus RegisterState = await _loginService.CheckIfCanRegisterUserAsync(registerBody);
-        if (RegisterState == RegisterStatus.DuplicateEmail) 
+        if (RegisterState == RegisterStatus.DuplicateEmail)
             return BadRequest("This email is already registered");
-        if (RegisterState == RegisterStatus.InvalidEmailFormat) 
+        if (RegisterState == RegisterStatus.InvalidEmailFormat)
             return BadRequest("This email has wrong format");
-        if (RegisterState == RegisterStatus.InvalidPassword) 
-            return BadRequest("Invalid password inputted");
-        
+        if (RegisterState == RegisterStatus.InvalidPassword)
+            return BadRequest("Password is too short");
+
         if (RegisterState == RegisterStatus.Success)
         {
+            var fullname = registerBody.Fullname.Split();
+            string fName = fullname[0];
+            string lName = fullname.Length > 1 ? fullname[1] : "";
             User newUser = new User
             {
-                FirstName = registerBody.FirstName,
-                LastName = registerBody.LastName,
+                FirstName = fName,
+                LastName = lName,
                 Email = registerBody.Email,
                 Password = EncryptionHelper.EncryptPassword(registerBody.Password),
                 RecuringDays = "",
@@ -57,7 +60,7 @@ public class UserController : Controller
     public async Task<IActionResult> Read([FromQuery] int? userId)
     {
         if (userId is null && HttpContext.Session.GetString("LoggedInUser") is null)
-        return BadRequest("No user found");
+            return BadRequest("No user found");
 
         int id = userId ?? int.Parse(HttpContext.Session.GetString("LoggedInUser"));
         var user = await _userStorage.Read(id);
@@ -80,13 +83,15 @@ public class UserController : Controller
     }
 
     [HttpGet("GetUpcomingWorkAttendances")]
-    public async Task<IActionResult> GetAttendancesByUser([FromQuery] int userId) {
+    public async Task<IActionResult> GetAttendancesByUser([FromQuery] int userId)
+    {
         List<Attendance> found = await this._AttendanceStorage.GetAllUpcomingByUser(userId);
         return Ok(found);
     }
 
     [HttpGet("GetUpcomingEvents")]
-    public async Task<IActionResult> GetUpcomingEventAttendancesByUser([FromQuery] int userId) {
+    public async Task<IActionResult> GetUpcomingEventAttendancesByUser([FromQuery] int userId)
+    {
         List<Event_Attendance> event_Attendances = await this._EventAttendanceStorage.GetAllByUser(userId);
         List<Event> found = await this._EventStorage.GetAllUpcomingByIds(event_Attendances.Select(_ => _.EventId).ToList());
         return Ok(found);

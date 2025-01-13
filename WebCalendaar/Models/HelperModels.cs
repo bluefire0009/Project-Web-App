@@ -2,9 +2,7 @@ namespace WebCalendaar.Models;
 
 public class RegisterBody
 {
-    public required string FirstName { get; set; }
-
-    public required string LastName { get; set; }
+    public required string Fullname { get; set; }
 
     public required string Email { get; set; }
 
