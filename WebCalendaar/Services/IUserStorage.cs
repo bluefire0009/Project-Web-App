@@ -8,6 +8,7 @@ public interface IUserStorage
     Task<User?> Read(int user_id);
     Task<bool> Update(int user_id, User user);
     Task<bool> Delete(int user_id);
+    Task<User?> ReadByEmail(string email);
 }
 
 public class UserDBStorage : IUserStorage
@@ -39,6 +40,11 @@ public class UserDBStorage : IUserStorage
     public async Task<User?> Read(int user_id)
     {
         return await db.User.FirstOrDefaultAsync(x => x.UserId == user_id);
+    }
+
+    public async Task<User?> ReadByEmail(string email)
+    {
+        return await db.User.FirstOrDefaultAsync(x => x.Email == email);
     }
 
     public async Task<bool> Update(int user_id, User updatedUser)

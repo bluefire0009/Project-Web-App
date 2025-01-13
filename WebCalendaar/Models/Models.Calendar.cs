@@ -21,6 +21,13 @@ namespace WebCalendaar.Models
         public required List<int> AttendanceIds { get; set; }
 
         public required List<Event_Attendance> Event_Attendances { get; set; }
+
+        public string? auth_code { get; set; }
+
+        public string? refresh_token { get; set; }
+
+        public string? auth_token { get; set; }
+        public DateTime? auth_token_time { get; set; }
     }
 
     public class Attendance
