@@ -248,12 +248,7 @@ p {
   /* Darker blue on hover */
 }
 
-/* Footer Styling */
-footer {
-  text-align: center;
-  border-top: 1px solid #333;
-  padding: 1rem 0;
-}
+
 
 footer a {
   margin: 0 1rem;
@@ -275,10 +270,11 @@ footer a:hover {
   width: 100%;
   background-color: #333;
   /* or any background color */
-  padding: 10px;
+  /* padding: 10px; */
   text-align: center;
   z-index: 1000;
   /* ensure it's above other content */
+  height: 1.5rem;
 }
 
 .navbar {
@@ -317,4 +313,14 @@ body {
 
 .MainContent {
   padding-top: 3rem;
+}
+
+.navbar-left span {
+  margin-right: 20px;
+  padding: 5px;
+  /* Optional: Adds some padding inside the border */
+  border: 2px solid black;
+  /* Adds a black border around the text */
+  border-radius: 5px;
+  /* Optional: Rounds the corners of the border */
 }

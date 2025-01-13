@@ -16,6 +16,7 @@ import "./Styling/CalendarPage.css"
 import { CalendarPage } from './Components/CalendarPage';
 import { SignInForm } from './Components/loginPage';
 import RegistrationForm from './Components/RegistrationPage';
+import ContactScreen from './Components/contact';
 
 const App: React.FC = () => {
   return (
@@ -34,6 +35,7 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignUpSection />} />
             <Route path="/Login" element={<SignInForm />} />
             <Route path="/Register" element={<RegistrationForm />} />
+            <Route path="/contact" element={<ContactScreen />} />
           </Routes>
         </div>
         <Footer />

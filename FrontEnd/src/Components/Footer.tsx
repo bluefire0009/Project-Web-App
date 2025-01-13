@@ -10,7 +10,7 @@ export const Footer: React.FC = () => {
       <NavLink to="/contact" style={{ margin: '0 10px', textDecoration: 'none', color: '#007BFF' }} end>
         Information
       </NavLink>
-      <NavLink to="/bug" style={{ margin: '0 10px', textDecoration: 'none', color: '#007BFF' }} end>
+      <NavLink to="/contact" style={{ margin: '0 10px', textDecoration: 'none', color: '#007BFF' }} end>
         Report bug
       </NavLink>
     </footer>

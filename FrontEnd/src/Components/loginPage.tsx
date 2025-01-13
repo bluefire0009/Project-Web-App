@@ -42,7 +42,7 @@ export class SignInForm extends React.Component<{}, { Username: string, Password
             }
             else {
                 const errorText = await response.text();
-                const errorMessage = `Error: ${response.status} - ${response.statusText} - ${errorText}`;
+                const errorMessage = `${errorText}`;
                 this.setState({ Message: errorMessage });
             }
         }
