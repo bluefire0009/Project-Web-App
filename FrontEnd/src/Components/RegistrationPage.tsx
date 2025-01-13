@@ -35,6 +35,10 @@ export class RegistrationForm extends React.Component<{}, {
             this.setState({ Message: "Passwords don't match" });
             return;
         }
+        if (this.state.FullName == '') {
+            this.setState({ Message: "A name is required to register" });
+            return;
+        }
 
         try {
 
@@ -77,8 +81,8 @@ export class RegistrationForm extends React.Component<{}, {
             body: JSON.stringify(payload),
             credentials: 'include'
         })
-        // window.location.href = "/user";  // Relative URL
-        if (response.ok) { alert("logged in after registering") }
+        window.location.href = "/user";  // Relative URL
+        if (response.ok) { alert("Logged in automatically") }
         else {
             const errorText = await response.text();
             const errorMessage = `Error: ${response.status} - ${response.statusText} - ${errorText}`;
