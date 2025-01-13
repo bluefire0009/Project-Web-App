@@ -267,3 +267,54 @@ footer a:hover {
   color: #0056b3;
   /* Darker blue on hover */
 }
+
+.Footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  /* or any background color */
+  padding: 10px;
+  text-align: center;
+  z-index: 1000;
+  /* ensure it's above other content */
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  /* Adjust the height of the navbar */
+  background-color: #333;
+  /* Or any color you prefer */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Center links vertically */
+  border-bottom: 1px solid #333;
+  z-index: 1000;
+  /* Ensure it's above other content */
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #e0e0e0;
+  padding: 0.5rem 1rem;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #222222;
+  color: #e0e0e0;
+  padding-top: 160px;
+  /* Adjust this based on your navbar height */
+}
+
+.MainContent {
+  padding-top: 3rem;
+}
