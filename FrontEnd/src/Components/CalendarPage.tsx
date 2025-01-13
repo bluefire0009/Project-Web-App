@@ -1,13 +1,28 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Footer } from "./Footer"
-import { Header } from "./Header"
 import { WeekCalendar } from "./WeekCalendar"
 import { MonthCalendar } from "./MonthCalendar"
 import { HourDisplay } from "./HourDisplay"
+import { CalendarEvent } from "../States/CalendarState"
+import { fetchAllEvents } from "../DataLoader"
 
 export const CalendarPage: React.FC = () =>{
     const [selectedCalendar, setSelectedCalendar] = useState<CurrentlySelectedCalendar>(CurrentlySelectedCalendar.WeeklyCalendar)
-    
+    const [events, setCurrentEvents] = useState<CalendarEvent[]>([]);
+
+    useEffect(() => {
+        const loadEvents = async () => {
+            try {
+                const fetchedEvents = await fetchAllEvents();
+                setCurrentEvents(fetchedEvents); // Update the state with fetched events
+                
+            } catch (error) {
+                setCurrentEvents([]);
+            }
+        };
+        loadEvents();
+    }, []);
+
     const ChangeCalendarButtons: React.FC = () =>{
         return <span className="CalendarButtons">
             <button className="WeeklyCalendarButton"
@@ -22,14 +37,10 @@ export const CalendarPage: React.FC = () =>{
         </span>
     }
     return <div className="CalendarPage">
-        {/* <Header/> */}
-        
         <ChangeCalendarButtons/>
         <div className="CalendarSection">
-            {selectedCalendar == CurrentlySelectedCalendar.WeeklyCalendar? <span style={{display:"flex"}}><HourDisplay/><WeekCalendar/></span>:<MonthCalendar/>}
+            {selectedCalendar == CurrentlySelectedCalendar.WeeklyCalendar? <span style={{display:"flex"}}><HourDisplay/><WeekCalendar events={events}/></span>:<MonthCalendar events={events}/>}
         </div>
-        
-        {/* <Footer/> */}
     </div>
 }
 

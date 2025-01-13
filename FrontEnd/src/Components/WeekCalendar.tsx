@@ -3,19 +3,16 @@ import { format, addDays, subDays, startOfWeek, getWeek, interval, eachDayOfInte
 import { CalendarEvent } from "../States/CalendarState";
 import { EventOverlay } from "./EventSignupOverlay";
 
-export const WeekCalendar: React.FC = () => {
+export const WeekCalendar: React.FC<{events: CalendarEvent[]}> = ({events}) => {
     const [selectedDate, setSelectedWeek] = useState<Date>(startOfWeek(new Date()));
     const [eventOverlaysVisible, toggleEventOverlay] = useState<boolean>(false);
     const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | undefined>(undefined);
-    const [currentEvents, setCurrentEvents] = useState<CalendarEvent[]>([
-        {EventId:1n,Description:"Company party for christmas", Location:"First floor", Title: "Christmas party", StartTime: new Date("2024/12/24 14:00"), EndTime: new Date("2024/12/24 15:00")},
-        {EventId:2n,Description:"Teamwork workshop given by company A", Location:"First floor", Title: "Workshop", StartTime: new Date("2024/12/8 14:00"), EndTime: new Date("2024/12/8 15:00")},
-        {EventId:3n,Description:"Conflict resolution workshop given by company B", Location:"First floor", Title: "Workshop", StartTime: new Date("2024/12/9 14:00"), EndTime: new Date("2024/12/9 15:00")},
-        {EventId:4n,Description:"Company party for halloween", Location:"Second floor", Title: "Halloween party", StartTime: new Date("2024/12/14 14:00"), EndTime: new Date("2024/12/14 16:00")},
-        {EventId:5n,Description:"Company party for halloween", Location:"Second floor", Title: "Halloween party", StartTime: new Date("2024/12/13 7:45"), EndTime: new Date("2024/12/13 12:00")},
-        {EventId:6n,Description:"Company party for halloween", Location:"Second floor", Title: "Halloween party", StartTime: new Date("2024/12/13 11:45"), EndTime: new Date("2024/12/13 16:00")},
-        {EventId:7n,Description:"Company party for halloween", Location:"Second floor", Title: "Halloween party", StartTime: new Date("2024/12/12 10:00"), EndTime: new Date("2024/12/12 16:00")},
-    ]);
+    const [currentEvents, setCurrentEvents] = useState<CalendarEvent[]>(events);
+
+    // this ensures that events are updated when they are fetched in CalendarPage component
+    useEffect(() => {
+        setCurrentEvents(events);
+    }, [events]);
 
     const WeekBar: React.FC = () => {
         const paddingLeftRight = "100px"
@@ -50,7 +47,7 @@ export const WeekCalendar: React.FC = () => {
 
     const WeekGrid: React.FC = () => {
         const currentWeek: Date[] = eachDayOfInterval(interval(addDays(selectedDate,1), addDays(selectedDate,7)))
-        const eventsThisWeek = currentEvents.filter((event)=> event.StartTime>=currentWeek[0] && event.StartTime<=currentWeek[currentWeek.length-1])
+        const eventsThisWeek = currentEvents.filter((event)=> event.StartTime>=currentWeek[0] && event.StartTime<addDays(currentWeek[currentWeek.length-1],1))
 
         const getEventStyle = (event: CalendarEvent) => {
             const eventDayIndex = currentWeek.findIndex(day => isSameDay(day, event.StartTime));
