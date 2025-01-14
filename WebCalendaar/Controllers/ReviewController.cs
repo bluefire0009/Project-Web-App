@@ -11,9 +11,9 @@ public class ReviewController : Controller
         this.attendanceStorage = attendanceStorage;
     }
 
-    [RequiresUserLogin]
+    //[RequiresUserLogin]
     [HttpPost("Review")]
-    public async Task<IActionResult> LeaveAReview([FromQuery] int eventId, [FromQuery] int rating, [FromQuery] string review)
+    public async Task<IActionResult> LeaveAReview([FromQuery] int eventId, [FromQuery] string rating, [FromQuery] string review)
     {
         int myUserId = int.Parse(HttpContext.Session.GetString("LoggedInUser"));
         bool added = await attendanceStorage.LeaveReview(eventId, myUserId, rating, review);
@@ -25,7 +25,7 @@ public class ReviewController : Controller
     [HttpDelete("Review")]
     public async Task<IActionResult> DeleteAReview([FromQuery] int eventId, [FromQuery] int userId)
     {
-        bool removed = await attendanceStorage.LeaveReview(eventId, userId, 0, "");
+        bool removed = await attendanceStorage.LeaveReview(eventId, userId, "", "");
         if (removed) return Ok($"Removed the review from an event id: {eventId} of the user {userId}");
         return BadRequest("Something went wrong");
     }

@@ -58,4 +58,26 @@ public class EventAttendanceController : Controller
         await Storage.Delete(id);
         return Ok($"Event attendance with id {id} deleted successfully");
     }
+    
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAllEventAttendances() {
+        var attendances = await Storage.GetAll();
+        if (attendances == null || !attendances.Any()) {
+            return NotFound("No event attendances found");
+        }
+        return Ok(attendances);
+    }
+
+    [HttpGet("GetByEvent/{eventId}")]
+    public async Task<IActionResult> GetEventAttendancesByEvent(int eventId) {
+        var attendances = await Storage.GetAllByEventId(eventId);
+        
+        if (attendances == null || !attendances.Any()) {
+            return NotFound($"No attendances found for event with ID {eventId}");
+        }
+        
+        return Ok(attendances);
+    }
+
+
 };
