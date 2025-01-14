@@ -33,7 +33,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({ event, isVisible, on
               ✖
             </button>
             {SelectedEvent(event)}
-            <Reviews />
+            <Reviews eventId={event.EventId} />
             <SignUpSection event={event} currentUserId={userId} />
           </div>
         </div>

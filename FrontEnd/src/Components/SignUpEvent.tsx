@@ -95,49 +95,48 @@ const SignUpEvent: React.FC<{ event: CalendarEvent; currentUserId: number }> = (
         }
     };
 
-    // Handle sign off (delete)
+  
     const handleSignOff = async () => {
-        if (!event || eventAttendanceId === null) return;
-    
-        try {
-            // Make the DELETE request to the API
-            const response = await fetch(`${Api_url}/api/eventAttendance/Delete?id=${eventAttendanceId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-    
-            // Check if the response is OK (status code 2xx)
-            if (response.ok) {
-                const contentType = response.headers.get('Content-Type');
-    
-                if (contentType && contentType.includes('application/json')) {
-                    // If the response is in JSON format, parse it
-                    const result = await response.json();
-                    setIsSignedUp(false); // User is no longer signed up
-                    setEventAttendanceId(null); // Clear attendance ID
-                    setMessage(result.message || 'Successfully signed off.');
-    
-                    console.log('Signed off successfully:', result);
-                } else {
-                    // If the response is not in JSON format (plain text), handle that
-                    const resultText = await response.text();
-                    setMessage(`Error: ${resultText}`);
-                    console.log('Error signing off (not JSON response):', resultText);
-                }
+    if (!event || eventAttendanceId === null) return;
+
+    try {
+        
+        const response = await fetch(`${Api_url}/api/eventAttendance/Delete?id=${eventAttendanceId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        
+        if (response.ok) {
+            const contentType = response.headers.get('Content-Type');
+
+            if (contentType && contentType.includes('application/json')) {
+                
+                const result = await response.json();
+                setIsSignedUp(false); 
+                setEventAttendanceId(null); 
+                setMessage(result.message || 'Successfully signed off.');
+                console.log('Signed off successfully:', result);
             } else {
-                // If the response status is not OK (2xx), display the error message
-                const errorText = await response.text();
-                setMessage(`Failed to sign off: ${errorText}`);
-                console.log('Failed to sign off (error response):', errorText);
+                
+                const resultText = await response.text();
+                setMessage(`Error: ${resultText}`);
+                console.log('Error signing off (non-JSON response):', resultText);
             }
-        } catch (error) {
-            // Catch any network or unexpected errors
-            setMessage(`Error signing off: ${error instanceof Error ? error.message : 'Unknown error'}`);
-            console.error('Error signing off:', error);
+        } else {
+            
+            const errorText = await response.text();
+            setMessage(`Failed to sign off: ${errorText}`);
+            console.log('Failed to sign off (error response):', errorText);
         }
-    };
+    } catch (error) {
+        // Catch any network or unexpected errors
+        setMessage(`Error signing off: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        console.error('Error signing off:', error);
+    }
+};
 
     const isValidDate = (date: any) => {
         return date instanceof Date && !isNaN(date as any);
