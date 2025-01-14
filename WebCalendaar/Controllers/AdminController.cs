@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebCalendaar.Models;
 [Route("api/Admin")]
-//[RequiresAdminLogin]
+[RequiresAdminLogin]
 public class AdminController : Controller
 {
     readonly IAdminStorage adminStorage;
