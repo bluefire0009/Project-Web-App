@@ -3,7 +3,14 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMont
 
 export const InitCalendarState = () : MonthCalendarState => ({
     currentDate: new Date(),
-    currentMonth: eachDayOfInterval({start:startOfMonth(new Date()), end:endOfMonth(new Date())}),
+    currentMonth: ((date: Date) => {
+        const startOfMonthDate = startOfMonth(date);
+        const endOfMonthDate = endOfMonth(date);
+        const daysInMonth = eachDayOfInterval({ start: startOfMonthDate, end: endOfMonthDate });
+        const startDay = startOfMonthDate.getDay();
+        const emptyCells = Array(startDay).fill(undefined);
+        return [...emptyCells, ...daysInMonth];
+    })(new Date()),
     currentEvents: [],
     selectedEvent: undefined,
     selectedSelectorEvents: [],
