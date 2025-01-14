@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebCalendaar.Migrations
 {
     /// <inheritdoc />
-    public partial class resolveConflict : Migration
+    public partial class fixDB1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,11 @@ namespace WebCalendaar.Migrations
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Password = table.Column<string>(type: "TEXT", nullable: false),
                     RecuringDays = table.Column<string>(type: "TEXT", nullable: false),
-                    AttendanceIds = table.Column<string>(type: "TEXT", nullable: false)
+                    AttendanceIds = table.Column<string>(type: "TEXT", nullable: false),
+                    auth_code = table.Column<string>(type: "TEXT", nullable: true),
+                    refresh_token = table.Column<string>(type: "TEXT", nullable: true),
+                    auth_token = table.Column<string>(type: "TEXT", nullable: true),
+                    auth_token_time = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,10 +93,11 @@ namespace WebCalendaar.Migrations
                 {
                     Event_AttendanceId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Rating = table.Column<int>(type: "INTEGER", nullable: true),
-                    Feedback = table.Column<string>(type: "TEXT", nullable: true),
+                    Rating = table.Column<string>(type: "TEXT", nullable: false),
+                    Feedback = table.Column<string>(type: "TEXT", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    EventId = table.Column<int>(type: "INTEGER", nullable: false)
+                    EventId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DatePlaced = table.Column<DateOnly>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -11,8 +11,8 @@ using WebCalendaar.Models;
 namespace WebCalendaar.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250112170015_updateUserForGoogle")]
-    partial class updateUserForGoogle
+    [Migration("20250114083846_fixDB1")]
+    partial class fixDB1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,14 +137,19 @@ namespace WebCalendaar.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateOnly>("DatePlaced")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("EventId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Feedback")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("Rating")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Rating")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -192,6 +197,9 @@ namespace WebCalendaar.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("auth_token")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("auth_token_time")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("refresh_token")

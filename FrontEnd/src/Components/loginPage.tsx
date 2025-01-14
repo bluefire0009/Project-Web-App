@@ -42,7 +42,7 @@ export class SignInForm extends React.Component<{}, { Username: string, Password
             }
             else {
                 const errorText = await response.text();
-                const errorMessage = `Error: ${response.status} - ${response.statusText} - ${errorText}`;
+                const errorMessage = `${errorText}`;
                 this.setState({ Message: errorMessage });
             }
         }
@@ -88,7 +88,7 @@ export class SignInForm extends React.Component<{}, { Username: string, Password
                             Sign In
                         </button>
                         <p className="sign-in-footer">
-                            Don't have an account? <a href="#signup" className="sign-up-link">Sign up</a>
+                            Don't have an account? <a href="/register" className="sign-up-link">Sign up</a>
                         </p>
                     </form>
                 </div>
