@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import ReactPaginate from 'react-paginate';
 import Api_url from './Api_url'; // Make sure this is correctly configured
 import { Review, ReviewConstructor } from '../States/ReviewState';
@@ -7,7 +7,7 @@ interface ReviewProps {
   eventId: bigint;
 }
 
-const Reviews: React.FC<ReviewProps> = ({eventId}) => {
+const Reviews: React.FC<ReviewProps> = ({ eventId }) => {
   const [reviews, setReviews] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -19,34 +19,34 @@ const Reviews: React.FC<ReviewProps> = ({eventId}) => {
   const itemsPerPage = 4; // Number of reviews per page
 
   // Fetch reviews from the backend
-  useEffect(() => {
-    const fetchReviews = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`${Api_url}/api/EventAttendance/GetByEvent/${eventId}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        const parsedData: Review[] = data.map((review: any) =>
-          ReviewConstructor(
-            review.user.firstName,
-            review.datePlaced,
-            review.event.eventDate,
-            review.feedback,
-            review.rating
-          )
-        );
-        setReviews(parsedData);
-      } catch (error) {
-        console.error('Failed to fetch reviews:', error);
-      } finally {
-        setLoading(false);
+  const fetchReviews = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${Api_url}/api/EventAttendance/GetByEvent/${eventId}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
+      const data = await response.json();
+      const parsedData: Review[] = data.map((review: any) =>
+        ReviewConstructor(
+          review.user.firstName,
+          review.datePlaced,
+          review.event.eventDate,
+          review.feedback,
+          review.rating
+        )
+      );
+      setReviews(parsedData);
+    } catch (error) {
+      console.error('Failed to fetch reviews:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [eventId]);
 
+  useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [fetchReviews]);
 
   // Handle page change
   const handlePageClick = (event: { selected: number }) => {
@@ -61,26 +61,27 @@ const Reviews: React.FC<ReviewProps> = ({eventId}) => {
   // Handle form submission
   const handleSubmitReview = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     if (!newReview.rating || !newReview.review) {
       alert('Please fill in all fields before submitting.');
       return;
     }
-  
+
     try {
       const response = await fetch(
         `${Api_url}/api/Attendance/Review?eventId=${eventId}&rating=${newReview.rating}&review=${encodeURIComponent(newReview.review)}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          credentials: "include"
+          credentials: 'include',
         }
       );
-  
+
       if (response.ok) {
         alert('Review submitted successfully!');
         setNewReview({ rating: '', review: '' });
         setShowModal(false);
+        await fetchReviews(); // Refresh reviews after successful submission
       } else {
         const errorMessage = await response.text();
         alert(`Failed to submit review: ${errorMessage}`);
