@@ -21,7 +21,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({ event, isVisible, on
               ✖
             </button>
             {SelectedEvent(event)}
-            <Reviews eventId={event.EventId} />
+            <Reviews />
             <SignUpSection />
           </div>
         </div>
