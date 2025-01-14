@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebCalendaar.Models;
+using WebCalendaar.Utils;
 
 public class AdminDBStorage : IAdminStorage
 {
@@ -16,6 +17,8 @@ public class AdminDBStorage : IAdminStorage
         if (adminInDatabase != null)
             return false;
 
+        string Password = EncryptionHelper.EncryptPassword(admin.Password);
+        admin.Password = Password;
         await db.Admin.AddAsync(admin);
 
         int nrChanges = await db.SaveChangesAsync();

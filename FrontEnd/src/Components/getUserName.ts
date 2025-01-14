@@ -1,7 +1,7 @@
 import Api_url from "./Api_url";
 
-// Modify fetchAndAlertUserId to return the userId
-export const fetchAndAlertUserId = async (): Promise<number | null> => {
+// return the userId
+export const fetchUserId = async (): Promise<number | null> => {
     try {
         const response = await fetch(`${Api_url}/api/getUserId`, {
             method: "GET",
@@ -22,25 +22,19 @@ export const fetchAndAlertUserId = async (): Promise<number | null> => {
     }
 };
 
-// Modify fetchUserName to use the returned userId
+// retrun the username of admin or user
 export const fetchUserName = async (): Promise<string> => {
     try {
-        const userId = await fetchAndAlertUserId(); // Get the userId
-
-        if (userId === null) {
-            return "No user logged in"; // If no user is logged in, return an appropriate message
-        }
-
-        const response = await fetch(`${Api_url}/api/user/read?userId=${userId}`, {
+        const response = await fetch(`${Api_url}/api/GetUserName`, {
             method: "GET",
             credentials: "include", // Include cookies for the session
         });
 
         if (response.ok) {
-            const content = await response.json();
-            return `${content.firstName} ${content.lastName}`;
+            const content = await response.text();
+            return `${content}`;
         } else {
-            throw new Error("Failed to fetch user data");
+            throw new Error("Failed to fetch user name");
         }
     } catch (error) {
         console.error("Error fetching user name:", error);

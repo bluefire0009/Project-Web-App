@@ -28,9 +28,9 @@ public class LoginController : Controller
         {
             return BadRequest("Loginbody is null");
         }
-        if (IsAdminLoggedIn() || IsUserLoggedIn())
+        if (IsAnyoneLoggedIn())
         {
-            return BadRequest($"You are already logged in as {HttpContext.Session.GetString("LoggedInUser")}{HttpContext.Session.GetString("LoggedInAdmin")}");
+            return BadRequest($"You are already logged in as {HttpContext.Session.GetString("LoggedInUser")}");
         }
 
         var LoginState = await _loginService.CheckUserAsync(loginBody.Username!, loginBody.Password!, HttpContext);
@@ -44,7 +44,7 @@ public class LoginController : Controller
         else if (LoginState == LoginStatus.adminLoggedIn)
         {
             HttpContext.Session.SetString("AdminSession", "LoggedIn");
-            HttpContext.Session.SetString("LoggedInAdmin", $"{loginBody.Username}");
+            HttpContext.Session.SetString("LoggedInUser", $"{loginBody.Username}");
             return Ok("Admin login success");
         }
         else if (LoginState == LoginStatus.IncorrectPassword) return Unauthorized("Incorrect password");
@@ -54,14 +54,30 @@ public class LoginController : Controller
 
 
     [HttpGet("IsAdminLoggedIn")]
-    public bool IsAdminLoggedIn() => HttpContext.Session.GetString("AdminSession") == "LoggedIn";
+    public IActionResult IsAdminLoggedIn()
+    {
+        bool isAdminLoggedIn = HttpContext.Session.GetString("AdminSession") == "LoggedIn";
+        if (isAdminLoggedIn)
+            return Ok("Admin is logged in");
+        else
+            return BadRequest("Admin is not logged in");
+    }
 
     [HttpGet("IsUserLoggedIn")]
-    public bool IsUserLoggedIn() => HttpContext.Session.GetString("UserSession") == "LoggedIn";
+    public IActionResult IsUserLoggedIn()
+    {
+        bool isUserLoggedIn = HttpContext.Session.GetString("UserSession") == "LoggedIn";
+        if (isUserLoggedIn)
+            return Ok("User is logged in");
+        else
+            return BadRequest("User is not logged in");
+    }
 
     [HttpGet("GetUserId")]
     public async Task<int> GetUserId() => HttpContext.Session.GetString("UserSession") == "LoggedIn" ? (await _userStorage.ReadByEmail(HttpContext.Session.GetString("LoggedInUser"))).UserId : -1;
 
+    [HttpGet("GetUserName")]
+    public IActionResult GetUserName() => Ok(HttpContext.Session.GetString("LoggedInUser"));
 
     [HttpGet("IsSessionRegisterd")]
     public IActionResult IsSessionRegisterd()
@@ -71,17 +87,26 @@ public class LoginController : Controller
         else return BadRequest("Not logged in");
     }
 
+    public bool IsAnyoneLoggedIn()
+    {
+        return HttpContext.Session.GetString("AdminSession") == "LoggedIn" || HttpContext.Session.GetString("UserSession") == "LoggedIn";
+    }
+
+    public bool IsAdminLoggedIn1() => HttpContext.Session.GetString("AdminSession") == "LoggedIn";
+
+    public bool IsUserLoggedIn1() => HttpContext.Session.GetString("UserSession") == "LoggedIn";
+
 
     [HttpGet("Logout")]
     public IActionResult Logout()
     {
-        if (IsAdminLoggedIn())
+        if (IsAdminLoggedIn1())
         {
             HttpContext.Session.SetString("AdminSession", "LoggedOut");
-            HttpContext.Session.SetString("LoggedInAdmin", "");
+            HttpContext.Session.SetString("LoggedInUser", "");
             return Ok("Admin Logged out");
         }
-        else if (IsUserLoggedIn())
+        else if (IsUserLoggedIn1())
         {
             HttpContext.Session.SetString("UserSession", "LoggedOut");
             HttpContext.Session.SetString("LoggedInUser", "");
