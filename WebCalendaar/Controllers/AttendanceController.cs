@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebCalendaar.Models;
 [Route("api/Attendance")]
-[RequiresAdminLogin]
+//[RequiresAdminLogin]
 public class AttendanceController : Controller
 {
     readonly IAttendanceStorage attendanceStorage;
