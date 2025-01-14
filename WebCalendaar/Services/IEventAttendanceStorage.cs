@@ -9,7 +9,8 @@ public interface IEventAttendanceStorage
     Task<bool> Update(Event_Attendance eventAttendance);
     Task<bool> Delete(int id);
     Task<List<Event_Attendance>> GetAllByUser(int userId);
-    Task<List<Event_Attendance>> GetAllByEvent(int eventId);
+    Task<IEnumerable<Event_Attendance>> GetAll();
+    Task<IEnumerable<Event_Attendance>> GetAllByEventId(int eventId);
 }
 
 public class EventAttendanceDBStorage : IEventAttendanceStorage
@@ -61,13 +62,18 @@ public class EventAttendanceDBStorage : IEventAttendanceStorage
         return n > 0;
     }
 
-    public async Task<List<Event_Attendance>> GetAllByUser(int userId)
-    {
-        return Db.Event_Attendance.Where(_ => _.UserId == userId).ToList();
+    public async Task<List<Event_Attendance>> GetAllByUser(int userId) {
+        return Db.Event_Attendance.Where(_ => _.UserId == userId).ToList() ;
+    }
+    public async Task<IEnumerable<Event_Attendance>> GetAll() {
+        return await Db.Event_Attendance.ToListAsync();
     }
 
-    public async Task<List<Event_Attendance>> GetAllByEvent(int eventId) 
-    {
-        return Db.Event_Attendance.Where(_ => _.EventId == eventId).ToList() ;
+    public async Task<IEnumerable<Event_Attendance>> GetAllByEventId(int eventId) {
+    return await Db.Event_Attendance
+        .Where(e => e.EventId == eventId)
+        .Include(e => e.User) // Include related User data if needed
+        .Include(e => e.Event) // Include related Event data if needed
+        .ToListAsync();
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCalendaar.Models;
 
@@ -10,9 +11,11 @@ using WebCalendaar.Models;
 namespace WebCalendaar.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250108092410_DatePlaced")]
+    partial class DatePlaced
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
@@ -144,9 +147,8 @@ namespace WebCalendaar.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Rating")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -188,18 +190,6 @@ namespace WebCalendaar.Migrations
 
                     b.Property<string>("RecuringDays")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("auth_code")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("auth_token")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("auth_token_time")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("refresh_token")
                         .HasColumnType("TEXT");
 
                     b.HasKey("UserId");

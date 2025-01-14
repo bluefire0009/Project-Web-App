@@ -25,7 +25,7 @@ public class AttendAnEventController : Controller
         else if (currentUser == null) return NotFound("User not found");
         else if (pickedEvent == null) return NotFound("Event not found");
 
-        Event_Attendance eventAttendance = new() { User = currentUser, UserId = userId, Event = pickedEvent, EventId = eventId };
+        Event_Attendance eventAttendance = new() { User = currentUser, UserId = userId, Feedback = "", Rating = "", Event = pickedEvent, EventId = eventId };
         bool added = await eventAttendanceStorage.Create(eventAttendance);
         if (added == false) return BadRequest("Something went wrong");
         return Created("Created:", await eventAttendanceStorage.FindByUserComposite(userId, eventId));
