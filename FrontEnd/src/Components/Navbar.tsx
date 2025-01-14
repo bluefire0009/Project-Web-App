@@ -66,6 +66,9 @@ class Navbar extends React.Component<{}, { LoggedIn: boolean }> {
                     <NavLink to="/user">
                         User
                     </NavLink>
+            <NavLink to="/admin">
+                Admin
+                </NavLink>
                     <button onClick={this.handleLogout}>Log out</button>
                 </>
                 ) :

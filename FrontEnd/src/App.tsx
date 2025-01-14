@@ -16,6 +16,7 @@ import "./Styling/CalendarPage.css"
 import { CalendarPage } from './Components/CalendarPage';
 import { SignInForm } from './Components/loginPage';
 
+import AdminDashboard from './Components/AdminPage';
 const App: React.FC = () => {
   return (
     <div style={{ margin: '0 20px', gridTemplateRows: 'auto 1fr auto', display: 'grid', minHeight: '100vh'}}>
@@ -31,6 +32,7 @@ const App: React.FC = () => {
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/signup" element={<SignUpSection />} />
           <Route path="/Login" element={<SignInForm />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
         <Footer/>
       </BrowserRouter>
