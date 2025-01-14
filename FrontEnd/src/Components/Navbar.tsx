@@ -67,8 +67,6 @@ class Navbar extends React.Component<{}, { AdminLoggedIn: boolean, UserLoggedIn:
         }
     }
 
-
-
     componentDidMount = async () => {
         this.CheckIfUserLoggedIn();
         this.CheckIfAdminLoggedIn()

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SelectedEvent from './Components/SelectedEvent';
 import Reviews from './Components/Reviews';
 import SignUpSection from './Components/SignUpSection';
 import UserPageMain from './Components/UserPageMain';
 import SelectedDay from './Components/SelectedDay'
-import { BrowserRouter, Routes, Route } from "react-router";
+// import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import './App.css';
@@ -20,26 +21,76 @@ import ContactScreen from './Components/contact';
 
 import AdminDashboard from './Components/AdminPage';
 import { ListAllUsers } from './Components/ListAllUsers';
+import PrivateRoute from './Components/ProtectedRoute';
+import { AdminLoggedIn, UserLoggedIn } from './Components/LoginChecker';
 const App: React.FC = () => {
+
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Check if the user or admin is logged in
+    const checkAuthStatus = async () => {
+      const userLoggedIn = await UserLoggedIn();
+      const adminLoggedIn = await AdminLoggedIn();
+
+      setIsUserLoggedIn(userLoggedIn);
+      setIsAdminLoggedIn(adminLoggedIn);
+    };
+
+    checkAuthStatus();
+  }, []);
+
   return (
     <div style={{ margin: '0 20px', gridTemplateRows: 'auto 1fr auto', display: 'grid', minHeight: '100vh' }}>
       <BrowserRouter>
         <Navbar />
         <div className='MainContent'>
           <Routes>
-            {/* homepage */}
+            {/* Public route */}
             <Route path="/" element={<SignInForm />} />
 
-            <Route path="/user/:UserId?" element={<UserPageMain />} />
-            <Route path="/day" element={<SelectedDay />} />
-            <Route path='/calendar' element={<CalendarPage />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path="/signup" element={<SignUpSection />} />
-            <Route path="/Login" element={<SignInForm />} />
-            <Route path="/Register" element={<RegistrationForm />} />
-            <Route path="/contact" element={<ContactScreen />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/AllUsers" element={<ListAllUsers />} />
+            {/* Protected routes */}
+            <Route
+              path="/user/:UserId?"
+              element={<PrivateRoute isAuthenticated={isUserLoggedIn} element={<UserPageMain />} />}
+            />
+            <Route
+              path="/day"
+              element={<PrivateRoute isAuthenticated={isUserLoggedIn || isAdminLoggedIn} element={<SelectedDay />} />}
+            />
+            <Route
+              path="/calendar"
+              element={<PrivateRoute isAuthenticated={isUserLoggedIn || isAdminLoggedIn} element={<CalendarPage />} />}
+            />
+            <Route
+              path="/reviews"
+              element={<PrivateRoute isAuthenticated={isUserLoggedIn || isAdminLoggedIn} element={<Reviews />} />}
+            />
+            <Route
+              path="/signup"
+              element={<PrivateRoute isAuthenticated={isUserLoggedIn || isAdminLoggedIn} element={<SignUpSection />} />}
+            />
+            <Route
+              path="/login"
+              element={<SignInForm />}  // Login can be public, no need for PrivateRoute
+            />
+            <Route
+              path="/Register"
+              element={<RegistrationForm />}
+            />
+            <Route
+              path="/contact"
+              element={<ContactScreen />}
+            />
+            <Route
+              path="/admin"
+              element={<PrivateRoute isAuthenticated={isAdminLoggedIn} element={<AdminDashboard />} />}
+            />
+            <Route
+              path="/AllUsers"
+              element={<PrivateRoute isAuthenticated={isAdminLoggedIn} element={<ListAllUsers />} />}
+            />
           </Routes>
         </div>
         <Footer />
