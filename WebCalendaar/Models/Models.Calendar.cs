@@ -51,7 +51,7 @@ namespace WebCalendaar.Models
         [ForeignKey("EventId")]
         public Event? Event { get; set; }
         public int EventId {get; set;}
-        public DateOnly? DatePlaced { get; set; }
+        public string? DatePlaced { get; set; }
     }
 
     public class Event

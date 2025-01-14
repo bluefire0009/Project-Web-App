@@ -99,7 +99,10 @@ public class AttendanceDBStorage : IAttendanceStorage
 
         myAttendance.Feedback = review;
         myAttendance.Rating = rating;
-        myAttendance.DatePlaced = DateOnly.FromDateTime(DateTime.Today);
+        // This looks scuffed because the intended way of DateOnly doesnt work for some reason
+        // So in the model datePlaced is a string, and here I will get the current DateTime
+        // And then use ToString so it will work in the database
+        myAttendance.DatePlaced = DateOnly.FromDateTime(DateTime.Today).ToString();
 
         int nrChhanges = db.SaveChanges();
 
