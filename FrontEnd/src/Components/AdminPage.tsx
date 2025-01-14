@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AdminPageStateProvider, useAdminPageState } from '../States/AdminPageState';
 import '../Styling/AdminPage.css';
 import Api_url from './Api_url';
+import { Link } from 'react-router';
 
 const AdminDashboard: React.FC = () => {
     const { showCreateEventForm, setShowCreateEventForm, showEventList, setShowEventList } = useAdminPageState();
@@ -43,29 +44,29 @@ const AdminDashboard: React.FC = () => {
     const handleCreateEventClick = () => {
         setShowCreateEventForm(true);
         setShowEventList(false);
-        setFeedbackMessage(null); 
+        setFeedbackMessage(null);
     };
-    
+
     const handleShowEventListClick = () => {
         setShowEventList(true);
         setShowCreateEventForm(false);
-        setFeedbackMessage(null); 
+        setFeedbackMessage(null);
     };
-    
+
     const handleBackToDashboardClick = () => {
         setShowCreateEventForm(false);
         setShowEventList(false);
         setSelectedEvent(null);
         setEditingReviewId(null);
-        setFeedbackMessage(null); 
+        setFeedbackMessage(null);
     };
-    
+
     const handleSelectEvent = (eventId: string) => {
         setSelectedEvent(eventId);
-      
+
         setEventReviews(dummyReviews);
     };
-    
+
     const handleEditReviewClick = (reviewId: string, content: string) => {
         setEditingReviewId(reviewId);
         setReviewContent(content);
@@ -75,7 +76,7 @@ const AdminDashboard: React.FC = () => {
     };
 
     const handleSaveReviewClick = () => {
-        const updatedReviews = eventReviews.map(review => 
+        const updatedReviews = eventReviews.map(review =>
             review.id === editingReviewId ? { ...review, content: reviewContent } : review
         );
         setEventReviews(updatedReviews);
@@ -89,10 +90,10 @@ const AdminDashboard: React.FC = () => {
             title: (e.target as any).eventName.value,
             description: (e.target as any).eventDescription.value,
             eventDate: (e.target as any).eventDate.value,
-            startTime: "00:00:00", 
-            endTime: "23:59:59", 
-            location: "Default Location", 
-            adminApproval: false 
+            startTime: "00:00:00",
+            endTime: "23:59:59",
+            location: "Default Location",
+            adminApproval: false
         };
         try {
             const response = await fetch(`${Api_url}/api/events/create`, {
@@ -130,6 +131,12 @@ const AdminDashboard: React.FC = () => {
                         <div className="section">
                             <h2>Manage Events</h2>
                             <button className="adminButton" onClick={handleShowEventListClick}>Show Event List</button>
+                        </div>
+                        <div className="section">
+                            <h2>List all users</h2>
+                            <Link to="/AllUsers">
+                                <button>Users</button>
+                            </Link>
                         </div>
                     </>
                 ) : showCreateEventForm ? (

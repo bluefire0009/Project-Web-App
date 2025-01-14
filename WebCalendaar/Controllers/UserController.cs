@@ -56,6 +56,22 @@ public class UserController : Controller
         return BadRequest("Registration Failed");
     }
 
+    [HttpGet("All")]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        var users = await _userStorage.GetAll();
+
+        // Select only relevant fields
+        var result = users.Select(user => new
+        {
+            Name = $"{user.FirstName} {user.LastName}",
+            Email = user.Email,
+            Id = user.UserId
+        });
+
+        return Ok(result);
+    }
+
     [HttpGet("Read")]
     public async Task<IActionResult> Read([FromQuery] int? userId)
     {

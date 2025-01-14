@@ -17,7 +17,7 @@ export const fetchAndAlertUserId = async (): Promise<number | null> => {
         }
     } catch (error) {
         console.error("Error fetching UserId:", error);
-        alert("An error occurred while fetching the User ID.");
+        // alert("An error occurred while fetching the User ID.");
         return null;
     }
 };
