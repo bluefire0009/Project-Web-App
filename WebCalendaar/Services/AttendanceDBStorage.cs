@@ -99,6 +99,7 @@ public class AttendanceDBStorage : IAttendanceStorage
 
         myAttendance.Feedback = review;
         myAttendance.Rating = rating;
+        myAttendance.DatePlaced = DateOnly.FromDateTime(DateTime.Today);
 
         int nrChhanges = db.SaveChanges();
 
