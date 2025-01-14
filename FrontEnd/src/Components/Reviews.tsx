@@ -3,7 +3,11 @@ import ReactPaginate from 'react-paginate';
 import Api_url from './Api_url'; // Make sure this is correctly configured
 import { Review, ReviewConstructor } from '../States/ReviewState';
 
-const Reviews: React.FC = () => {
+interface ReviewProps {
+  eventId: bigint;
+}
+
+const Reviews: React.FC<ReviewProps> = ({eventId}) => {
   const [reviews, setReviews] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -19,7 +23,7 @@ const Reviews: React.FC = () => {
     const fetchReviews = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${Api_url}/api/EventAttendance/GetByEvent/1`);
+        const response = await fetch(`${Api_url}/api/EventAttendance/GetByEvent/${eventId}`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -65,7 +69,7 @@ const Reviews: React.FC = () => {
   
     try {
       const response = await fetch(
-        `${Api_url}/api/Attendance/Review?eventId=1&rating=${newReview.rating}&review=${encodeURIComponent(newReview.review)}`,
+        `${Api_url}/api/Attendance/Review?eventId=${eventId}&rating=${newReview.rating}&review=${encodeURIComponent(newReview.review)}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
