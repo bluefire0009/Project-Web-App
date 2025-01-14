@@ -1,7 +1,7 @@
 import React from "react"
 import { NavLink } from "react-router";
 import Api_url from "./Api_url";
-import fetchUserName from "./getUserName";
+import { fetchUserName } from "./getUserName";
 
 class Navbar extends React.Component<{}, { LoggedIn: boolean, userName: string }> {
 
