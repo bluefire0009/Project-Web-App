@@ -1,14 +1,13 @@
 import Api_url from "./Api_url";
 
 // Modify fetchAndAlertUserId to return the userId
-const fetchAndAlertUserId = async (): Promise<number | null> => {
+export const fetchAndAlertUserId = async (): Promise<number | null> => {
     try {
         const response = await fetch(`${Api_url}/api/getUserId`, {
             method: "GET",
             credentials: "include", // Include cookies for the session
         });
-        const userId = await response.json();
-
+        const userId:number = await response.json();
         if (userId === -1) {
             // alert("No user is currently logged in.");
             return null;
@@ -24,7 +23,7 @@ const fetchAndAlertUserId = async (): Promise<number | null> => {
 };
 
 // Modify fetchUserName to use the returned userId
-const fetchUserName = async (): Promise<string> => {
+export const fetchUserName = async (): Promise<string> => {
     try {
         const userId = await fetchAndAlertUserId(); // Get the userId
 
@@ -48,5 +47,3 @@ const fetchUserName = async (): Promise<string> => {
         return "Error fetching name";
     }
 };
-
-export default fetchUserName;
