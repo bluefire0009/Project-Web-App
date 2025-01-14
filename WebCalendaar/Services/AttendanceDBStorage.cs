@@ -15,7 +15,7 @@ public class AttendanceDBStorage : IAttendanceStorage
         // Check if User from the attendance exsists in the database
         User? userInDatabase = await db.User.FirstOrDefaultAsync(u => u.UserId == attendance.UserId);
         if (userInDatabase == null) return false;
-        
+
         Attendance? attendanceInDatabase = await db.Attendance.Where(a => a.UserId == attendance.UserId && a.AttendanceDate == attendance.AttendanceDate).FirstOrDefaultAsync();
         if (attendanceInDatabase != null)
             return false;
@@ -88,5 +88,21 @@ public class AttendanceDBStorage : IAttendanceStorage
     {
         List<Attendance> data = db.Attendance.Where(_ => _.UserId == UserId).ToList();
         return data.Where(_ => _.AttendanceDate > DateOnly.FromDateTime(DateTime.Now)).ToList();
+    }
+
+    public async Task<bool> LeaveReview(int eventId, int myUserId, int rating, string review)
+    {
+        if (rating < 0 || rating > 5) return false;
+
+        Event_Attendance? myAttendance = await db.Event_Attendance.FirstOrDefaultAsync(a => a.EventId == eventId && a.UserId == myUserId);
+        if (myAttendance == null) return false;
+
+        myAttendance.Feedback = review;
+        myAttendance.Rating = rating;
+
+        int nrChhanges = db.SaveChanges();
+
+        if (nrChhanges > 0) return true;
+        return false;
     }
 }

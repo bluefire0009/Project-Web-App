@@ -15,17 +15,14 @@ public class EventController : Controller
     {
         _storage = storage;
     }
-  [HttpGet]
-        public IActionResult GetAllEvents()
-        {
-            var events = _storage.GetAll();
-            if (events == null || !events.Any())
-            {
-                return NotFound("No events found");
-            }
 
-            return Ok(events);
-        }
+    [HttpGet("get/all")]
+    public async Task<IActionResult> GetEvents()
+    {
+        var events = await _storage.GetAll();
+        return Ok(events);
+    }
+
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetEvent(int id)
     {
@@ -88,12 +85,12 @@ public class EventController : Controller
         {
             return NotFound($"Event with id {id} could not be found");
         }
-        if(await _storage.Read(@event.EventId) != null)
+        if (await _storage.Read(@event.EventId) != null)
         {
-            if(id != @event.EventId)
+            if (id != @event.EventId)
             {
                 return BadRequest($"An event with id {@event.EventId} already exists");
-            }  
+            }
         }
         bool success = await _storage.Update(id, @event);
         if (!success)
