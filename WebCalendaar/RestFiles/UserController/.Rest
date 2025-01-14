@@ -5,13 +5,12 @@ Get http://localhost:5097/api/User/Read?userId=1
 ####
 
 // register user
-POST http://localhost:5097/api/User
+POST http://localhost:5097/api/User/Register
 Content-Type: application/json
 
 {
-  "FirstName" : "Milan",
-  "LastName" : ":)",
-  "Email" : "milan22versluis@gmail.com",
+  "Fullname"
+  "Email" : "johnDoe@example.com",
   "Password" : "123456789"
 }
 ####
