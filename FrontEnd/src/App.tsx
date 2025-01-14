@@ -19,6 +19,7 @@ import RegistrationForm from './Components/RegistrationPage';
 import ContactScreen from './Components/contact';
 
 import AdminDashboard from './Components/AdminPage';
+import { ListAllUsers } from './Components/ListAllUsers';
 const App: React.FC = () => {
   return (
     <div style={{ margin: '0 20px', gridTemplateRows: 'auto 1fr auto', display: 'grid', minHeight: '100vh' }}>
@@ -38,6 +39,7 @@ const App: React.FC = () => {
             <Route path="/Register" element={<RegistrationForm />} />
             <Route path="/contact" element={<ContactScreen />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/AllUsers" element={<ListAllUsers />} />
           </Routes>
         </div>
         <Footer />

@@ -9,6 +9,7 @@ public interface IUserStorage
     Task<bool> Update(int user_id, User user);
     Task<bool> Delete(int user_id);
     Task<User?> ReadByEmail(string email);
+    Task<List<User>> GetAll();
 }
 
 public class UserDBStorage : IUserStorage
@@ -17,6 +18,11 @@ public class UserDBStorage : IUserStorage
     public UserDBStorage(DatabaseContext db)
     {
         this.db = db;
+    }
+
+    public async Task<List<User>> GetAll()
+    {
+        return await db.User.ToListAsync();
     }
     public async Task<bool> Create(User user)
     {
