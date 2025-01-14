@@ -13,6 +13,7 @@ const syncToGoogle = (userId: number) => {
 };
 
 const UserPageMain: React.FC<UserPageProps> = () => {
+  // creates all state variables
   const [userId, setUserId] = useState<number | null>(null);
   const [userName, setUserName] = useState<string>("");
   const [workSchedules, setWorkSchedules] = useState<schedule[]>([]);
@@ -24,16 +25,20 @@ const UserPageMain: React.FC<UserPageProps> = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      // parses user id to int if it exists
       let id = UserId !== undefined ? parseInt(UserId) : null;
+      // set user id and set viewing own profile to false
       if (id !== null) {
         setUserId(id);
         setViewingOwnProfile(false);
+      // fetch current user's id and set viewing own profile to true
       } else {
         const userIdFromApi = await fetch(`${Api_url}/api/getUserId`, {
           method: 'GET',
           credentials: 'include', // Include cookies for the session
         }).then(response => response.json());
 
+        // if userIdFromApi is negative one it does not exist in the db
         if (userIdFromApi === -1) {
           navigate("/");
           return;
@@ -44,12 +49,14 @@ const UserPageMain: React.FC<UserPageProps> = () => {
         }
       }
 
+      // get user's full name
       const userNameResponse: string = await fetch(`${Api_url}/api/user/read?userId=${id}`)
         .then(response => response.json())
         .then(content => `${content.firstName} ${content.lastName}`);
 
       setUserName(userNameResponse);
 
+      // get upcoming events for user
       const eventSchedulesResponse = await fetch(`${Api_url}/api/user/getUpcomingEvents?userId=${id}`)
         .then(response => response.json())
         .then(content =>
@@ -63,6 +70,7 @@ const UserPageMain: React.FC<UserPageProps> = () => {
         );
       setEventSchedules(eventSchedulesResponse);
 
+      // get upcoming work attendances for user
       const workSchedulesResponse = await fetch(`${Api_url}/api/user/GetUpcomingWorkAttendances?userId=${id}`)
         .then(response => response.json())
         .then(content =>
@@ -115,7 +123,7 @@ const UserPageMain: React.FC<UserPageProps> = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={3}>No work schedules available.</td>
+                <td className="textCentered" colSpan={3}>No work schedules available.</td>
               </tr>
             )}
           </tbody>
@@ -147,7 +155,7 @@ const UserPageMain: React.FC<UserPageProps> = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={5}>No event schedules available.</td>
+                <td className="textCentered" colSpan={5}>No event schedules available.</td>
               </tr>
             )}
           </tbody>

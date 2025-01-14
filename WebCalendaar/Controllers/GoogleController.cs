@@ -20,10 +20,12 @@ public class GoogleController : Controller
     [HttpGet("syncAll/{myUserId}")]
     public async Task<IActionResult> SyncAll(int myUserId)
     {
-        // Cannot be null because the controller checks if user is logged in, and if user is logged in, they should have an id
-        // int myUserId = int.Parse(HttpContext.Session.GetString("LoggedInUser"));
+        // gets all event attendances from user
         List<Event_Attendance> event_Attendances = await this._eventAttendanceStorage.GetAllByUser(myUserId);
+        // gets all upcoming events based on event attendances event ids
         List<Event> allEvents = await this._eventStorage.GetAllUpcomingByIds(event_Attendances.Select(_ => _.EventId).ToList());
+
+        //create a list of strings filled with the data from the events
         List<string> googleCalendarEvents = allEvents.Select(e => 
 $@"{{
     ""summary"": ""{e.Title}"",
@@ -35,13 +37,6 @@ $@"{{
     ""end"": {{
         ""dateTime"": ""{$"{e.EventDate.ToString("yyyy-MM-dd")}T{e.EndTime}+00:00"}""
     }},
-    ""recurrence"": [
-        {{
-            ""freq"": ""daily"",
-            ""interval"": 1,
-            ""count"": 5
-        }}
-    ],
     ""attendees"": [
     ],
     ""reminders"": {{
@@ -59,6 +54,8 @@ $@"{{
     }}
 }}").ToList();
 
+
+        // send to the google api per event
         foreach (var googleCalendarEvent in googleCalendarEvents)
         {
             if (!await SendToGoogleCalendar(googleCalendarEvent, myUserId)) {
@@ -66,50 +63,47 @@ $@"{{
             }
         }
 
-        return Ok("success");
+        return Ok($"success: {googleCalendarEvents.Count} events synced to the google calendar");
     }
 
     [HttpGet("sync/{eventId}")]
     public async Task<IActionResult> Sync(int eventId)
     {
+        // get user id for sending to google
         int myUserId = HttpContext.Session.GetString("UserSession") == "LoggedIn" ? (await _userStorage.ReadByEmail(HttpContext.Session.GetString("LoggedInUser"))).UserId : -1;
+        // get event by id
         Event? Event = await this._eventStorage.Read(eventId);
         if (Event == null)
             return NotFound($"Event with id:{eventId} not found");
 
-        var googleCalendarEvent = new
-        {
-            summary = Event.Title,
-            location = Event.Location,
-            description = Event.Description,
-            start = new
-            {
-                dateTime = $"{Event.EventDate.ToString("yyyy-MM-dd")}T{Event.StartTime}+00:00",
-            },
-            end = new
-            {
-                dateTime = $"{Event.EventDate.ToString("yyyy-MM-dd")}T{Event.EndTime}+00:00",
-            },
-            // recurrence = new[]
-            // {
-            //     new { freq = "daily", interval = 1, count = 5 }
-            // },
-            // attendees = new[]
-            // {
-            //     new { email = "attendee1@example.com" },
-            //     new { email = "attendee2@example.com" }
-            // },
-            reminders = new
-            {
-                useDefault = false,
-                // new[]
-                // {
-                //     new { method = "popup", minutes = 10 },
-                //     new { method = "email", minutes = 1440 }
-                // }
-            }
-        };
-        
+        // prepare data in string format for google api
+        string googleCalendarEvent = $@"{{
+    ""summary"": ""{Event.Title}"",
+    ""location"": ""{Event.Location}"",
+    ""description"": ""{Event.Description}"",
+    ""start"": {{
+        ""dateTime"": ""{$"{Event.EventDate.ToString("yyyy-MM-dd")}T{Event.StartTime}+00:00"}""
+    }},
+    ""end"": {{
+        ""dateTime"": ""{$"{Event.EventDate.ToString("yyyy-MM-dd")}T{Event.EndTime}+00:00"}""
+    }},
+    ""attendees"": [
+    ],
+    ""reminders"": {{
+        ""useDefault"": false,
+        ""overrides"": [
+            {{
+                ""method"": ""popup"",
+                ""minutes"": 10
+            }},
+            {{
+                ""method"": ""email"",
+                ""minutes"": 1440
+            }}
+        ]
+    }}
+}}";
+        // send to google
         if (!await SendToGoogleCalendar(JsonSerializer.Serialize(googleCalendarEvent), myUserId)) {
             return BadRequest("something went wrong");
         }
@@ -131,6 +125,7 @@ $@"{{
         return result.StatusCode == System.Net.HttpStatusCode.OK;
     }
 
+    // function to try and obtain the access token if it has expired, currently it just retrieves it from the db
     private async Task<string> GetAuthToken(int userId) {
         User user = await _userStorage.Read(userId);
         if (user.auth_token == null /*|| user.auth_token_time < DateTime.Now.AddHours(-1)*/) {
@@ -140,6 +135,7 @@ $@"{{
         return user.auth_token;
     }
 
+    // function to attempt getting a new access token from google, does not work returns 401 unauthorized
     private async Task<string> RefreshAccessToken(string refresh_token) {
         HttpClient client = new HttpClient();
         string tokenUrl = "https://oauth2.googleapis.com/token";
