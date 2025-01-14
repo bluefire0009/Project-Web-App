@@ -7,8 +7,7 @@ export const fetchUserId = async (): Promise<number | null> => {
             method: "GET",
             credentials: "include", // Include cookies for the session
         });
-        const userId = await response.json();
-
+        const userId:number = await response.json();
         if (userId === -1) {
             // alert("No user is currently logged in.");
             return null;
