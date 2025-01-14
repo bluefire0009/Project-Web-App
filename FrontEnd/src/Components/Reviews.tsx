@@ -69,6 +69,7 @@ const Reviews: React.FC = () => {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: "include"
         }
       );
   
