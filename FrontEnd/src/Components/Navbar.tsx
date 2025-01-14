@@ -102,7 +102,7 @@ class Navbar extends React.Component<{}, { AdminLoggedIn: boolean, UserLoggedIn:
                     </>
                 )}
 
-                {this.state.UserLoggedIn ? (
+                {this.state.UserLoggedIn || this.state.AdminLoggedIn     ? (
                     <button onClick={this.handleLogout}>Log out</button>
                 ) : (
                     <NavLink to="/login">
