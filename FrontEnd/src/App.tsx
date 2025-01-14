@@ -28,7 +28,7 @@ const App: React.FC = () => {
         <div className='MainContent'>
           <Routes>
             {/* homepage */}
-            <Route path="/" element={<SelectedDay />} />
+            <Route path="/" element={<SignInForm />} />
 
             <Route path="/user/:UserId?" element={<UserPageMain />} />
             <Route path="/day" element={<SelectedDay />} />
