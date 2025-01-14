@@ -12,7 +12,7 @@ const SignUpEvent: React.FC<{ event: CalendarEvent; currentUserId: number }> = (
         console.log('Event:', event);
         checkIfSignedUp();
     }, [event]);
-
+    //Check if the user is already signed up for the event
     const checkIfSignedUp = async () => {
         if (!event) return;
 
@@ -57,7 +57,7 @@ const SignUpEvent: React.FC<{ event: CalendarEvent; currentUserId: number }> = (
             console.error('Error checking sign-up status:', error);
         }
     };
-
+   //Sign up user for event
     const handleSignUp = async () => {
         if (!event) return;
 
@@ -95,7 +95,7 @@ const SignUpEvent: React.FC<{ event: CalendarEvent; currentUserId: number }> = (
         }
     };
 
-  
+    // Delete user from event
     const handleSignOff = async () => {
     if (!event || eventAttendanceId === null) return;
 
