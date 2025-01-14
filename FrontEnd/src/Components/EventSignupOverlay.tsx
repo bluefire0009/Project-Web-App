@@ -3,7 +3,7 @@ import { CalendarEvent } from "../States/CalendarState";
 import Reviews from "./Reviews";
 import SelectedEvent from "./SelectedEvent";
 import SignUpSection from "./SignUpSection";
-import { fetchAndAlertUserId } from "./getUserName";
+import { fetchUserId } from "./getUserName";
 
 interface EventOverlayProps {
     event: CalendarEvent | undefined;
@@ -16,7 +16,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({ event, isVisible, on
     
     useEffect(() => {
             const loadId = async () => {
-              const userId = await fetchAndAlertUserId();  
+              const userId = await fetchUserId();  
               setUserId(typeof userId === 'number' ? userId : -1);
             };
             loadId();

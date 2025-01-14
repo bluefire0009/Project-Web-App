@@ -23,3 +23,6 @@ table td {
     min-width: 8rem;
     padding: 1rem 0;
 }
+.textCentered {
+    text-align: center;
+  }
