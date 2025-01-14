@@ -64,10 +64,6 @@ const App: React.FC = () => {
               element={<PrivateRoute isAuthenticated={isUserLoggedIn || isAdminLoggedIn} element={<CalendarPage />} />}
             />
             <Route
-              path="/reviews"
-              element={<PrivateRoute isAuthenticated={isUserLoggedIn || isAdminLoggedIn} element={<Reviews />} />}
-            />
-            <Route
               path="/signup"
               element={<PrivateRoute isAuthenticated={isUserLoggedIn || isAdminLoggedIn} element={<SignUpSection />} />}
             />
