@@ -76,6 +76,7 @@ class Navbar extends React.Component<{}, { LoggedIn: boolean, userName: string }
                         <NavLink to="/">Homepage</NavLink>
                         <NavLink to="/calendar">Events</NavLink>
                         <NavLink to="/calendar">Calendar</NavLink>
+                        <NavLink to="/admin">Calendar</NavLink>
                     </>
                 )}
 
