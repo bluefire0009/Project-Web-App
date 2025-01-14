@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CalendarEvent } from '../States/CalendarState';
 import Api_url from './Api_url';
+
 interface SignUpEventProps {
     event: CalendarEvent;
     currentUserId: string;
@@ -9,9 +10,13 @@ interface SignUpEventProps {
 const SignUpEvent: React.FC<SignUpEventProps> = ({ event, currentUserId }) => {
     const [isSignedUp, setIsSignedUp] = useState(false);
 
+    useEffect(() => {
+        console.log('Event:', event);
+    }, [event]);
+
     const handleSignUp = async () => {
         try {
-            const response = await fetch(`${Api_url}/api/attendance`, {
+            const response = await fetch(`${Api_url}/api/attendance/Add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,7 +24,7 @@ const SignUpEvent: React.FC<SignUpEventProps> = ({ event, currentUserId }) => {
                 body: JSON.stringify({
                     userId: currentUserId,
                     //eventId: event.EventId,
-                    attendanceDate: event.StartTime,
+                    //attendanceDate: event.date,
                 }),
             });
 
@@ -27,7 +32,7 @@ const SignUpEvent: React.FC<SignUpEventProps> = ({ event, currentUserId }) => {
                 setIsSignedUp(true);
                 console.log('Signed up successfully');
             } else {
-                console.error('Error signing up:', response.statusText);
+                console.log('Failed to sign up');
             }
         } catch (error) {
             console.error('Error signing up:', error);
@@ -36,20 +41,7 @@ const SignUpEvent: React.FC<SignUpEventProps> = ({ event, currentUserId }) => {
 
     return (
         <div>
-            <h3>{event.Title}</h3>
-            <p>{event.Description}</p>
-            <button
-                onClick={handleSignUp}
-                disabled={isSignedUp}
-                style={{
-                    padding: '10px 20px',
-                    backgroundColor: isSignedUp ? 'gray' : '#007BFF',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    cursor: isSignedUp ? 'not-allowed' : 'pointer',
-                }}
-            >
+            <button onClick={handleSignUp} disabled={isSignedUp}>
                 {isSignedUp ? 'Signed Up' : 'Sign Up'}
             </button>
         </div>
