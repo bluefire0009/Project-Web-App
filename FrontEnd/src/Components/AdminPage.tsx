@@ -125,11 +125,11 @@ const AdminDashboard: React.FC = () => {
                     <>
                         <div className="section">
                             <h2>Create Event</h2>
-                            <button onClick={handleCreateEventClick}>Create Event</button>
+                            <button className="adminButton" onClick={handleCreateEventClick}>Create Event</button>
                         </div>
                         <div className="section">
                             <h2>Manage Events</h2>
-                            <button onClick={handleShowEventListClick}>Show Event List</button>
+                            <button className="adminButton" onClick={handleShowEventListClick}>Show Event List</button>
                         </div>
                     </>
                 ) : showCreateEventForm ? (
@@ -148,9 +148,9 @@ const AdminDashboard: React.FC = () => {
                                 <label htmlFor="eventDescription">Event Description:</label>
                                 <textarea id="eventDescription" name="eventDescription"></textarea>
                             </div>
-                            <button type="submit">Create Event</button>
+                            <button className="adminButton" type="submit">Create Event</button>
                         </form>
-                        <button onClick={handleBackToDashboardClick}>Back to Dashboard</button>
+                        <button className="adminButton" onClick={handleBackToDashboardClick}>Back to Dashboard</button>
                     </div>
                 ) : showEventList ? (
                     <div className="section">
@@ -164,7 +164,7 @@ const AdminDashboard: React.FC = () => {
                                 </div>
                             ))
                         )}
-                        <button onClick={handleBackToDashboardClick}>Back to Dashboard</button>
+                        <button className="adminButton" onClick={handleBackToDashboardClick}>Back to Dashboard</button>
                     </div>
                 ) : null}
                 {selectedEvent && (
@@ -181,10 +181,10 @@ const AdminDashboard: React.FC = () => {
                                             value={reviewContent}
                                             onChange={handleReviewContentChange}
                                         />
-                                        <button onClick={handleSaveReviewClick}>Save</button>
+                                        <button className="adminButton" onClick={handleSaveReviewClick}>Save</button>
                                     </>
                                 ) : (
-                                    <button onClick={() => handleEditReviewClick(review.id, review.content)}>Edit</button>
+                                    <button className="adminButton" onClick={() => handleEditReviewClick(review.id, review.content)}>Edit</button>
                                 )}
                             </div>
                         ))}
