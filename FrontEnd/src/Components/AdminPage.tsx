@@ -23,7 +23,7 @@ const AdminDashboard: React.FC = () => {
 
     const getAllEvents = async () => {
         try {
-            const response = await fetch(`${Api_url}/api/events`, {
+            const response = await fetch(`${Api_url}/api/events/get/all`, {
                 method: 'GET',
                 credentials: 'include',
             });
