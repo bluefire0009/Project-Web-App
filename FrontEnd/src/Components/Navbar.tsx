@@ -1,5 +1,5 @@
 import React from "react"
-import { NavLink, Router } from "react-router";
+import { NavLink } from "react-router";
 import Api_url from "./Api_url";
 
 class Navbar extends React.Component<{}, { LoggedIn: boolean }> {
@@ -62,8 +62,16 @@ class Navbar extends React.Component<{}, { LoggedIn: boolean }> {
                 Calendar
             </NavLink>
             {
-                this.state.LoggedIn ? (
-                    <button onClick={this.handleLogout}>Log out</button>) :
+                this.state.LoggedIn ? (<>
+                    <NavLink to="/user">
+                        User
+                    </NavLink>
+            <NavLink to="/admin">
+                Admin
+                </NavLink>
+                    <button onClick={this.handleLogout}>Log out</button>
+                </>
+                ) :
                     (<NavLink to="/login">
                         <button>Login</button>
                     </NavLink>)

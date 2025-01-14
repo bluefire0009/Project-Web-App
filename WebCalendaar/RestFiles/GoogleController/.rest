@@ -1,0 +1,5 @@
+### GET Event by ID
+GET http://localhost:5097/api/google/syncAll
+
+
+###

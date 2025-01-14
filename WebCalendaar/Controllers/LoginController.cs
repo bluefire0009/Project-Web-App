@@ -59,6 +59,9 @@ public class LoginController : Controller
     [HttpGet("IsUserLoggedIn")]
     public bool IsUserLoggedIn() => HttpContext.Session.GetString("UserSession") == "LoggedIn";
 
+    [HttpGet("GetUserId")]
+    public async Task<int> GetUserId() => HttpContext.Session.GetString("UserSession") == "LoggedIn" ? (await _userStorage.ReadByEmail(HttpContext.Session.GetString("LoggedInUser"))).UserId : -1;
+
 
     [HttpGet("IsSessionRegisterd")]
     public IActionResult IsSessionRegisterd()
