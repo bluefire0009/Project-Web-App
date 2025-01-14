@@ -72,9 +72,7 @@ class Navbar extends React.Component<{}, { LoggedIn: boolean, userName: string }
                 {this.state.LoggedIn && (
                     <>
                         <NavLink to="/user">User</NavLink>
-                        {/* <NavLink to="/reviews">Reviews</NavLink> */}
                         <NavLink to="/">Homepage</NavLink>
-                        <NavLink to="/calendar">Events</NavLink>
                         <NavLink to="/calendar">Calendar</NavLink>
                         <NavLink to="/admin">Admin</NavLink>
                     </>
