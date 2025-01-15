@@ -1,22 +1,20 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import ReactPaginate from 'react-paginate';
-import Api_url from './Api_url'; // Make sure this is correctly configured
+import Api_url from './Api_url'; // Base API URL configuration
 import { Review, ReviewConstructor } from '../States/ReviewState';
 
 interface ReviewProps {
-  eventId: bigint;
+  eventId: bigint; // Event ID for which reviews are being displayed
 }
 
 const Reviews: React.FC<ReviewProps> = ({ eventId }) => {
+  // State for managing reviews
   const [reviews, setReviews] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0); // Current page for pagination
+  const [loading, setLoading] = useState(false); // Loading indicator
   const [showModal, setShowModal] = useState(false); // State to show/hide the modal
-  const [newReview, setNewReview] = useState({
-    rating: '',
-    review: '',
-  }); // State for the new review form
-  const itemsPerPage = 4; // Number of reviews per page
+  const [newReview, setNewReview] = useState({ rating: '', review: '' }); // New review form state
+  const itemsPerPage = 4; // Number of reviews to display per page
 
   // Fetch reviews from the backend
   const fetchReviews = useCallback(async () => {
@@ -27,6 +25,7 @@ const Reviews: React.FC<ReviewProps> = ({ eventId }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
+      // Map API data to Review objects
       const parsedData: Review[] = data.map((review: any) =>
         ReviewConstructor(
           review.user.firstName,
@@ -44,30 +43,33 @@ const Reviews: React.FC<ReviewProps> = ({ eventId }) => {
     }
   }, [eventId]);
 
+  // Fetch reviews on component mount and when eventId changes
   useEffect(() => {
     fetchReviews();
   }, [fetchReviews]);
 
-  // Handle page change
+  // Handle pagination page change
   const handlePageClick = (event: { selected: number }) => {
     setCurrentPage(event.selected);
   };
 
-  // Handle modal open/close
+  // Toggle modal visibility
   const handleModal = (state: boolean) => {
     setShowModal(state);
   };
 
-  // Handle form submission
+  // Handle new review submission
   const handleSubmitReview = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    // Validate form inputs
     if (!newReview.rating || !newReview.review) {
       alert('Please fill in all fields before submitting.');
       return;
     }
 
     try {
+      // Send POST request to the API
       const response = await fetch(
         `${Api_url}/api/Attendance/Review?eventId=${eventId}&rating=${newReview.rating}&review=${encodeURIComponent(newReview.review)}`,
         {
@@ -79,9 +81,9 @@ const Reviews: React.FC<ReviewProps> = ({ eventId }) => {
 
       if (response.ok) {
         alert('Review submitted successfully!');
-        setNewReview({ rating: '', review: '' });
-        setShowModal(false);
-        await fetchReviews(); // Refresh reviews after successful submission
+        setNewReview({ rating: '', review: '' }); // Reset form
+        setShowModal(false); // Close modal
+        await fetchReviews(); // Refresh reviews
       } else {
         const errorMessage = await response.text();
         alert(`Failed to submit review: ${errorMessage}`);
@@ -99,6 +101,7 @@ const Reviews: React.FC<ReviewProps> = ({ eventId }) => {
         <p>Loading reviews...</p>
       ) : (
         <>
+          {/* Reviews Table */}
           <table>
             <thead>
               <tr>
@@ -110,6 +113,7 @@ const Reviews: React.FC<ReviewProps> = ({ eventId }) => {
               </tr>
             </thead>
             <tbody>
+              {/* Map reviews to table rows */}
               {reviews.map((review, index) => (
                 <tr key={index}>
                   <td>{review.user}</td>
@@ -121,6 +125,8 @@ const Reviews: React.FC<ReviewProps> = ({ eventId }) => {
               ))}
             </tbody>
           </table>
+
+          {/* Pagination */}
           <ReactPaginate
             previousLabel={<button style={{ border: '0px', outline: 'none', color: '#007bff' }}>← Previous</button>}
             nextLabel={<button style={{ border: '0px', outline: 'none', color: '#007bff' }}>Next →</button>}
@@ -136,9 +142,13 @@ const Reviews: React.FC<ReviewProps> = ({ eventId }) => {
           />
         </>
       )}
+
+      {/* Button to open modal */}
       <button onClick={() => handleModal(true)} style={{ marginTop: '20px' }}>
         Post a Review
       </button>
+
+      {/* Modal for posting a review */}
       {showModal && (
         <div className="modal">
           <div className="modal-content">
